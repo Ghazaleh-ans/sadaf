@@ -12,6 +12,17 @@
 
 #include "../../includes/sadaf.h"
 
+/**
+ * get_cd_path - Determines the target directory for the cd command
+ *
+ * This function decides where the cd command should go:
+ * - If no argument is provided, uses the HOME environment variable
+ * - If an argument is provided, uses that as the target path
+ *
+ * @param ecmd The execution command structure containing arguments
+ * @param shell The shell state containing environment variables
+ * @return The target path as a string, or NULL if HOME is not set and needed
+ */
 static char	*get_cd_path(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*path;
@@ -28,6 +39,15 @@ static char	*get_cd_path(t_execcmd *ecmd, t_shell *shell)
 	return (path);
 }
 
+/**
+ * change_directory - Attempts to change to the specified directory
+ *
+ * Uses the chdir() system call to change the current working directory.
+ * Provides appropriate error messages if the change fails.
+ *
+ * @param path The directory to change to
+ * @return 0 on success, 1 on failure
+ */
 static int	change_directory(char *path)
 {
 	if (chdir(path) != 0)
@@ -41,6 +61,16 @@ static int	change_directory(char *path)
 	return (0);
 }
 
+/**
+ * get_pwd - Gets the current working directory
+ *
+ * Uses getcwd() to get the current directory path. This is used to save
+ * the current directory before changing, so it can be stored in OLDPWD.
+ *
+ * @param buf Buffer to store the directory path
+ * @param size Size of the buffer
+ * @return 0 on success, 1 on failure
+ */
 static int	get_pwd(char *buf, size_t size)
 {
 	char	*pwd;
@@ -54,6 +84,19 @@ static int	get_pwd(char *buf, size_t size)
 	return (0);
 }
 
+/**
+ * update_env_variables - Updates PWD and OLDPWD environment variables
+ *
+ * After successfully changing directories, this function updates:
+ * - PWD: Set to the new current directory
+ * - OLDPWD: Set to the previous directory (before the change)
+ *
+ * This allows users to track directory changes and use commands like 'cd -'
+ *
+ * @param shell The shell state containing environment variables
+ * @param current_pwd The new current directory path
+ * @param old_pwd The previous directory path
+ */
 static void	update_env_variables(t_shell *shell, char *current_pwd,
 		char *old_pwd)
 {
@@ -76,6 +119,20 @@ static void	update_env_variables(t_shell *shell, char *current_pwd,
 	}
 }
 
+/**
+ * builtin_cd - Implementation of the cd (change directory) command
+ *
+ * This is the main function that implements the cd command behavior.
+ * The process follows these steps:
+ * 1. Determine target directory (from argument or HOME)
+ * 2. Save current directory as OLDPWD
+ * 3. Change to the new directory
+ * 4. Update environment variables (PWD, OLDPWD)
+ *
+ * @param ecmd The execution command structure
+ * @param shell The shell state
+ * @return 0 on success, 1 on failure
+ */
 int	builtin_cd(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*path;
