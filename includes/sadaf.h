@@ -63,16 +63,16 @@ typedef struct s_backcmd {
 } t_backcmd;
 
 typedef struct s_env {
-    char *name;
-    char *value;
-    struct s_env *next;
+	char		*name;
+	char		*value;
+	struct s_env	*next;
 } t_env;
 
 typedef struct s_shell {
-    t_env *env_list;
-    int exit_status;
-    int in_heredoc;
-} t_shell;
+	t_env	*env_list;
+	int		exit_status;
+	int		in_heredoc;
+}	t_shell;
 
 /* Main functions */
 t_shell *init_shell(char **envp);
