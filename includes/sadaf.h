@@ -31,10 +31,10 @@ typedef struct s_cmd {
 } t_cmd;
 
 typedef struct s_execcmd {
-    int type;
-    char *argv[MAXARGS];
-    char *eargv[MAXARGS];
-} t_execcmd;
+	int		type;
+	char	*argv[MAXARGS];
+	char	*eargv[MAXARGS];
+}	t_execcmd;
 
 typedef struct s_redircmd {
     int type;

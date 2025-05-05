@@ -12,6 +12,18 @@
 
 #include "../../includes/sadaf.h"
 
+/**
+ * Implements the echo built-in command for the shell.
+ *
+ * The echo command outputs its arguments to standard output. It supports:
+ * - The -n flag to suppress the trailing newline
+ * - Multiple arguments separated by spaces
+ * - Proper space handling between arguments
+ *
+ * @param ecmd: Structure containing command arguments
+ * @param shell: Shell instance (unused in this function)
+ * @return: Always returns 0 (success)
+ */
 int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 {
 	int	i;
