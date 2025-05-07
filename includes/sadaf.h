@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sadaf.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
+/*   Updated: 2025/05/06 17:18:37 by mukibrok         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SADAF_H
 # define SADAF_H
 
@@ -14,90 +26,117 @@
 # include <sys/stat.h>
 # include <dirent.h>
 # include <termios.h>
-# include "./libft/libft.h"
+# include "libft/libft.h"
+# ifndef PATH_MAX
+# define PATH_MAX 1024
+# endif
 
 # define EXEC  1
 # define REDIR 2
 # define PIPE  3
 # define LIST  4
 # define BACK  5
+# define HEREDOC 6
 
-# define MAXARGS 10
+# define MAXARGS 100
 
 extern int g_signal_received;
 
+enum TokenType {
+	TOK_EOF,
+	TOK_WORD,
+	TOK_PIPE,
+	TOK_AND,
+	TOK_SEQ,
+	TOK_LT,
+	TOK_GT,
+	TOK_DGT,
+	TOK_DLT,
+	TOK_LPAREN,
+	TOK_RPAREN,
+	TOK_UNKNOWN
+};
+
+typedef struct s_token {
+	enum TokenType type;
+	char *start;
+	char *end;
+} t_token;
+
 typedef struct s_cmd {
-    int type;
+	int type;
 } t_cmd;
 
+typedef struct {
+  char *s;
+  char *end;
+} ParserState;
+
+
 typedef struct s_execcmd {
-	int		type;
-	char	*argv[MAXARGS];
-	char	*eargv[MAXARGS];
-}	t_execcmd;
+	int type;
+	char *argv[MAXARGS];
+	char *eargv[MAXARGS];
+} t_execcmd;
 
 typedef struct s_redircmd {
-    int type;
-    struct s_cmd *cmd;
-    char *file;
-    char *efile;
-    int mode;
-    int fd;
+	int type;
+	struct s_cmd *cmd;
+	char *file;
+	char *efile;
+	int mode;
+	int fd;
 } t_redircmd;
 
 typedef struct s_pipecmd {
-    int type;
-    struct s_cmd *left;
-    struct s_cmd *right;
+	int type;
+	struct s_cmd *left;
+	struct s_cmd *right;
 } t_pipecmd;
 
 typedef struct s_listcmd {
-    int type;
-    struct s_cmd *left;
-    struct s_cmd *right;
+	int type;
+	struct s_cmd *left;
+	struct s_cmd *right;
 } t_listcmd;
 
 typedef struct s_backcmd {
-    int type;
-    struct s_cmd *cmd;
+	int type;
+	struct s_cmd *cmd;
 } t_backcmd;
 
 typedef struct s_env {
-	char		*name;
-	char		*value;
-	struct s_env	*next;
+	char *name;
+	char *value;
+	struct s_env *next;
 } t_env;
 
 typedef struct s_shell {
-	t_env	*env_list;
-	int		exit_status;
-	int		in_heredoc;
-}	t_shell;
+	t_env *env_list;
+	int exit_status;
+	int in_heredoc;
+} t_shell;
 
 /* Main functions */
-t_shell *init_shell(char **envp);
-void    free_shell(t_shell *shell);
-int     sadaf_prompt(t_shell *shell);
-int     process_command(char *buf, t_shell *shell);
+t_shell	*init_shell(char **envp);
+char	*getcmd(void);
+int		process_command(char *buf, t_shell *shell);
 
-/* Command execution */
-void    runcmd(t_cmd *cmd, t_shell *shell);
-void    execute_command(t_execcmd *ecmd, t_shell *shell);
-void    handle_redirections(t_redircmd *rcmd, t_shell *shell);
-void    handle_pipe(t_pipecmd *pcmd, t_shell *shell);
-void    handle_list(t_listcmd *lcmd, t_shell *shell);
-void    handle_background(t_backcmd *bcmd, t_shell *shell);
-
+// cleaner functions
+void	free_cmd(t_cmd *cmd);
+void	free_env_list(t_env *env_list);
+void	free_shell(t_shell *shell);
+void	ft_exit(char *msg);
 /* Parsing */
-t_cmd   *parsecmd(char *buf, t_shell *shell);
-t_cmd   *parseline(char **ps, char *es, t_shell *shell);
-t_cmd   *parsepipe(char **ps, char *es, t_shell *shell);
-t_cmd   *parseexec(char **ps, char *es, t_shell *shell);
-t_cmd   *parseredirs(t_cmd *cmd, char **ps, char *es, t_shell *shell);
-t_cmd   *parseblock(char **ps, char *es, t_shell *shell);
-int     peek(char **ps, char *es, char *toks);
-int     gettoken(char **ps, char *es, char **q, char **eq);
-t_cmd   *nulterminate(t_cmd *cmd);
+t_cmd   *parsecmd(char *buf);
+t_cmd	*parseline(ParserState *ps);
+t_cmd	*parsepipe(ParserState *ps);
+t_cmd	*parseexec(ParserState *ps);
+t_cmd   *parseredirs(t_cmd *cmd, ParserState *ps);
+t_cmd	*parseblock(ParserState *ps);
+t_token	gettoken(ParserState *ps);
+t_cmd	*nulterminate(t_cmd *cmd);
+t_cmd	*set_heredoc(t_cmd *subcmd, char *file, char *efile);
 
 /* Command constructors */
 t_cmd   *execcmd(void);
@@ -107,22 +146,23 @@ t_cmd   *listcmd(t_cmd *left, t_cmd *right);
 t_cmd   *backcmd(t_cmd *subcmd);
 
 /* Environment handling */
-t_env   *create_env_node(char *name, char *value);
-void    add_env_node(t_shell *shell, t_env *new_node);
-void    free_env_list(t_env *env_list);
-t_env   *parse_env(char **envp);
-char    **env_to_array(t_env *env_list);
+t_env	*init_envp(char **envp);
+t_env	*create_env_node(char *name, char *value);
+
+/* Environment utils */
+void	add_env_node(t_shell *shell, t_env *new_node);
+char	**env_to_array(t_env *env_list);
 
 /* Builtins */
-int     is_builtin(char *cmd);
-int     exec_builtin(t_execcmd *ecmd, t_shell *shell);
-int     builtin_echo(t_execcmd *ecmd, t_shell *shell);
-int     builtin_cd(t_execcmd *ecmd, t_shell *shell);
-int     builtin_pwd(t_execcmd *ecmd, t_shell *shell);
-int     builtin_export(t_execcmd *ecmd, t_shell *shell);
-int     builtin_unset(t_execcmd *ecmd, t_shell *shell);
-int     builtin_env(t_execcmd *ecmd, t_shell *shell);
-int     builtin_exit(t_execcmd *ecmd, t_shell *shell);
+int		is_builtin(char *cmd);
+int		exec_builtin(t_execcmd *ecmd, t_shell *shell);
+int		builtin_echo(t_execcmd *ecmd, t_shell *shell);
+int		builtin_cd(t_execcmd *ecmd, t_shell *shell);
+int		builtin_pwd(t_execcmd *ecmd, t_shell *shell);
+int		builtin_export(t_execcmd *ecmd, t_shell *shell);
+int		builtin_unset(t_execcmd *ecmd, t_shell *shell);
+int		builtin_env(t_execcmd *ecmd, t_shell *shell);
+int		builtin_exit(t_execcmd *ecmd, t_shell *shell);
 
 /* Heredoc handling */
 int     handle_heredoc(char *delimiter, t_shell *shell);
@@ -138,13 +178,23 @@ void    setup_signals(int mode);
 void    handle_sigint(int sig);
 void    handle_sigquit(int sig);
 
+/* Command execution */
+void    runcmd(t_cmd *cmd, t_shell *shell);
+void    execute_command(t_execcmd *ecmd, t_shell *shell);
+void    handle_redirections(t_redircmd *rcmd, t_shell *shell);
+void    handle_pipe(t_pipecmd *pcmd, t_shell *shell);
+void    handle_list(t_listcmd *lcmd, t_shell *shell);
+void    handle_background(t_backcmd *bcmd, t_shell *shell);
+
 /* Utils */
 void    ft_error(char *msg);
 void    ft_perror(char *msg);
-int     protected_fork(void);
-void    free_cmd(t_cmd *cmd);
+int		protected_fork(void);
 char    *ft_getenv(char *name, t_shell *shell);
 void    expand_variables(t_execcmd *ecmd, t_shell *shell);
 void    cleanup_tokens(char **tokens);
+int		fork1(void);
+void	print_cmd(t_cmd *cmd);
+t_cmd *nulterminate(t_cmd *cmd);
 
 #endif

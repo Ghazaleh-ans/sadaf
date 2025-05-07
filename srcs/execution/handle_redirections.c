@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:23:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/24 14:23:18 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:32:56 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static void	handle_file_redirection(t_redircmd *rcmd)
 {
 	int	fd;
 
-	close(rcmd->fd);
 	fd = open_file(rcmd->file, rcmd->mode);
 	if (fd < 0)
 	{
@@ -45,6 +44,7 @@ static void	handle_file_redirection(t_redircmd *rcmd)
 	if (dup2(fd, rcmd->fd) == -1)
 	{
 		ft_perror("sadaf: dup2");
+		close(fd);
 		exit(1);
 	}
 	close(fd);
@@ -62,6 +62,12 @@ static void	handle_fd_redirection(t_redircmd *rcmd)
 
 void	handle_redirections(t_redircmd *rcmd, t_shell *shell)
 {
+	if (rcmd->type == HEREDOC)
+	{
+		rcmd->fd = handle_heredoc(rcmd->file, shell);
+		if (rcmd->fd < 0)
+			exit(1);
+	}
 	if (rcmd->file)
 		handle_file_redirection(rcmd);
 	else
