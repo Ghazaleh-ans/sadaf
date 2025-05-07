@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/15 11:35:00 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/15 11:35:03 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/11 19:57:15 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/11 20:01:02 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,26 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	long	num;
+	long	ln;
 
-	num = n;
-	if (num < 0)
+	ln = n;
+	if (ln < 0)
 	{
-		write(fd, "-", 1);
-		num *= -1;
+		ln = -ln;
+		ft_putchar_fd('-', fd);
 	}
-	if (num > 9)
+	if (ln >= 10)
 	{
-		ft_putnbr_fd(num / 10, fd);
-		ft_putchar_fd((num % 10) + '0', fd);
+		ft_putnbr_fd(ln / 10, fd);
+		ln %= 10;
 	}
-	else
-		ft_putchar_fd(num + '0', fd);
+	if (ln < 10)
+	{
+		ft_putchar_fd(ln + 48, fd);
+	}
 }
+
+// int	main(int argc, char **argv)
+// {
+// 	ft_putnbr_fd(atoi(argv[1]), atoi(argv[2]));
+// }

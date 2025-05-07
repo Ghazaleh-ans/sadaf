@@ -3,46 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:50:17 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:50:23 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/07 12:57:16 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/15 09:58:10 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strnstr(const char *big, const char *little, size_t len)
-{
-	size_t	i;
-	size_t	j;
+// static int	is_space(int c)
+// {
+// 	return ((c == 32) || (c >= 9 && c <= 13));
+// }
 
+char	*ft_strnstr(const char *str, const char *find, size_t len)
+{
+	size_t	j;
+	size_t	i;
+
+	if (*find == '\0')
+		return ((char *)str);
 	i = 0;
-	if (!*little)
-		return ((char *)big);
-	while (big[i] && i < len)
+	while (str[i] && i < len)
 	{
-		if (big[i] == little[0])
-		{
-			j = 0;
-			while (little[j] && (i + j) < len && big[i + j] == little[j])
-				j++;
-			if (!little[j])
-				return ((char *)&big[i]);
-		}
+		j = 0;
+		while (str[i + j] && find[j] && i + j < len && str[i + j] == find[j])
+			j++;
+		if (find[j] == '\0')
+			return ((char *)str + i);
 		i++;
 	}
 	return (NULL);
 }
-/*
-#include <stdio.h>
 
-int	main(void)
-{
-	char	big[] = "salam azizam, azizam salam";
-	char	little[] = "hi";
-
-	printf("My function: %s\n", ft_strnstr(big, little, 15));
-	return (0);
-}
-*/
+// int	main(int argc, char **argv)
+// {
+// 	char *str = ft_strnstr("lorem ipsum dolor sit amet", "dolor", 17);
+// 	printf("found %s\n", str);
+// }

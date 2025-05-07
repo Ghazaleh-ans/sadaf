@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:44:22 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:44:28 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/06 18:08:27 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/17 14:58:00 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,50 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	long	len;
+	int	n;
+	int	end;
 
-	len = ft_strlen(s);
-	while (len >= 0)
+	n = ft_strlen(s);
+	end = n;
+	if ((char)c == '\0')
+		return ((char *)s + end);
+	while (n-- >= 0)
 	{
-		if (s[len] == (char)c)
-			return ((char *)(s + len));
-		len--;
+		if (s[n] == (char)c)
+			return ((char *)s + n);
 	}
-	return (0);
+	return (NULL);
 }
-/*
-#include <string.h>
-#include <stdio.h>
 
-int	main(void)
-{
-	char	c = 'a';
-	const char	str[] = "salam azizam, azizam salam";
+// void	test_ft_strchr(const char *s, int c)
+// {
+// 	char	*result_ft;
+// 	char	*result_orig;
 
-	printf("The original function result: %s\n", strrchr(str, c));
-	printf("My function result: %s\n", ft_strrchr(str, c));
-	return (0);
-}
-*/
+// 	result_orig = strrchr(s, c);
+// 	result_ft = ft_strrchr(s, c);
+// 	printf("Testing with string: \"%s\" and character: '%c'\n", s, c);
+// 	printf("Original `strchr`: %s\n", result_orig ? result_orig : "(null)");
+// 	printf("Your `ft_strchr`: %s\n", result_ft ? result_ft : "(null)");
+// 	if (result_ft == result_orig)
+// 	{
+// 		printf("✅ Both functions returned the same result.\n");
+// 	}
+// 	else
+// 	{
+// 		printf("❌ Results differ!\n");
+// 	}
+// 	printf("------------------------------\n");
+// }
+
+// int	main(void)
+// {
+// 	test_ft_strchr("abbbbbbbbbb!", 'a');
+// 	test_ft_strchr("Hello, World!", 'H');
+// 	test_ft_strchr("Hello, World!", '!');
+// 	test_ft_strchr("Hello, World!", 'z');
+// 	test_ft_strchr("Hello, World!", '\0');
+// 	test_ft_strchr("", 'a');
+// 	test_ft_strchr(NULL, 'a');
+// 	return (0);
+// }

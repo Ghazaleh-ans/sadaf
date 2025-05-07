@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:46:19 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/14 11:55:58 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/06 17:18:38 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/16 10:53:46 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,25 @@
 
 char	*ft_strchr(const char *s, int c)
 {
-	long	len;
-	long	i;
+	unsigned int	i;
 
-	len = ft_strlen(s);
 	i = 0;
-	while (i <= len)
+	while (s[i])
 	{
 		if (s[i] == (char)c)
-			return ((char *)(s + i));
+			return ((char *) &s[i]);
 		i++;
 	}
-	return (0);
+	if (s[i] == (char)c)
+		return ((char *) &s[i]);
+	return (NULL);
 }
-/*
-#include <string.h>
-#include <stdio.h>
 
-int	main(void)
-{
-	char	c = 'a';
-	const char	str[] = "salam azizam, azizam salam";
-
-	printf("The original function result: %s\n", strchr(str, c));
-	printf("My function result: %s\n", ft_strchr(str, c));
-	return (0);
-}
-*/
+// int	main(void)
+// {
+// 	char *src = "there is so \0ma\0ny \0 \\0 in t\0his stri\0ng !\0\0\0\0";
+//  	char *d1 = strchr(src, '\0');
+//  	char *d2 = ft_strchr(src, '\0');
+// 	printf("result:%s\n", d1);
+// 	printf("result:%s\n", d2);
+// }

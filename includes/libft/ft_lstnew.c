@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/19 18:52:43 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/19 18:52:45 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/15 14:33:39 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/21 19:14:36 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,28 @@
 
 t_list	*ft_lstnew(void *content)
 {
-	t_list	*result;
+	t_list	*new_list;
 
-	result = malloc(sizeof(t_list));
-	if (!result)
+	new_list = (t_list *) malloc(sizeof(t_list));
+	if (!new_list)
 		return (NULL);
-	result->content = content;
-	result->next = NULL;
-	return (result);
+	new_list->content = content;
+	new_list->next = NULL;
+	return (new_list);
 }
-/*
-#include <stdio.h>
 
-int main(void)
-{
-	char *data = "Hello, world!";
+// int main(void)
+// {
+// 	t_list	*list;
+// 	t_list	*second;
 
-	t_list *new_node = ft_lstnew((void *)data);
-
-	if (new_node == NULL)
-	{
-		printf("Failed to create new node\n");
-		return (1);
-	}
-	printf("Node content: %s\n", (char *)new_node->content);
-	free(new_node);
-
-	return (0);
-}
-*/
+// 	list = ft_lstnew("first");
+// 	second = ft_lstnew("Second");
+// 	ft_lstadd_front(&list, second);
+// 	if (list)
+// 	{
+// 		printf("list: %s\n", (char *)list->content);
+// 		printf("list: %p\n", list->content);
+// 		printf("list: %p\n", list->next);
+// 	}
+// }

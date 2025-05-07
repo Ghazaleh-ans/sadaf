@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:43:35 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:43:45 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/05 17:10:30 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/08 17:02:51 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,27 @@
 void	*ft_memset(void *s, int c, size_t n)
 {
 	unsigned char	*ptr;
-	size_t			i;
+	unsigned char	value;
 
 	ptr = s;
-	i = 0;
-	while (i < n)
-	{
-		ptr[i] = (unsigned char)c;
-		i++;
-	}
+	value = (unsigned char) c;
+	while (n--)
+		*ptr++ = value;
 	return (s);
 }
-/*
-#include <stdio.h>
-#include <string.h>
 
-int	main(void)
-{
-	char	str1[50] = "Hello, world!";
-	char	str2[50] = "Hello, world!";
-
-	printf("the str before: %s\n", str1);
-	memset(str1, 'A', 5);
-	printf("the original memset: %s\n", str1);
-	ft_memset(str2, 'A', 5);
-	printf("my ft_memset: %s\n", str2);
-	return (0);
-	
-}
-*/
+// int main(void)
+// {
+// 	int arr[] = {1, 4, 6, 5, 3, 2, 6, 7};
+// 	// char	arr1[] = "school";
+// 	int c = 0;
+// 	char c = 'a';
+// 	//ft_memset(arr, c, 8);
+// 	// memset(arr, c, 8);
+// 	ft_memset(arr1, c, ft_strlen(arr1));
+// 	printf("%s\n", arr1);
+// 	// for(int i = 0; i< 8; i++)
+// 	// {
+// 	// 	printf("%d->", arr[i]);
+// 	// }
+// }

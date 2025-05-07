@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/20 11:27:17 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/20 11:27:19 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/15 15:01:53 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/21 19:19:03 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,18 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (!lst || !new)
+	if (new == NULL)
 		return ;
 	new->next = *lst;
 	*lst = new;
 }
-/*
-#include <stdio.h>
 
-void print_list(t_list *lst)
+int main(void)
 {
-	while (lst)
-	{
-		printf("%s -> ", (char *)(lst->content));
-		lst = lst->next;
-	}
-	printf("NULL\n");
+	t_list	*list;
+	char	*num;
+
+	num = "first";
+	list = ft_lstnew(num);
+	printf("list: %s\n", (char *)list->content);
 }
-
-int	main()
-{
-	t_list	*head = NULL;
-	t_list	*new_node1 = ft_lstnew((void *)"!");
-	t_list	*new_node2 = ft_lstnew((void *)"World");
-	t_list	*new_node3 = ft_lstnew((void *)"Hello");
-
-	ft_lstadd_front(&head, new_node1);
-	ft_lstadd_front(&head, new_node2);
-	ft_lstadd_front(&head, new_node3);
-	printf("List after adding elements to the front:\n");
-	print_list(head);
-
-	while (head)
-	{
-		t_list *tmp = head;
-		head = head->next;
-		free(tmp);
-	}
-	return (0);
-}
-*/

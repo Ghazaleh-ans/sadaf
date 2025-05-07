@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:48:20 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:48:25 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/06 18:51:48 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/12 19:38:52 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,11 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	i = 0;
 	if (n == 0)
 		return (0);
-	while ((*s1 || *s2) && (i < n))
+	while (s1[i] && s2[i] && i < n - 1)
 	{
-		if (*s1 != *s2)
-			return ((unsigned char)*s1 - (unsigned char)*s2);
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char) s2[i]);
 		i++;
-		s1++;
-		s2++;
 	}
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char) s2[i]);
 }
-/*
-#include <string.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	const char s1[] = "Hello World";
-	const char s2[]= "Hello world";
-	printf("The original function: %d\n", strncmp(s1, s2, 9));
-	printf("My function: %d\n", ft_strncmp(s1, s2, 9));
-	return (0);
-}
-*/

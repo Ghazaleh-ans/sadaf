@@ -3,78 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 13:16:25 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/14 15:09:50 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/11 19:57:15 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/15 09:30:19 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	num_len(long num)
+static size_t	ft_length(long n, int *negative)
 {
 	size_t	len;
 
 	len = 0;
-	if (num == 0)
+	if (n == 0)
 		return (1);
-	if (num < 0)
-		len++;
-	while (num != 0)
+	if (n < 0)
 	{
 		len++;
-		num /= 10;
+		*negative = 1;
+		n = -n;
+	}
+	while (n > 0)
+	{
+		len++;
+		n /= 10;
 	}
 	return (len);
 }
 
-static char	*ft_char(char *str, long num, size_t len)
-{
-	str[len] = '\0';
-	if (num < 0)
-	{
-		str[0] = '-';
-		num = -num;
-	}
-	while (num > 0)
-	{
-		str[--len] = '0' + (num % 10);
-		num /= 10;
-	}
-	return (str);
-}
-
 char	*ft_itoa(int n)
 {
-	char	*str;
-	size_t	len;
+	int		negative;
+	size_t	size;
 	long	num;
+	char	*number;
 
 	num = n;
-	len = num_len(num);
-	str = (char *)malloc(len + 1);
-	if (!str)
+	negative = 0;
+	size = ft_length(num, &negative);
+	number = (char *)malloc(sizeof(char) * (size + 1));
+	if (!number)
 		return (NULL);
+	number[size] = '\0';
 	if (num == 0)
+		number[0] = '0';
+	if (negative)
+		num = -num;
+	while (num > 0)
 	{
-		str[0] = '0';
-		str[1] = '\0';
+		number[--size] = (num % 10) + '0';
+		num /= 10;
 	}
-	else
-		str = ft_char(str, num, len);
-	return (str);
+	if (negative)
+		number[0] = '-';
+	return (number);
 }
-
-// #include <stdio.h>
 
 // int	main(void)
 // {
-// 	int	number = 9;
-// 	char	*str;
-// 	str = ft_itoa(number);
-// 	printf("The converted number is: %s\n", str);
-// 	printf("%ld\n", ft_strlen(str));
-// 	free(str);
+// 	char	*arr;
+
+// 	arr = ft_itoa(0);
+// 	printf("arr: %s\n", arr);
+// 	free(arr);
 // 	return (0);
 // }

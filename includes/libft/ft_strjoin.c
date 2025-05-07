@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/14 10:57:00 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/14 12:17:46 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/08 13:57:01 by mukibrok          #+#    #+#             */
+/*   Updated: 2024/11/12 19:14:47 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,43 +14,38 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*new;
-	int		i;
-	int		j;
+	char		*new_string;
+	size_t		i;
+	size_t		j;
 
-	i = 0;
-	j = 0;
-	if (!s1 || !s2)
+	new_string = NULL;
+	new_string = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!new_string)
 		return (NULL);
-	new = (char *)malloc(sizeof(char) * ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!new)
-		return (NULL);
-	while (s1[i])
+	else
 	{
-		new[i] = s1[i];
-		i++;
+		i = 0;
+		while (s1[i])
+		{
+			new_string[i] = s1[i];
+			i++;
+		}
+		j = 0;
+		while (s2[j])
+		{
+			new_string[i + j] = s2[j];
+			j++;
+		}
 	}
-	while (s2[j])
-	{
-		new[i] = s2[j];
-		i++;
-		j++;
-	}
-	new[i] = '\0';
-	return (new);
+	new_string[i + j] = '\0';
+	return (new_string);
 }
-/*
-#include <stdio.h>
 
-int	main(void)
-{
-	char	*s1 = "Hello";
-	char	*s2 = " World!";
-	char	*str;
-
-	str = ft_strjoin(s1, s2);
-	printf("The joined str is: %s\n", str);
-	free(str);
-	return (0);
-}
-*/
+// int main(void)
+// {
+// 	char	*s1 = "my favorite animal is";
+// 	char *s2 = " ";
+// 	char *s3 = "horse";
+// 	char *s4 = ft_strjoin(ft_strjoin(s1, s2), s3);
+// 	printf("str:  %s", s4);
+// }
