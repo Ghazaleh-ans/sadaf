@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/06 17:18:37 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/07 14:11:32 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,13 @@ void    runcmd(t_cmd *cmd, t_shell *shell);
 void    execute_command(t_execcmd *ecmd, t_shell *shell);
 void    handle_redirections(t_redircmd *rcmd, t_shell *shell);
 void    handle_pipe(t_pipecmd *pcmd, t_shell *shell);
+int		execute_left_cmd(t_pipecmd *pcmd, t_shell *shell, int *fd);
+int		execute_right_cmd(t_pipecmd *pcmd, t_shell *shell, int *fd);
+int		create_pipe(int *fd);
+void	cleanup_pipe(int *fd, int pid1);
+void	safe_close(int fd);
+int		dup_and_report(int fd);
+int		close_and_report(int fd);
 void    handle_list(t_listcmd *lcmd, t_shell *shell);
 void    handle_background(t_backcmd *bcmd, t_shell *shell);
 
