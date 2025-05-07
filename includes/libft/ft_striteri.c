@@ -3,36 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 19:24:30 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/11 19:48:53 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/14 17:07:55 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/14 17:31:37 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_striteri(char *s, void (*f)(unsigned int, char *))
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	unsigned int	i;
+	size_t	i;
+	size_t	len;
 
+	if (!s)
+		return ;
+	len = ft_strlen((const char *)s);
 	i = 0;
-	while (s[i])
+	while (i < len)
 	{
 		(*f)(i, &s[i]);
 		i++;
 	}
 }
+/*
+#include <unistd.h>
+#include <stdio.h>
 
-// void	ft_test(unsigned int, char *v)
-// {
-// 	if (*v >= 96 && *v <= 122)
-// 		*v -= 32;
-// }
+void	ft_putchar(unsigned int i, char* c)
+{
+	write(1, c, 1);
+	printf(" - %d\n", i);
+}
 
-// int	main(void)
-// {
-// 	char str[] = "school";
-// 	ft_striteri(str, ft_test);
-// 	printf("tet: %s", str);
-// }
+int	main(void)
+{
+	char	*str = "Ghazaleh";
+	ft_striteri(str, ft_putchar);
+	return (0);
+}
+*/

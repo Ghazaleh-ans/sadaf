@@ -3,85 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 15:35:23 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/16 11:10:42 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:47:07 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/14 13:27:26 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_calloc(size_t amount, size_t size)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char	*arr;
+	void	*ptr;
+
+	if (nmemb * size > INT_MAX)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_memset(ptr, 0, nmemb * size);
+	return (ptr);
+}
+/*
+#include <stdio.h>
+
+int	main(void)
+{
+	size_t	num_elements = 10;
+	size_t	element_size =  sizeof(int);
 	size_t	i;
+	int	*arr1 = (int *)ft_calloc(num_elements, element_size);
 
 	i = 0;
-	arr = malloc(size * amount);
-	if (!arr)
-		return (NULL);
-	while (i < size * amount)
+	while (i < num_elements)
 	{
-		arr[i] = 0;
+		if (arr1[i] != 0)
+		{
+			printf("Test failed: arr[%zu] is not zero.\n", i);
+			free(arr1);
+			return (1);
+		}
 		i++;
 	}
-	return (arr);
+	printf("Test passed: all elemets are initialesed to zero\n");
+	free(arr1);
+	return(0);
 }
-
-// int main() {
-//     // Test 1: Allocate memory for an array of 5 integers
-//     int *ft_result = (int *)ft_calloc(5, sizeof(int));
-//     int *std_result = (int *)calloc(5, sizeof(int));
-
-//     printf("Test 1: Allocating memory for 5 integers )\n");
-
-//     // Compare both results
-//     if (ft_result && std_result) {
-//         if (memcmp(ft_result, std_result, 5 * sizeof(int)) == 0) {
-//             printf("ft_calloc and calloc results match: PASS\n");
-//         } else {
-//             printf("ft_calloc and calloc results do not match: FAIL\n");
-//         }
-//     } else {
-//         printf("Memory allocation failed\n");
-//     }
-
-//     // Free the allocated memory
-//     free(ft_result);
-//     free(std_result);
-
-//     // Test 2: Allocate memory for 0 elements (edge case)
-//     ft_result = (int *)ft_calloc(0, sizeof(int));
-//     std_result = (int *)calloc(0, sizeof(int));
-
-//     printf("Test 2: Allocating memory for 0 elements\n");
-
-//     if (ft_result == std_result) {
-//         printf("ft_calloc and calloc results match (both NULL): PASS\n");
-//     } else {
-//         printf("ft_calloc and calloc results do not match: FAIL\n");
-//     }
-
-//     // Test 3: Allocate a large amount of memory
-//     ft_result = (int *)ft_calloc(10000, sizeof(int));
-//     std_result = (int *)calloc(10000, sizeof(int));
-
-//     printf("Test 3: Allocating memory for 10000 integers\n");
-
-//     if (ft_result && std_result) {
-//         if (memcmp(ft_result, std_result, 10000 * sizeof(int)) == 0) {
-//             printf("ft_calloc and calloc results match: PASS\n");
-//         } else {
-//             printf("ft_calloc and calloc results do not match: FAIL\n");
-//         }
-//     } else {
-//         printf("Memory allocation failed\n");
-//     }
-
-//     // Free the allocated memory
-//     free(ft_result);
-//     free(std_result);
-
-//     return 0;
-// }
+*/

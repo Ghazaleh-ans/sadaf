@@ -3,33 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 13:36:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/15 09:43:34 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:47:41 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/13 16:47:48 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "assert.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	unsigned char	*dst;
-	unsigned char	*s;
-	size_t			i;
+	const unsigned char	*s;
+	unsigned char		*d;
+	size_t				i;
 
-	if (dest == (void *)0 && src == (void *)0)
-		return (dest);
-	dst = (unsigned char *)dest;
-	s = (unsigned char *)src;
+	s = (const unsigned char *)src;
+	d = (unsigned char *)dest;
 	i = 0;
-	if (n == 0)
-		return (dest);
+	if (!dest && !src)
+		return (NULL);
 	while (i < n)
 	{
-		dst[i] = s[i];
+		d[i] = s[i];
 		i++;
 	}
 	return (dest);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int	main(void)
+{
+	char	src[] = "Hello, World!";
+	char	dest1[50];
+	char	dest2[50];
+	
+	memcpy(dest1, src, strlen(src) + 1);
+	ft_memcpy(dest2, src, strlen(src) + 1);
+	printf("Source: %s\n", src);
+	printf("The Original Function Destination: %s\n", dest1);
+	printf("My Function Destination: %s\n", dest2);
+	return (0);
+}
+*/

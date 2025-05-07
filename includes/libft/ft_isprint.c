@@ -3,16 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 16:53:39 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/05 17:07:27 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:49:24 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/13 16:49:29 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isprint(int i)
+int	ft_isprint(int c)
 {
-	return (i >= 32 && i <= 126);
+	if (c >= 32 && c <= 126)
+		return (16384);
+	return (0);
 }
+/*
+#include <stdio.h>
+#include <ctype.h>
+
+int	main(void)
+{
+	printf("%d\n", ft_isprint(' '));
+	printf("%d\n", isprint(' '));
+	printf("%d\n", ft_isprint('~'));
+	printf("%d\n", isprint('~'));
+	printf("%d\n", ft_isprint('\n'));
+	printf("%d\n", isprint('\n'));
+	return(0);
+}
+*/

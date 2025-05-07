@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 14:40:16 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/15 14:09:28 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:49:41 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/13 16:49:46 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,49 @@
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	char	*d;
-	char	*s;
-	size_t	i;
+	unsigned char		*d;
+	const unsigned char	*s;
 
+	d = (unsigned char *)dest;
+	s = (const unsigned char *)src;
 	if (!dest && !src)
 		return (NULL);
-	d = (char *)dest;
-	s = (char *)src;
-	if (d > s)
+	if (d == s || n == 0)
+		return (dest);
+	if (d < s)
 	{
-		while (n-- > 0)
-			d[n] = s[n];
+		while (n--)
+			*d++ = *s++;
 	}
-	else
+	else if (d > s)
 	{
-		i = 0;
-		while (i < n)
-		{
-			d[i] = s[i];
-			i++;
-		}
+		d += n;
+		s += n;
+		while (n--)
+			*(--d) = *(--s);
 	}
 	return (dest);
 }
+/*
+#include <stdio.h>
+#include <string.h>
+
+int	main(void)
+{
+	char	buffer1[20] = "Hello, World!";
+	char	buffer2[20] = "Hello, World!";
+	char	buffer3[20] = "Hello, World!";
+	char	buffer4[20] = "Hello, World!";
+
+	ft_memmove(buffer1 + 7, buffer1, 5);
+	printf("non-overlapping My function: %s\n", buffer1);
+	memmove(buffer2 + 7, buffer2, 5);
+	printf("non-overlapping Original function: %s\n", buffer2);
+
+	ft_memmove(buffer3, buffer3 + 7, 6);
+	printf("overlapping My function: %s\n", buffer3);
+	memmove(buffer4, buffer4 + 7, 6);
+	printf("overlapping Original function: %s\n", buffer4);
+	return (0);
+}
+*/

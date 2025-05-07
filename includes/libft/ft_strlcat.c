@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 16:18:18 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/13 19:52:41 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:49:55 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/14 11:11:45 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,48 +14,44 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t	src_len;
-	size_t	dst_len;
-	size_t	i;
-	size_t	tmp;
+	size_t	s;
+	size_t	d;
+	size_t	si;
+	size_t	di;
 
-	src_len = ft_strlen(src);
-	dst_len = ft_strlen(dst);
-	if (size <= dst_len)
-		return (src_len + size);
-	i = 0;
-	tmp = dst_len;
-	while (i < size - dst_len - 1 && src[i])
+	si = ft_strlen((char *)src);
+	if (!dst && size == 0)
+		return (si);
+	d = ft_strlen(dst);
+	di = d;
+	if (size <= di)
+		return (size + si);
+	s = 0;
+	while (src[s] && d < size - 1)
 	{
-		dst[tmp] = src[i];
-		i++;
-		tmp++;
+		dst[d] = src[s];
+		s++;
+		d++;
 	}
-	dst[tmp] = '\0';
-	return (src_len + dst_len);
+	dst[d] = '\0';
+	return (di + si);
 }
+/*
+#include <stdio.h>
+#include <string.h>
 
-// void test_strlcat(void)
-// {
-//     char dest1[30] = "there is no stars in the sky ";
-//     char dest2[30] = "there is no stars in the sky ";
-//     char *src1 = "the cake is a lie !\0I'm hidden lol\r\n";
-//     size_t size = strlen("there is no stars in the sky ") + 30 ;
+int	main(void)
+{
+	char	src[] = ", world!";
+	char	dst1[80] = "Hello";
+	char	dst2[80] = "Hello";
 
-//     // Real strlcat
-//     printf("Testing strlcat:\n");
-//     size_t real_len = strlcat(dest1, src1, size);
-//     printf("Real strlcat: %s (Length: %zu)\n", dest1, real_len);
-
-//     // Reset destination string and test ft_strlcat
-//     printf("Testing ft_strlcat:\n");
-//     size_t ft_len = ft_strlcat(dest2, src1, size);
-//     printf("ft_strlcat: %s (Length: %zu)\n", dest2, ft_len);
-
-// }
-
-// int main(void)
-// {
-//     test_strlcat();
-//     return 0;
-// }
+	//printf("The initial destination: %s\n", dst1);
+	//ft_strlcat(dst1, src, 15);
+	printf("The initial destination: %ld\n", ft_strlcat(dst1, src, 9));
+	printf("The result destination: %s\n", dst1);
+	//strlcpy(dst2, src, 15);
+	printf("The result destination: %s\n", dst2);
+	return (0);
+}
+*/

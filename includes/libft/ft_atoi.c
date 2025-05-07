@@ -3,51 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 14:22:14 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/08 14:11:35 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:42:36 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/14 13:25:07 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_isspace(int c)
+int	ft_atoi(const char *str)
 {
-	return (c == 32 || (c >= 9 && c <= 13));
-}
+	int	result;
+	int	sign;
+	int	i;
 
-int	ft_atoi(const char *s)
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (ft_isdigit(str[i]))
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
+}
+/*
+#include <stdio.h>
+#include <stdlib.h>
+
+int	main(void)
 {
-	int	number;
-	int	flag;
-
-	number = 0;
-	flag = 0;
-	while (ft_isspace(*s))
-		s++;
-	while (*s == '-' || *s == '+')
-	{
-		if (*s == '-' && flag == 0)
-			flag--;
-		else if (*s == '+' && flag == 0)
-			flag++;
-		else
-			return (0);
-		s++;
-	}
-	while (ft_isdigit(*s))
-	{
-		number = number * 10 + (*s - 48);
-		s++;
-	}
-	if (flag < 0)
-		return (-number);
-	return (number);
+	const char	*str = "\010 9";
+	printf("Mine: %d\n", ft_atoi(str));
+	printf("Original: %d\n", atoi(str));
+	return (0);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	printf("ft_atoi: %d\n", ft_atoi(argv[1]));
-// 	printf("atoi: %d\n", atoi(argv[1]));
-// }
+*/

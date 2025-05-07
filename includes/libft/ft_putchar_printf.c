@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   ft_putchar_printf.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:45:24 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:45:29 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/22 13:06:17 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/26 18:12:40 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isascii(int c)
+void	ft_putchar_printf(char c, size_t *i)
 {
-	return (c >= 0 && c <= 127);
+	write(1, &c, 1);
+	(*i)++;
 }

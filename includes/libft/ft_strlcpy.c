@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/06 15:43:45 by mukibrok          #+#    #+#             */
-/*   Updated: 2024/11/06 16:23:10 by mukibrok         ###   ########.fr       */
+/*   Created: 2024/11/13 16:44:01 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/13 16:44:08 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,35 @@
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
-	size_t	length;
 	size_t	i;
 
 	i = 0;
-	length = ft_strlen(src);
-	if (size == 0)
-		return (length);
-	while (*src && i < size - 1)
+	if (size != 0)
 	{
-		*dst++ = *src++;
-		i++;
+		while (src[i] != '\0' && i < size - 1)
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
 	}
-	*dst = '\0';
-	return (length);
+	return (ft_strlen(src));
 }
+/*
+#include <string.h>
+#include <stdio.h>
+
+int	main(void)
+{
+	char	src[] = "Hello, world";
+	char	dest1[50];
+	char	dest2[50];
+
+	printf("The src is : %s\n", src);
+	strlcpy(dest1, src, 6);
+	printf("The result of original function is : %s\n", dest1);
+	ft_strlcpy(dest2, src, 6);
+	printf("The result of my function is : %s\n", dest2);
+	return (0);
+}
+*/

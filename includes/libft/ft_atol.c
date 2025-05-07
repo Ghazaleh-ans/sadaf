@@ -1,34 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalnum.c                                       :+:      :+:    :+:   */
+/*   ft_atol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:49:06 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:49:12 by gansari          ###   ########.fr       */
+/*   Created: 2025/01/14 12:03:47 by gansari           #+#    #+#             */
+/*   Updated: 2025/01/14 12:03:51 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isalnum(int c)
+long	ft_atol(const char *str)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'))
-		return (8);
-	return (0);
+	long	result;
+	int		sign;
+	int		i;
+
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (ft_isdigit(str[i]))
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
 }
 /*
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 
 int	main(void)
 {
-	printf("%d\n", ft_isalnum('a'));
-	printf("%d\n", isalnum('a'));
-	printf("%d\n", ft_isalnum('+'));
-	printf("%d\n", isalnum('+'));
+	const char	*str = "\010 9";
+	printf("Mine: %d\n", ft_atol(str));
+	printf("Original: %d\n", atol(str));
 	return (0);
 }
 */

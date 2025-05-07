@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isascii.c                                       :+:      :+:    :+:   */
+/*   ft_putnbr_base_printf.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/13 16:45:24 by gansari           #+#    #+#             */
-/*   Updated: 2024/11/13 16:45:29 by gansari          ###   ########.fr       */
+/*   Created: 2024/11/26 18:13:54 by gansari           #+#    #+#             */
+/*   Updated: 2024/11/26 18:13:57 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_isascii(int c)
+void	ft_putnbr_base_printf(unsigned int nbr, char *base, size_t *i)
 {
-	return (c >= 0 && c <= 127);
+	char			output;
+
+	if (nbr >= 16)
+		ft_putnbr_base_printf(nbr / 16, base, i);
+	output = base[nbr % 16];
+	write(1, &output, 1);
+	(*i)++;
 }
