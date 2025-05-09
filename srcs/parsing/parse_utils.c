@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:48:08 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/06 16:16:43 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/09 07:29:12 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
-#define SYMBOLS "|&;()<>"
+#define SYMBOLS "<|&;()<>"
 
  /**
  * gettoken - Breaks down shell commands into meaningful parts
@@ -28,29 +28,43 @@
  *   - Location: Where this part starts and ends in the command
  */
 
-void	assign_token(t_token *tok, char **s)
+int	is_pipe_token(t_token *tok, char **s)
 {
-	switch(**s)
-	{
-		case '|': (*tok).type = TOK_PIPE; (*s)++; break;
-		case '&': (*tok).type = TOK_AND; (*s)++; break;
-		case ';': (*tok).type = TOK_SEQ; (*s)++; break;
-		case '<':
-			(*s)++;
-			if(**s == '<') { (*tok).type = TOK_DLT; (*s)++; }
-			else (*tok).type = TOK_LT;
-			break;
-		case '>':
-			(*s)++;
-			if(**s == '>') { (*tok).type = TOK_DGT; (*s)++; }
-			else (*tok).type = TOK_GT;
-			break;
-		case '(': (*tok).type = TOK_LPAREN; (*s)++; break;
-		case ')': (*tok).type = TOK_RPAREN; (*s)++; break;
-		default:
-			(*tok).type = TOK_WORD;
-		break;
+	if (**s == '|') {
+		tok->type = TOK_PIPE;
+		(*s)++;
+		return (1);
+	 }
+	 return (0);
+ }
+ 
+int is_and_token(t_token *tok, char **s)
+{
+	if (**s == '&') {
+		tok->type = TOK_AND;
+		(*s)++;
+		return (1);
 	}
+	return (0);
+}
+
+void assign_token(t_token *tok, char **s)
+{
+	if (is_pipe_token(tok, s))
+		return ;
+	if (is_and_token(tok, s))
+		return ;
+	if (is_seq_token(tok, s))
+		return ;
+	if (is_lt_token(tok, s))
+		return ;
+	if (is_gt_token(tok, s))
+		return ;
+	if (is_lparen_token(tok, s))
+		return ;
+	if (is_rparen_token(tok, s))
+		return ;
+	tok->type = TOK_WORD;
 }
 
 t_token gettoken(ParserState *ps)
@@ -80,47 +94,19 @@ t_token gettoken(ParserState *ps)
 }
 
 // NUL-terminate all the counted strings.
-t_cmd *nulterminate(t_cmd *cmd)
+t_cmd	*nulterminate(t_cmd *cmd)
 {
-	int			i;
-	t_backcmd	*bcmd;
-	t_execcmd	*ecmd;
-	t_listcmd	*lcmd;
-	t_pipecmd	*pcmd;
-	t_redircmd	*rcmd;
-
 	if (cmd == 0)
 		return 0;
-	switch (cmd->type)
-	{
-		case EXEC:
-			ecmd = (t_execcmd *)cmd;
-			for (i = 0; ecmd->argv[i]; i++)
-				*ecmd->eargv[i] = '\0';
-			break;
-
-		case REDIR:
-			rcmd = (t_redircmd *)cmd;
-			nulterminate(rcmd->cmd);
-			*rcmd->efile = '\0';
-			break;
-
-		case PIPE:
-			pcmd = (t_pipecmd *)cmd;
-			nulterminate(pcmd->left);
-			nulterminate(pcmd->right);
-			break;
-
-		case LIST:
-			lcmd = (t_listcmd *)cmd;
-			nulterminate(lcmd->left);
-			nulterminate(lcmd->right);
-			break;
-
-		case BACK:
-			bcmd = (t_backcmd *)cmd;
-			nulterminate(bcmd->cmd);
-			break;
-	}
-	return cmd;
+	if (cmd->type == EXEC)
+		nulterminate_exec((t_execcmd *)cmd);
+	else if (cmd->type == REDIR)
+		nulterminate_redir((t_redircmd *)cmd);
+	else if (cmd->type == PIPE)
+		nulterminate_pipe((t_pipecmd *)cmd);
+	else if (cmd->type == LIST)
+		nulterminate_list((t_listcmd *)cmd);
+	else if (cmd->type == BACK)
+		nulterminate_back((t_backcmd *)cmd);
+	return (cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/06 18:50:00 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/09 07:07:43 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_prompt()
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		es = cwd + strlen(cwd);
+		es = cwd + ft_strlen(cwd);
 		while (*es != '/')
 			es--;
 		es++;
@@ -43,11 +43,8 @@ char *getcmd(void)
 	}
 	else
 		snprintf(prompt, sizeof(prompt), "-> ? $ ");
-
 	cmd = readline(prompt);
-
 	if (cmd && *cmd)
 		add_history(cmd);
-
-	return (cmd);  // caller must free(cmd)
+	return (cmd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:41:05 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/04/22 17:42:51 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/09 06:58:02 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,42 @@
  * Returns: Command structure ready for execution
  */
 
-t_cmd	*parseexec(ParserState *ps)
+static bool	is_stop_token(t_token tok)
 {
-	t_execcmd	*cmd;
-	t_cmd		*ret;
-	t_token		tok;
-	int			argc;
+	return (tok.type == TOK_PIPE || tok.type == TOK_AND
+		|| tok.type == TOK_SEQ || tok.type == TOK_RPAREN
+		|| tok.type == TOK_EOF);
+}
 
-	tok = gettoken(ps);
-	if (tok.type == TOK_LPAREN)
-		return (parseblock(ps));
-	ps->s = tok.start;
+static t_cmd	*init_exec_cmd(ParserState *ps, t_execcmd **cmd)
+{
+	t_cmd	*ret;
+
 	ret = execcmd();
 	if (!ret)
 		ft_exit("execcmd: ft_calloc failed");
-	cmd = (t_execcmd *)ret;
-	argc = 0;
+	*cmd = (t_execcmd *)ret;
 	ret = parseredirs(ret, ps);
+	return (ret);
+}
+
+static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
+{
+	t_token	tok;
+	int		argc;
+
+	argc = 0;
 	while (1)
 	{
 		tok = gettoken(ps);
-		if (tok.type == TOK_PIPE || tok.type == TOK_AND
-			|| tok.type == TOK_SEQ || tok.type == TOK_RPAREN
-			|| tok.type == TOK_EOF)
+		if (is_stop_token(tok))
 		{
 			ps->s = tok.start;
-			break ;
+			break;
 		}
 		if (tok.type != TOK_WORD)
 		{
-			free_cmd(ret);
+			free_cmd(*ret);
 			ft_exit("syntax error: unexpected token\n");
 		}
 		cmd->argv[argc] = tok.start;
@@ -69,9 +75,24 @@ t_cmd	*parseexec(ParserState *ps)
 		argc++;
 		if (argc >= MAXARGS)
 			ft_exit("too many args");
-		ret = parseredirs(ret, ps);
+		*ret = parseredirs(*ret, ps);
 	}
 	cmd->argv[argc] = 0;
 	cmd->eargv[argc] = 0;
+	return (argc);
+}
+
+t_cmd	*parseexec(ParserState *ps)
+{
+	t_token		tok;
+	t_cmd		*ret;
+	t_execcmd	*cmd;
+
+	tok = gettoken(ps);
+	if (tok.type == TOK_LPAREN)
+		return (parseblock(ps));
+	ps->s = tok.start;
+	ret = init_exec_cmd(ps, &cmd);
+	parse_arguments(cmd, ps, &ret);
 	return (ret);
 }

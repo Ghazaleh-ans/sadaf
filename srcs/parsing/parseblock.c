@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseblock.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:00:46 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/04/22 17:39:49 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/09 06:54:17 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@
 		ft_exit("Syntax error: Expected '(' to start block at %.*s\n");
 	if (!(cmd = parseline(ps)))
 		ft_exit("Error: Failed to parse block contents\n");
-	 tok = gettoken(ps);
-	 if (tok.type != TOK_RPAREN)
+	tok = gettoken(ps);
+	if (tok.type != TOK_RPAREN)
 		ft_exit("Syntax error: Unclosed block, expected ')'");
-	 if (!(cmd = parseredirs(cmd, ps)))
+	if (!(cmd = parseredirs(cmd, ps)))
 		ft_exit("Error: Failed to parse redirections for block\n");
 	return (cmd);
  }

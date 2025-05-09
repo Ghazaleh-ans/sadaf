@@ -1,19 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 07:27:25 by codespace         #+#    #+#             */
+/*   Updated: 2025/05/09 07:27:33 by codespace        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/sadaf.h"
 
 void ft_error(char *msg)
 {
-    ft_putstr_fd("sadaf: ", STDERR_FILENO);
-    ft_putstr_fd(msg, STDERR_FILENO);
-    ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("sadaf: ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 void ft_perror(char *msg)
 {
-    ft_putstr_fd("sadaf: ", STDERR_FILENO);
-    ft_putstr_fd(msg, STDERR_FILENO);
-    ft_putstr_fd(": ", STDERR_FILENO);
-    ft_putstr_fd(strerror(errno), STDERR_FILENO);
-    ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("sadaf: ", STDERR_FILENO);
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 int	protected_fork(void)
@@ -27,38 +39,6 @@ int	protected_fork(void)
 		exit(1);
 	}
 	return (pid);
-}
-
-void *ft_calloc(size_t nmemb, size_t size)
-{
-    void *ptr;
-
-    ptr = malloc(nmemb * size);
-    if (!ptr)
-        return (NULL);
-
-    ft_bzero(ptr, nmemb * size);
-    return (ptr);
-}
-
-void ft_bzero(void *s, size_t n)
-{
-    memset(s, 0, n);
-}
-
-int ft_isalpha(int c)
-{
-    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-
-int ft_isalnum(int c)
-{
-    return (ft_isalpha(c) || ft_isdigit(c));
-}
-
-int ft_isdigit(int c)
-{
-    return (c >= '0' && c <= '9');
 }
 
 void	cleanup_tokens(char **tokens)
@@ -135,7 +115,8 @@ void print_cmd(t_cmd *cmd)
 			printf("HEREDOC command:\n");
 			printf("  file: %s\n", rcmd->file);
 			print_cmd(rcmd->cmd);
-			break;
+			break
+			;
 		}
 		default:
 			printf("Unknown command type: %d\n", cmd->type);

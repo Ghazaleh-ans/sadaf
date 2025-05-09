@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:17 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/06 14:20:50 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/09 06:28:09 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_cmd	*execcmd(void)
  * Returns: New command with file connection or NULL on failure
  */
 
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
+t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc)
 {
 	t_redircmd	*cmd;
 
@@ -60,6 +60,8 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd)
 		fprintf(stderr,"redircmd: ft_calloc failed");
 		return (free_cmd(subcmd), NULL);
 	}
+	if (heredoc == true)
+		cmd->heredoc = true;
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
 	cmd->file = file;
