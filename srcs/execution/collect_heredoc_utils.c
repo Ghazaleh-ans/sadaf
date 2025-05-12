@@ -14,11 +14,17 @@
 
 int	process_heredoc_in_redircmd(t_redircmd *rcmd, t_shell *shell)
 {
-	int	heredoc_fd;
+	int 	heredoc_fd;
+    char    *delimiter;
 
 	if (!rcmd->heredoc)
-		return 0;
-	heredoc_fd = handle_heredoc(rcmd->file, shell);
+		return (0);
+    delimiter = ft_substr(rcmd->file, 0, rcmd->efile - rcmd->file);
+    if (!delimiter)
+        return (-1);
+    
+    heredoc_fd = handle_heredoc(delimiter, shell);
+    free(delimiter);
 	if (heredoc_fd < 0)
 		return -1;
 	rcmd->heredoc = false;
