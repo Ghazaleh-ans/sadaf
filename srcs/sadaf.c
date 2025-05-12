@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/12 15:40:25 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:45:19 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void shell_loop(t_shell *shell)
 			free(buf);
 			continue;
 		}
-		exec_command(buf, shell);
+		execution(buf, shell);
 		free(buf);
 	}
 }
