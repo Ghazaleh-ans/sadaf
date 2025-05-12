@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:23:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/12 11:56:14 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 12:19:15 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,23 +165,6 @@ static void	handle_fd_redirection(t_redircmd *rcmd)
  */
 void	handle_redirections(t_redircmd *rcmd, t_shell *shell)
 {
-	int	heredoc_fd;
-
-	if (rcmd->heredoc == true)
-	{
-		heredoc_fd = handle_heredoc(rcmd->file, shell);
-		if (heredoc_fd < 0)
-			exit(1);
-		if (dup2(heredoc_fd, STDIN_FILENO) == -1)
-		{
-			ft_perror("sadaf: dup2");
-			close(heredoc_fd);
-			exit(1);
-		}
-		close(heredoc_fd);
-		runcmd(rcmd->cmd, shell);
-		return;
-	}
 	if (rcmd->file)
 		handle_file_redirection(rcmd);
 	else
