@@ -24,23 +24,23 @@ void free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	if (cmd->type == EXEC)
-	{
-		t_execcmd *ecmd = (t_execcmd *)cmd;
-		for (int i = 0; ecmd->argv[i]; i++)
-		{
-			if (ecmd->argv[i])
-				free(ecmd->argv[i]);
-		}
-	}
-	else if (cmd->type == REDIR)
+	// if (cmd->type == EXEC)
+	// {
+	// 	t_execcmd *ecmd = (t_execcmd *)cmd;
+	// 	for (int i = 0; ecmd->argv[i]; i++)
+	// 	{
+	// 		if (ecmd->argv[i])
+	// 			free(ecmd->argv[i]);
+	// 	}
+	// }
+    if (cmd->type == REDIR)
 	{
 		t_redircmd *rcmd = (t_redircmd *)cmd;
 		free_cmd(rcmd->cmd);
-		if (rcmd->file)
-			free(rcmd->file);
-		if (rcmd->efile)
-			free(rcmd->efile);
+		// if (rcmd->file)
+		// 	free(rcmd->file);
+		// if (rcmd->efile)
+		// 	free(rcmd->efile);
 	}
 	else if (cmd->type == PIPE)
 	{

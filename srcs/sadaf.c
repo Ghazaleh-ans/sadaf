@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/09 07:26:57 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 12:18:13 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,22 @@
 
 void exec_command(char *buf, t_shell *shell)
 {
-	if (fork1() == 0)
+	t_cmd	*cmd;
+
+	cmd = parsecmd(buf);
+	if (collect_all_heredocs(cmd, shell) < 0)
 	{
-		t_cmd *cmd = parsecmd(buf);
+		free_cmd(cmd);
+		return;
+	}
+	if (protected_fork() == 0)
+	{
 		runcmd(cmd, shell);
 		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
 	}
 	wait(NULL);
+	free_cmd(cmd);
 }
 
 int handle_cd(char *buf)
