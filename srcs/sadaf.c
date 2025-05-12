@@ -6,31 +6,31 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/12 12:18:13 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:40:25 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sadaf.h"
 
-void exec_command(char *buf, t_shell *shell)
-{
-	t_cmd	*cmd;
+// void execution(char *buf, t_shell *shell)
+// {
+// 	t_cmd	*cmd;
 
-	cmd = parsecmd(buf);
-	if (collect_all_heredocs(cmd, shell) < 0)
-	{
-		free_cmd(cmd);
-		return;
-	}
-	if (protected_fork() == 0)
-	{
-		runcmd(cmd, shell);
-		free_cmd(cmd);
-		exit(EXIT_SUCCESS);
-	}
-	wait(NULL);
-	free_cmd(cmd);
-}
+// 	cmd = parsecmd(buf);
+// 	if (collect_all_heredocs(cmd, shell) < 0)
+// 	{
+// 		free_cmd(cmd);
+// 		return;
+// 	}
+// 	if (protected_fork() == 0)
+// 	{
+// 		runcmd(cmd, shell);
+// 		free_cmd(cmd);
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	wait(NULL);
+// 	free_cmd(cmd);
+// }
 
 int handle_cd(char *buf)
 {
@@ -51,7 +51,6 @@ int handle_cd(char *buf)
 	}
 	return (0);
 }
-
 
 void shell_loop(t_shell *shell)
 {
