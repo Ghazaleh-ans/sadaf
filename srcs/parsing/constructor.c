@@ -27,7 +27,7 @@ t_cmd	*execcmd(void)
 {
 	t_execcmd	*cmd;
 
-	cmd = ft_calloc(sizeof(*cmd), sizeof(*cmd));
+	cmd = ft_calloc(1 , sizeof(*cmd));
 	if (!cmd)
 		return (fprintf(stderr,"execcmd: ft_calloc failed"), NULL);
 	cmd->type = EXEC;
@@ -54,7 +54,7 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool h
 {
 	t_redircmd	*cmd;
 
-	cmd = ft_calloc(sizeof(*cmd), sizeof(*cmd));
+	cmd = ft_calloc(1 , sizeof(*cmd));
 	if (!cmd)
 	{
 		fprintf(stderr,"redircmd: ft_calloc failed");
@@ -86,7 +86,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 {
 	t_pipecmd	*cmd;
 
-	cmd = ft_calloc(sizeof(*cmd), sizeof(*cmd));
+	cmd = ft_calloc(1 , sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(left);
@@ -114,7 +114,7 @@ t_cmd	*listcmd(t_cmd *left, t_cmd *right)
 {
 	t_listcmd	*cmd;
 
-	cmd = ft_calloc(sizeof(*cmd), sizeof(*cmd));
+	cmd = ft_calloc(1 , sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(left);
@@ -141,7 +141,7 @@ t_cmd	*backcmd(t_cmd *subcmd)
 {
 	t_backcmd	*cmd;
 
-	cmd = ft_calloc(sizeof(*cmd), sizeof(*cmd));
+	cmd = ft_calloc(1 , sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(subcmd);
