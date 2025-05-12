@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseredir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:57:14 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/09 06:29:51 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 11:42:46 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,18 @@
  * parseredirs - Handles file redirections for commands
  * @cmd: Original command structure
  * @ps: Tracks position in the command string
- * 
+ *
  * What it does:
  * - Processes < > >> operators
  * - Links files to standard input/output
  * - Creates new redirection commands when needed
  * - Validates proper filename format after operators
- * 
+ *
  * Throws errors if:
  * - Missing filename after < > >>
  * - Memory allocation fails
  * - Invalid redirection operator
- * 
+ *
  * Returns: Command structure with redirections attached
  */
 
@@ -66,8 +66,8 @@ t_cmd *parseredirs(t_cmd *cmd, ParserState *ps)
 				fd = 1;
 				break;
 			case TOK_DLT:
-				mode = O_WRONLY | O_CREAT | O_APPEND;
-				fd = 1;
+				mode = O_RDONLY;
+				fd = 0;
 				heredoc = true;
 				break;
 			default:

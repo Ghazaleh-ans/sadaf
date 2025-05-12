@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:23:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/09 13:56:43 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 11:46:56 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,32 @@ void	handle_redirections(t_redircmd *rcmd, t_shell *shell)
 		if (rcmd->fd < 0)
 			exit(1);
 		exit(0);
+	}
+	if (rcmd->file)
+		handle_file_redirection(rcmd);
+	else
+		handle_fd_redirection(rcmd);
+	runcmd(rcmd->cmd, shell);
+}
+
+void	handle_redirections(t_redircmd *rcmd, t_shell *shell)
+{
+	int	heredoc_fd;
+
+	if (rcmd->heredoc == true)
+	{
+		heredoc_fd = handle_heredoc(rcmd->file, shell);
+		if (heredoc_fd < 0)
+			exit(1);
+		if (dup2(heredoc_fd, STDIN_FILENO) == -1)
+		{
+			ft_perror("sadaf: dup2");
+			close(heredoc_fd);
+			exit(1);
+		}
+		close(heredoc_fd);
+		runcmd(rcmd->cmd, shell);
+		return;
 	}
 	if (rcmd->file)
 		handle_file_redirection(rcmd);
