@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/12 12:31:26 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:40:13 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,5 +226,6 @@ void	print_cmd(t_cmd *cmd);
 t_cmd *nulterminate(t_cmd *cmd);
 int		setup_pipe_output(int *fd);
 int		setup_pipe_input(int *fd);
+void	execution(char *buf, t_shell *shell);
 
 #endif
