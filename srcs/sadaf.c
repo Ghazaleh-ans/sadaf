@@ -6,19 +6,47 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/12 12:18:13 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/12 15:18:08 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sadaf.h"
+int	should_fork(t_cmd *cmd)
+{
+	t_execcmd	*ecmd;
 
-void exec_command(char *buf, t_shell *shell)
+	if (cmd->type != EXEC)
+		return (1);
+	ecmd = (t_execcmd *)cmd;
+	if (strcmp(ecmd->argv[0], "cd") == 0 ||
+		strcmp(ecmd->argv[0], "exit") == 0 ||
+		strcmp(ecmd->argv[0], "export") == 0 ||
+		strcmp(ecmd->argv[0], "unset") == 0)
+	{
+		return (0);
+	}
+	return (1);
+}
+
+void	exec_command(char *buf, t_shell *shell)
 {
 	t_cmd	*cmd;
+	int		status;
 
 	cmd = parsecmd(buf);
 	if (collect_all_heredocs(cmd, shell) < 0)
 	{
+		free_cmd(cmd);
+		return;
+	}
+	if (!should_fork(cmd))
+	{
+		if (cmd->type == EXEC)
+		{
+			t_execcmd *ecmd = (t_execcmd *)cmd;
+			status = exec_builtin(ecmd, shell);
+			shell->exit_status = status;
+		}
 		free_cmd(cmd);
 		return;
 	}
@@ -28,9 +56,31 @@ void exec_command(char *buf, t_shell *shell)
 		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
 	}
-	wait(NULL);
+	wait(&status);
+	if (WIFEXITED(status))
+		shell->exit_status = WEXITSTATUS(status);
 	free_cmd(cmd);
 }
+
+// void exec_command(char *buf, t_shell *shell)
+// {
+// 	t_cmd	*cmd;
+
+// 	cmd = parsecmd(buf);
+// 	if (collect_all_heredocs(cmd, shell) < 0)
+// 	{
+// 		free_cmd(cmd);
+// 		return;
+// 	}
+// 	if (protected_fork() == 0)
+// 	{
+// 		runcmd(cmd, shell);
+// 		free_cmd(cmd);
+// 		exit(EXIT_SUCCESS);
+// 	}
+// 	wait(NULL);
+// 	free_cmd(cmd);
+// }
 
 int handle_cd(char *buf)
 {
@@ -51,7 +101,6 @@ int handle_cd(char *buf)
 	}
 	return (0);
 }
-
 
 void shell_loop(t_shell *shell)
 {

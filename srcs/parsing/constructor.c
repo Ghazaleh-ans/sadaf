@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   constructor.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:17 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/09 06:28:09 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/12 15:09:20 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 /**
  * execcmd - Makes container for regular commands
- * 
+ *
  * Creates empty command structure for:
  * - Program names (like "ls")
  * - Arguments (like "-la")
  * - No pipes/redirections yet
- * 
+ *
  * Returns: New command container or NULL on failure
  */
 
@@ -41,12 +41,12 @@ t_cmd	*execcmd(void)
  * @efile: Filename end position
  * @mode: File permissions
  * @fd: File descriptor (0=input, 1=output)
- * 
+ *
  * Used for:
  * - Input redirection "< file"
  * - Output redirection "> file"
  * - Append mode ">> file"
- * 
+ *
  * Returns: New command with file connection or NULL on failure
  */
 
@@ -75,10 +75,10 @@ t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool h
  * pipecmd - Links two commands with pipe "|"
  * @left: First command (writes to pipe)
  * @right: Second command (reads from pipe)
- * 
+ *
  * Example: "ls | grep txt" becomes:
  *   pipecmd(ls_command, grep_command)
- * 
+ *
  * Returns: New pipe command or NULL on failure
  */
 
@@ -103,10 +103,10 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
  * listcmd - Runs commands one after another ";"
  * @left: First command
  * @right: Command to run after first completes
- * 
+ *
  * Example: "ls; pwd" becomes:
  *   listcmd(ls_command, pwd_command)
- * 
+ *
  * Returns: New sequence command or NULL on failure
  */
 
@@ -130,10 +130,10 @@ t_cmd	*listcmd(t_cmd *left, t_cmd *right)
 /**
  * backcmd - Runs command in background "&"
  * @subcmd: Command to run in background
- * 
+ *
  * Example: "sleep 10 &" becomes:
  *   backcmd(sleep_command)
- * 
+ *
  * Returns: New background command or NULL on failure
  */
 
