@@ -6,13 +6,13 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 15:38:42 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:49:40 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-static char	*remove_quotes(char *str)
+char	*remove_quotes(char *str)
 {
 	int		len;
 	char	*result;
