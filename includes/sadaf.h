@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 17:49:52 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:25:03 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ enum TokenType {
 	TOK_UNKNOWN
 };
 
+typedef struct s_redirinfo {
+	char	*file;
+	char	*efile;
+	int		mode;
+	int		fd;
+	bool	heredoc;
+} t_redirinfo;
+
+
 typedef struct s_token {
 	enum TokenType type;
 	char *start;
@@ -69,8 +78,8 @@ typedef struct s_cmd {
 } t_cmd;
 
 typedef struct {
-  char *s;
-  char *end;
+	char *s;
+	char *end;
 } ParserState;
 
 
@@ -119,6 +128,13 @@ typedef struct s_shell {
 	int in_heredoc;
 } t_shell;
 
+typedef struct s_parsectx {
+	t_execcmd	*cmd;
+	int			*argc;
+	t_cmd		**ret;
+	ParserState	*ps;
+} t_parsectx;
+
 /* Main functions */
 t_shell	*init_shell(char **envp);
 char	*getcmd(void);
@@ -134,7 +150,7 @@ t_cmd	*parsecmd(char *buf);
 t_cmd	*parseline(ParserState *ps);
 t_cmd	*parsepipe(ParserState *ps);
 t_cmd	*parseexec(ParserState *ps);
-t_cmd   *parseredirs(t_cmd *cmd, ParserState *ps);
+t_cmd	*parseredirs(t_cmd *cmd, ParserState *ps);
 t_cmd	*parseblock(ParserState *ps);
 t_token	gettoken(ParserState *ps);
 t_cmd	*nulterminate(t_cmd *cmd);
@@ -147,18 +163,18 @@ int		is_lparen_token(t_token *tok, char **s);
 int		is_rparen_token(t_token *tok, char **s);
 
 /* null termination parts */
-void nulterminate_exec(t_execcmd *ecmd);
-void nulterminate_redir(t_redircmd *rcmd);
-void nulterminate_pipe(t_pipecmd *pcmd);
-void nulterminate_list(t_listcmd *lcmd);
-void nulterminate_back(t_backcmd *bcmd);
+void	nulterminate_exec(t_execcmd *ecmd);
+void	nulterminate_redir(t_redircmd *rcmd);
+void	nulterminate_pipe(t_pipecmd *pcmd);
+void	nulterminate_list(t_listcmd *lcmd);
+void	nulterminate_back(t_backcmd *bcmd);
 
 /* Command constructors */
-t_cmd   *execcmd(void);
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc);
-t_cmd   *pipecmd(t_cmd *left, t_cmd *right);
-t_cmd   *listcmd(t_cmd *left, t_cmd *right);
-t_cmd   *backcmd(t_cmd *subcmd);
+t_cmd	*execcmd(void);
+t_cmd	*redircmd(t_cmd *subcmd, t_redirinfo info);
+t_cmd	*pipecmd(t_cmd *left, t_cmd *right);
+t_cmd	*listcmd(t_cmd *left, t_cmd *right);
+t_cmd	*backcmd(t_cmd *subcmd);
 
 /* Environment handling */
 t_env	*init_envp(char **envp);

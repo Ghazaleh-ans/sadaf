@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:41:05 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 14:21:44 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:07:59 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
  * 
  * Returns: Command structure ready for execution
  */
-
-
 
 static bool	is_stop_token(t_token tok)
 {
@@ -78,27 +76,26 @@ static t_cmd	*init_exec_cmd(ParserState *ps, t_execcmd **cmd)
  * It checks for unexpected tokens and manages argument count.
  */
 
-static int handle_token_and_redir(t_token tok, t_execcmd *cmd, int *argc, t_cmd **ret, ParserState *ps)
+static int	handle_token_and_redir(t_token tok, t_parsectx *ctx)
 {
 	if (tok.type != TOK_WORD)
 	{
-		free_cmd(*ret);
+		free_cmd(*ctx->ret);
 		ft_exit("syntax error: unexpected token\n");
 		return (0);
 	}
-	if (*argc >= MAXARGS)
+	if (*ctx->argc >= MAXARGS)
 	{
 		ft_exit("too many args");
 		return (0);
 	}
-	cmd->argv[*argc] = tok.start;
-	cmd->eargv[*argc] = tok.end;
-	(*argc)++;
-
+	ctx->cmd->argv[*ctx->argc] = tok.start;
+	ctx->cmd->eargv[*ctx->argc] = tok.end;
+	(*ctx->argc)++;
 	if (tok.type != TOK_LT)
 	{
-		*ret = parseredirs(*ret, ps);
-		if (!*ret)
+		*ctx->ret = parseredirs(*ctx->ret, ctx->ps);
+		if (!*ctx->ret)
 		{
 			ft_exit("error parsing redirection\n");
 			return (0);
@@ -119,20 +116,26 @@ static int handle_token_and_redir(t_token tok, t_execcmd *cmd, int *argc, t_cmd 
  * including redirections and special tokens.
  */
 
-static int parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
+static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
 {
-	t_token tok;
-	int argc = 0;
+	t_token		tok;
+	int			argc;
+	t_parsectx	ctx;
 
+	ctx.cmd = cmd;
+	ctx.argc = &argc;
+	ctx.ret = ret;
+	ctx.ps = ps;
+	argc = 0;
 	while (1)
 	{
 		tok = gettoken(ps);
 		if (is_stop_token(tok))
 		{
 			ps->s = tok.start;
-			break;
+			break ;
 		}
-		if (!handle_token_and_redir(tok, cmd, &argc, ret, ps))
+		if (!handle_token_and_redir(tok, &ctx))
 			return (-1);
 	}
 	cmd->argv[argc] = 0;

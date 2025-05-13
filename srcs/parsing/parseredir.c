@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:57:14 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 14:30:59 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:14:04 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,64 @@
  * @heredoc_flag: Flag indicating if it's a heredoc
  */
 
-t_cmd *create_redirection(t_cmd *cmd, t_token op_tok, t_token file_tok, bool *heredoc_flag)
-{
-	int	mode;
-	int	fd;
+/**
+ * fill_redirinfo - Fills redirection information based on operator token
+ * @info: Pointer to redirection info structure
+ * @op_tok: Operator token (e.g., <, >, >>)
+ * @heredoc_flag: Flag indicating if it's a heredoc
+ */
 
-	mode = 0;
-	fd = 0;
-	*heredoc_flag = false;
+static void	fill_redirinfo(
+	t_redirinfo *info, t_token op_tok, bool *heredoc_flag)
+{
 	if (op_tok.type == TOK_LT)
 	{
-		mode = O_RDONLY;
-		fd = 0;
+		info->mode = O_RDONLY;
+		info->fd = 0;
 	}
 	else if (op_tok.type == TOK_GT)
 	{
-		mode = O_WRONLY | O_CREAT | O_TRUNC;
-		fd = 1;
+		info->mode = O_WRONLY | O_CREAT | O_TRUNC;
+		info->fd = 1;
 	}
 	else if (op_tok.type == TOK_DGT)
 	{
-		mode = O_WRONLY | O_CREAT | O_APPEND;
-		fd = 1;
+		info->mode = O_WRONLY | O_CREAT | O_APPEND;
+		info->fd = 1;
 	}
 	else if (op_tok.type == TOK_DLT)
 	{
-		mode = O_RDONLY;
-		fd = 0;
+		info->mode = O_RDONLY;
+		info->fd = 0;
+		info->heredoc = true;
 		*heredoc_flag = true;
 	}
-	return (redircmd(cmd, file_tok.start, file_tok.end, mode, fd, *heredoc_flag));
+}
+
+/**
+ * create_redirection - Creates a redirection command
+ * @cmd: Original command structure
+ * @op_tok: Operator token (e.g., <, >, >>)
+ * @file_tok: Filename token
+ * @heredoc_flag: Flag indicating if it's a heredoc
+ *
+ * Returns: New command with redirection or NULL on failure
+ *
+ * This function creates a new command structure for redirection,
+ * filling in the necessary information based on the operator and filename.
+ */
+
+t_cmd	*create_redirection(
+	t_cmd *cmd, t_token op_tok, t_token file_tok, bool *heredoc_flag)
+{
+	t_redirinfo	info;
+
+	*heredoc_flag = false;
+	ft_memset(&info, 0, sizeof(info));
+	fill_redirinfo(&info, op_tok, heredoc_flag);
+	info.file = file_tok.start;
+	info.efile = file_tok.end;
+	return (redircmd(cmd, info));
 }
 
 /**
@@ -74,11 +102,11 @@ t_cmd	*parseredirs(t_cmd *cmd, ParserState *ps)
 	while (1)
 	{
 		op_tok = gettoken(ps);
-		if (op_tok.type != TOK_LT && op_tok.type != TOK_GT &&
-			op_tok.type != TOK_DGT && op_tok.type != TOK_DLT)
+		if (op_tok.type != TOK_LT && op_tok.type != TOK_GT
+			&& op_tok.type != TOK_DGT && op_tok.type != TOK_DLT)
 		{
 			ps->s = op_tok.start;
-			break;
+			break ;
 		}
 		file_tok = gettoken(ps);
 		if (file_tok.type != TOK_WORD)

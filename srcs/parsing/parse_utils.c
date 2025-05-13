@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:48:08 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/09 07:29:12 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 16:27:06 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 #define SYMBOLS "<|&;()<>"
 
- /**
+/**
  * gettoken - Breaks down shell commands into meaningful parts
  * @ps: Tracks current position in the command string
  * 
@@ -30,17 +30,19 @@
 
 int	is_pipe_token(t_token *tok, char **s)
 {
-	if (**s == '|') {
+	if (**s == '|')
+	{
 		tok->type = TOK_PIPE;
 		(*s)++;
 		return (1);
-	 }
-	 return (0);
- }
- 
-int is_and_token(t_token *tok, char **s)
+	}
+	return (0);
+}
+
+int	is_and_token(t_token *tok, char **s)
 {
-	if (**s == '&') {
+	if (**s == '&')
+	{
 		tok->type = TOK_AND;
 		(*s)++;
 		return (1);
@@ -48,7 +50,7 @@ int is_and_token(t_token *tok, char **s)
 	return (0);
 }
 
-void assign_token(t_token *tok, char **s)
+void	assign_token(t_token *tok, char **s)
 {
 	if (is_pipe_token(tok, s))
 		return ;
@@ -67,25 +69,26 @@ void assign_token(t_token *tok, char **s)
 	tok->type = TOK_WORD;
 }
 
-t_token gettoken(ParserState *ps)
+t_token	gettoken(ParserState *ps)
 {
-	char *s;
-	t_token tok;
-	
+	char	*s;
+	t_token	tok;
+
 	s = ps->s;
-	while(s < ps->end && isspace(*s))
+	while (s < ps->end && isspace(*s))
 		s++;
 	tok.start = s;
-	if(s >= ps->end){
+	if (s >= ps->end)
+	{
 		tok.type = TOK_EOF;
 		tok.end = s;
 		ps->s = s;
-		return tok;
+		return (tok);
 	}
 	assign_token(&tok, &s);
-	if(tok.type == TOK_WORD)
+	if (tok.type == TOK_WORD)
 	{
-		while(s < ps->end && !isspace(*s) && !strchr(SYMBOLS, *s))
+		while (s < ps->end && !isspace(*s) && !strchr(SYMBOLS, *s))
 			s++;
 	}
 	tok.end = s;
@@ -97,7 +100,7 @@ t_token gettoken(ParserState *ps)
 t_cmd	*nulterminate(t_cmd *cmd)
 {
 	if (cmd == 0)
-		return 0;
+		return (0);
 	if (cmd->type == EXEC)
 		nulterminate_exec((t_execcmd *)cmd);
 	else if (cmd->type == REDIR)
