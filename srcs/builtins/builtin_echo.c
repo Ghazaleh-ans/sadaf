@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:01 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:35:05 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 17:51:03 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 	}
 	while (ecmd->argv[i])
 	{
-		ft_putstr_fd(ecmd->argv[i], STDOUT_FILENO);
+		ft_putstr_fd(remove_quotes(ecmd->argv[i]), STDOUT_FILENO);
 		if (ecmd->argv[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
