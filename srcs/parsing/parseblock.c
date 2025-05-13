@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:00:46 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 14:32:25 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:32:04 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,22 @@
  * Returns: Command structure ready for execution
  */
 
- t_cmd *parseblock(ParserState *ps)
- {
+t_cmd	*parseblock(ParserState *ps)
+{
 	t_cmd	*cmd;
 	t_token	tok;
 
 	tok = gettoken(ps);
 	if (tok.type != TOK_LPAREN)
 		ft_exit("Syntax error: Expected '(' to start block at %.*s\n");
-	if (!(cmd = parseline(ps)))
+	cmd = parseline(ps);
+	if (cmd == NULL)
 		ft_exit("Error: Failed to parse block contents\n");
 	tok = gettoken(ps);
 	if (tok.type != TOK_RPAREN)
 		ft_exit("Syntax error: Unclosed block, expected ')'");
-	if (!(cmd = parseredirs(cmd, ps)))
+	cmd = parseredirs(cmd, ps);
+	if (!cmd)
 		ft_exit("Error: Failed to parse redirections for block\n");
 	return (cmd);
- }
+}

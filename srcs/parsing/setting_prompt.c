@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 14:25:33 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:41:49 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * prompt "-> ? $ " is displayed.
  */
 
-void	print_prompt()
+void	print_prompt(void)
 {
 	char	cwd[PATH_MAX];
 	char	*es;
@@ -53,13 +53,14 @@ void	print_prompt()
 
 char	*getcmd(void)
 {
-	char cwd[PATH_MAX];
-	char prompt[PATH_MAX];
-	char *cmd;
+	char	cwd[PATH_MAX];
+	char	prompt[PATH_MAX];
+	char	*cmd;
+	char	*es;
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		char *es = strrchr(cwd, '/');
+		es = strrchr(cwd, '/');
 		if (es)
 			snprintf(prompt, sizeof(prompt), "-> %s $ ", es + 1);
 		else

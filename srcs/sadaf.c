@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 17:02:22 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:23:32 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sadaf.h"
 
-int	is_only_whitespace(const char *str)
+static int	is_only_whitespace(const char *str)
 {
 	if (!str)
 		return (1);
@@ -27,11 +27,12 @@ int	is_only_whitespace(const char *str)
 
 int	handle_cd(char *buf)
 {
+
 	if (!buf)
 		return 0;
 
 	buf[strcspn(buf, "\n")] = 0;
-	if (ft_strncmp(buf, "cd ", 3) == 0 || ft_strcmp(buf, "cd") == 0)
+	if (strncmp(buf, "cd ", 3) == 0 || strcmp(buf, "cd") == 0)
 	{
 		char *path = buf + 2;
 		while (*path == ' ')
@@ -77,7 +78,7 @@ void	shell_loop(t_shell *shell)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	t_shell *shell;
 

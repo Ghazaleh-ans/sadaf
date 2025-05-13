@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 16:31:17 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 13:24:15 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:58:14 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ t_cmd	*execcmd(void)
 {
 	t_execcmd	*cmd;
 
-	cmd = ft_calloc(1 , sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
-		return (fprintf(stderr,"execcmd: ft_calloc failed"), NULL);
+		return (fprintf(stderr, "execcmd: ft_calloc failed"), NULL);
 	cmd->type = EXEC;
 	return ((t_cmd *)cmd);
 }
@@ -50,24 +50,24 @@ t_cmd	*execcmd(void)
  * Returns: New command with file connection or NULL on failure
  */
 
-t_cmd	*redircmd(t_cmd *subcmd, char *file, char *efile, int mode, int fd, bool heredoc)
+t_cmd	*redircmd(t_cmd *subcmd, t_redirinfo info)
 {
 	t_redircmd	*cmd;
 
-	cmd = ft_calloc(1 , sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 	{
-		fprintf(stderr,"redircmd: ft_calloc failed");
+		fprintf(stderr, "redircmd: ft_calloc failed");
 		return (free_cmd(subcmd), NULL);
 	}
-	if (heredoc == true)
+	if (info.heredoc)
 		cmd->heredoc = true;
 	cmd->type = REDIR;
 	cmd->cmd = subcmd;
-	cmd->file = file;
-	cmd->efile = efile;
-	cmd->mode = mode;
-	cmd->fd = fd;
+	cmd->file = info.file;
+	cmd->efile = info.efile;
+	cmd->mode = info.mode;
+	cmd->fd = info.fd;
 	return ((t_cmd *)cmd);
 }
 
@@ -86,7 +86,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 {
 	t_pipecmd	*cmd;
 
-	cmd = ft_calloc(1 , sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(left);
@@ -114,7 +114,7 @@ t_cmd	*listcmd(t_cmd *left, t_cmd *right)
 {
 	t_listcmd	*cmd;
 
-	cmd = ft_calloc(1 , sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(left);
@@ -141,7 +141,7 @@ t_cmd	*backcmd(t_cmd *subcmd)
 {
 	t_backcmd	*cmd;
 
-	cmd = ft_calloc(1 , sizeof(*cmd));
+	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 	{
 		free_cmd(subcmd);
