@@ -35,13 +35,6 @@ t_env *create_env_node(char *name, char *value)
 	node->name = name;
 	node->value = value;
 	node->next = NULL;
-	if (!node->name || !node->value)
-	{
-		free(name);
-		free(value);
-		free(node);
-		return (NULL);
-	}
 	return (node);
 }
 

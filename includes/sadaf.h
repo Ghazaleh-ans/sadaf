@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/12 15:40:13 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:32:18 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int		builtin_echo(t_execcmd *ecmd, t_shell *shell);
 int		builtin_cd(t_execcmd *ecmd, t_shell *shell);
 int		builtin_pwd(t_execcmd *ecmd, t_shell *shell);
 int		builtin_export(t_execcmd *ecmd, t_shell *shell);
+int		update_or_add_env(t_shell *shell, char *name, char *value);
 int		builtin_unset(t_execcmd *ecmd, t_shell *shell);
 int		builtin_env(t_execcmd *ecmd, t_shell *shell);
 int		builtin_exit(t_execcmd *ecmd, t_shell *shell);
