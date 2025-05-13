@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:32:50 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:08:23 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ static int	update_or_add_env(t_shell *shell, char *name, char *value)
 	t_env	*current;
 	int		found;
 	t_env	*new_node;
+	char	*new_value;
 
 	found = 0;
 	current = shell->env_list;
@@ -86,18 +87,31 @@ static int	update_or_add_env(t_shell *shell, char *name, char *value)
 	{
 		if (ft_strcmp(current->name, name) == 0)
 		{
+			new_value = ft_strdup(value);
+			if (!new_value)
+				return (-1);
 			free(current->value);
-			current->value = ft_strdup(value);
+			current->value = new_value;
 			found = 1;
-			break ;
+			break;
 		}
 		current = current->next;
 	}
 	if (!found)
 	{
-		new_node = create_env_node(name, value);
+		char *new_name = ft_strdup(name);
+		new_value = ft_strdup(value);
+		if (!new_name || !new_value)
+		{
+			free(new_name);
+			free(new_value);
+			return (-1);
+		}
+		new_node = create_env_node(new_name, new_value);
 		if (new_node)
 			add_env_node(shell, new_node);
+		else
+			return (-1);
 	}
 	return (0);
 }
@@ -122,6 +136,7 @@ int	builtin_export(t_execcmd *ecmd, t_shell *shell)
 	int		i;
 	char	*name;
 	char	*value;
+	int		ret;
 
 	if (!ecmd->argv[1])
 	{
@@ -129,13 +144,23 @@ int	builtin_export(t_execcmd *ecmd, t_shell *shell)
 		return (0);
 	}
 	i = 1;
+	ret = 0;
 	while (ecmd->argv[i])
 	{
 		parse_export_arg(ecmd->argv[i], &name, &value);
-		update_or_add_env(shell, name, value);
+		if (!name || !value)
+		{
+			free(name);
+			free(value);
+			ret = 1;
+			i++;
+			continue;
+		}
+		if (update_or_add_env(shell, name, value) < 0)
+			ret = 1;
 		free(name);
 		free(value);
 		i++;
 	}
-	return (0);
+	return (ret);
 }
