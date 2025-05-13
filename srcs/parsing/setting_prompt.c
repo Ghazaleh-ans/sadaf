@@ -3,18 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   setting_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/09 07:07:43 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 14:25:33 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
+/**
+ * print_prompt - Prints the shell prompt with the current working directory
+ *
+ * This function retrieves the current working directory and formats it
+ * to display as part of the shell prompt. The prompt is printed to
+ * standard error (stderr) for user input.
+ *
+ * The format of the prompt is:
+ * "-> <current_directory> $ "
+ *
+ * If the current working directory cannot be retrieved, a default
+ * prompt "-> ? $ " is displayed.
+ */
+
 void	print_prompt()
 {
-	char cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 	char	*es;
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -27,7 +41,17 @@ void	print_prompt()
 	}
 }
 
-char *getcmd(void)
+/**
+ * getcmd - Reads a command from the user
+ *
+ * This function displays the shell prompt and waits for user input.
+ * It uses the readline library to handle line editing and history.
+ *
+ * Returns: A pointer to the command string entered by the user,
+ *          or NULL if an error occurs.
+ */
+
+char	*getcmd(void)
 {
 	char cwd[PATH_MAX];
 	char prompt[PATH_MAX];

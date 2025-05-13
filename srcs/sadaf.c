@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/12 15:45:19 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:08:33 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@
 
 int handle_cd(char *buf)
 {
+	if (!buf)
+		return 0;
+
+	buf[strcspn(buf, "\n")] = 0;
+
 	if (strncmp(buf, "cd ", 3) == 0 || strcmp(buf, "cd") == 0)
 	{
-		buf[strcspn(buf, "\n")] = 0;
 		char *path = buf + 2;
 		while (*path == ' ')
 			path++;
@@ -61,6 +65,12 @@ void shell_loop(t_shell *shell)
 		buf = getcmd();
 		if (!buf)
 			break;
+		if (buf[0] == '\n' || buf[0] == '\0')
+		{
+			free(buf);
+			continue;
+		}
+
 		if (handle_cd(buf))
 		{
 			free(buf);
@@ -70,6 +80,7 @@ void shell_loop(t_shell *shell)
 		free(buf);
 	}
 }
+
 
 int main(int argc, char **argv, char **envp)
 {

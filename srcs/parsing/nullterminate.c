@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   nullterminate.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 16:38:28 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/08 16:40:04 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 16:09:51 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 void	nulterminate_exec(t_execcmd *ecmd)
 {
-	int i = 0;
-	while (ecmd->argv[i]) {
+	int	i;
+
+	i = 0;
+	while (ecmd->argv[i])
+	{
 		*ecmd->eargv[i] = '\0';
 		i++;
 	}

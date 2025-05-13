@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:17:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/06 15:42:23 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:17:49 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,10 @@ t_cmd	*parsepipe(ParserState *ps)
  * Returns: Command structure with sequencing/background info
  */
 
-t_cmd	*parseline(ParserState *ps)
+static t_cmd	*handle_remaining_tokens(ParserState *ps, t_cmd *cmd)
 {
-	t_cmd	*cmd;
 	t_token	tok;
 
-	cmd = parsepipe(ps);
 	while (1)
 	{
 		tok = gettoken(ps);
@@ -91,6 +89,15 @@ t_cmd	*parseline(ParserState *ps)
 			break ;
 		}
 	}
+	return (cmd);
+}
+
+t_cmd	*parseline(ParserState *ps)
+{
+	t_cmd	*cmd;
+
+	cmd = parsepipe(ps);
+	cmd = handle_remaining_tokens(ps, cmd);
 	return (cmd);
 }
 
