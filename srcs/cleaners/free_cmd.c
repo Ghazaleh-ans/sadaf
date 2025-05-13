@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:53:29 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/04/24 15:38:43 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 15:39:55 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void free_cmd(t_cmd *cmd)
 	// 			free(ecmd->argv[i]);
 	// 	}
 	// }
-    if (cmd->type == REDIR)
+	if (cmd->type == REDIR)
 	{
 		t_redircmd *rcmd = (t_redircmd *)cmd;
 		free_cmd(rcmd->cmd);

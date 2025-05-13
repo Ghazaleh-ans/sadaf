@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:41:05 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 13:54:40 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:21:44 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,25 @@
  * Returns: Command structure ready for execution
  */
 
+
+
 static bool	is_stop_token(t_token tok)
 {
 	return (tok.type == TOK_PIPE || tok.type == TOK_AND
 		|| tok.type == TOK_SEQ || tok.type == TOK_RPAREN
 		|| tok.type == TOK_EOF);
 }
+
+/**
+ * init_exec_cmd - Initializes the command structure for execution
+ * @ps: Parser state to track position
+ * @cmd: Pointer to the command structure to fill
+ *
+ * Returns: Pointer to the initialized command structure
+ *
+ * This function initializes the command structure for execution,
+ * setting up redirection and handling errors.
+ */
 
 static t_cmd	*init_exec_cmd(ParserState *ps, t_execcmd **cmd)
 {
@@ -51,12 +64,66 @@ static t_cmd	*init_exec_cmd(ParserState *ps, t_execcmd **cmd)
 	return (ret);
 }
 
-static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
-{
-	t_token	tok;
-	int		argc;
+/**
+ * handle_token_and_redir - Handles token parsing and redirection
+ * @tok: Token to process
+ * @cmd: Command structure to fill
+ * @argc: Argument count
+ * @ret: Pointer to command structure
+ * @ps: Parser state to track position
+ *
+ * Returns: 1 on success, 0 on failure
+ *
+ * This function processes tokens and handles redirection.
+ * It checks for unexpected tokens and manages argument count.
+ */
 
-	argc = 0;
+static int handle_token_and_redir(t_token tok, t_execcmd *cmd, int *argc, t_cmd **ret, ParserState *ps)
+{
+	if (tok.type != TOK_WORD)
+	{
+		free_cmd(*ret);
+		ft_exit("syntax error: unexpected token\n");
+		return (0);
+	}
+	if (*argc >= MAXARGS)
+	{
+		ft_exit("too many args");
+		return (0);
+	}
+	cmd->argv[*argc] = tok.start;
+	cmd->eargv[*argc] = tok.end;
+	(*argc)++;
+
+	if (tok.type != TOK_LT)
+	{
+		*ret = parseredirs(*ret, ps);
+		if (!*ret)
+		{
+			ft_exit("error parsing redirection\n");
+			return (0);
+		}
+	}
+	return (1);
+}
+
+/**
+ * parse_arguments - Parses command arguments and redirections
+ * @cmd: Command structure to fill
+ * @ps: Parser state to track position
+ * @ret: Pointer to command structure
+ *
+ * Returns: Number of arguments parsed
+ *
+ * This function handles the parsing of command arguments,
+ * including redirections and special tokens.
+ */
+
+static int parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
+{
+	t_token tok;
+	int argc = 0;
+
 	while (1)
 	{
 		tok = gettoken(ps);
@@ -65,23 +132,23 @@ static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
 			ps->s = tok.start;
 			break;
 		}
-		if (tok.type != TOK_WORD)
-		{
-			free_cmd(*ret);
-			ft_exit("syntax error: unexpected token\n");
-		}
-		cmd->argv[argc] = tok.start;
-		cmd->eargv[argc] = tok.end;
-		argc++;
-		if (argc >= MAXARGS)
-			ft_exit("too many args");
-		if (tok.type != TOK_LT)
-			*ret = parseredirs(*ret, ps);
+		if (!handle_token_and_redir(tok, cmd, &argc, ret, ps))
+			return (-1);
 	}
 	cmd->argv[argc] = 0;
 	cmd->eargv[argc] = 0;
 	return (argc);
 }
+
+/**
+ * parseexec - Parses and constructs command execution structure
+ * @ps: Pointer to parser state
+ *
+ * Returns: Pointer to command structure ready for execution
+ *
+ * This function handles the parsing of command execution,
+ * including arguments and redirections.
+ */
 
 t_cmd	*parseexec(ParserState *ps)
 {
