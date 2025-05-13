@@ -6,11 +6,29 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 15:08:23 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:38:42 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
+
+static char	*remove_quotes(char *str)
+{
+	int		len;
+	char	*result;
+
+	if (!str)
+		return (NULL);
+	len = ft_strlen(str);
+	if (len >= 2 &&
+		((str[0] == '\'' && str[len-1] == '\'') ||
+			(str[0] == '"' && str[len-1] == '"')))
+	{
+		result = ft_substr(str, 1, len - 2);
+		return (result);
+	}
+	return (ft_strdup(str));
+}
 
 /**
  * print_env_vars - Prints all environment variables with export format
@@ -49,6 +67,7 @@ static void	print_env_vars(t_env *env_list)
 static void	parse_export_arg(char *arg, char **name, char **value)
 {
 	char	*equal_sign;
+	char	*raw_value;
 
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
@@ -59,61 +78,24 @@ static void	parse_export_arg(char *arg, char **name, char **value)
 	else
 	{
 		*name = ft_substr(arg, 0, equal_sign - arg);
-		*value = ft_strdup(equal_sign + 1);
+		raw_value = ft_strdup(equal_sign + 1);
+		*value = remove_quotes(raw_value);
+		free(raw_value);
 	}
 }
 
-/**
- * update_or_add_env - Updates existing or adds new environment variable
- * @shell: Shell state containing environment list
- * @name: Variable name to set/update
- * @value: Value to assign to the variable
- *
- * This function:
- * 1. Searches for existing variable with same name
- * 2. If found, updates its value
- * 3. If not found, creates and adds new node
- */
-static int	update_or_add_env(t_shell *shell, char *name, char *value)
+static void	process_arg(t_execcmd *ecmd, t_shell *shell, int i, int *ret)
 {
-	t_env	*current;
-	int		found;
-	t_env	*new_node;
-	char	*new_value;
+	char *name = NULL;
+	char *value = NULL;
 
-	found = 0;
-	current = shell->env_list;
-	while (current)
-	{
-		if (ft_strcmp(current->name, name) == 0)
-		{
-			new_value = ft_strdup(value);
-			if (!new_value)
-				return (-1);
-			free(current->value);
-			current->value = new_value;
-			found = 1;
-			break;
-		}
-		current = current->next;
-	}
-	if (!found)
-	{
-		char *new_name = ft_strdup(name);
-		new_value = ft_strdup(value);
-		if (!new_name || !new_value)
-		{
-			free(new_name);
-			free(new_value);
-			return (-1);
-		}
-		new_node = create_env_node(new_name, new_value);
-		if (new_node)
-			add_env_node(shell, new_node);
-		else
-			return (-1);
-	}
-	return (0);
+	parse_export_arg(ecmd->argv[i], &name, &value);
+	if (!name || !value)
+		*ret = 1;
+	else if (update_or_add_env(shell, name, value) < 0)
+		*ret = 1;
+	free(name);
+	free(value);
 }
 
 /**
@@ -133,34 +115,15 @@ static int	update_or_add_env(t_shell *shell, char *name, char *value)
  */
 int	builtin_export(t_execcmd *ecmd, t_shell *shell)
 {
-	int		i;
-	char	*name;
-	char	*value;
-	int		ret;
+	int i = 1;
+	int ret = 0;
 
 	if (!ecmd->argv[1])
 	{
 		print_env_vars(shell->env_list);
 		return (0);
 	}
-	i = 1;
-	ret = 0;
 	while (ecmd->argv[i])
-	{
-		parse_export_arg(ecmd->argv[i], &name, &value);
-		if (!name || !value)
-		{
-			free(name);
-			free(value);
-			ret = 1;
-			i++;
-			continue;
-		}
-		if (update_or_add_env(shell, name, value) < 0)
-			ret = 1;
-		free(name);
-		free(value);
-		i++;
-	}
+		process_arg(ecmd, shell, i++, &ret);
 	return (ret);
 }
