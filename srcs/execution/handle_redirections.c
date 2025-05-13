@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:23:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/12 12:19:15 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 13:47:32 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

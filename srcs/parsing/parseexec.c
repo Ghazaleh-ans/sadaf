@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseexec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:41:05 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/09 06:58:02 by codespace        ###   ########.fr       */
+/*   Updated: 2025/05/13 13:54:40 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
 		argc++;
 		if (argc >= MAXARGS)
 			ft_exit("too many args");
-		*ret = parseredirs(*ret, ps);
+		if (tok.type != TOK_LT)
+			*ret = parseredirs(*ret, ps);
 	}
 	cmd->argv[argc] = 0;
 	cmd->eargv[argc] = 0;
