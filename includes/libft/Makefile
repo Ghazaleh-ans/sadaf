@@ -1,6 +1,6 @@
 SRC_DIR = src/
 SRCS = ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c \
-       ft_isprint.c ft_toupper.c ft_tolower.c \
+       ft_isprint.c ft_isspace.c ft_toupper.c ft_tolower.c \
        ft_atoi.c ft_itoa.c ft_atol.c ft_atof.c\
        get_next_line_bonus.c \
        ft_lstnew.c ft_lstadd_back.c ft_lstadd_front.c ft_lstmap.c \
