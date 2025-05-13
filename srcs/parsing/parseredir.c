@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parseredir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:57:14 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/12 11:42:46 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 13:48:11 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_cmd *parseredirs(t_cmd *cmd, ParserState *ps)
 		{
 			case TOK_LT:
 				mode = O_RDONLY;
-				fd = 1;
+				fd = 0;
 				break;
 			case TOK_GT:
 				mode = O_WRONLY | O_CREAT | O_TRUNC;
