@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:11:20 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/15 17:39:37 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:00:19 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,9 @@ char *handle_exit_status(char *expanded, t_shell *shell)
 	char	exit_str[12];
 	char	*tmp;
 
-	printf("DEBUG: handle_exit_status - expanded before: %p (%s)\n", expanded, expanded);
 	snprintf(exit_str, sizeof(exit_str), "%d", shell->exit_status);
 	tmp = expanded;
 	expanded = ft_strjoin(expanded, exit_str);
-	printf("DEBUG: handle_exit_status - expanded after: %p (%s)\n", expanded, expanded);
-	printf("DEBUG: handle_exit_status - freeing tmp: %p\n", tmp);
 	free(tmp);
 	return (expanded);
 }
@@ -107,10 +104,7 @@ void	expand_variables(t_execcmd *ecmd, t_shell *shell)
 		{
 			expanded = process_arg(ecmd->argv[i], shell);
 			if (expanded)
-			{
-				free(ecmd->argv[i]);
 				ecmd->argv[i] = expanded;
-			}
 		}
 		i++;
 	}
