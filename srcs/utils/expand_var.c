@@ -6,20 +6,23 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:11:20 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 19:59:42 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:39:37 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-char	*handle_exit_status(char *expanded, t_shell *shell)
+char *handle_exit_status(char *expanded, t_shell *shell)
 {
 	char	exit_str[12];
 	char	*tmp;
 
+	printf("DEBUG: handle_exit_status - expanded before: %p (%s)\n", expanded, expanded);
 	snprintf(exit_str, sizeof(exit_str), "%d", shell->exit_status);
 	tmp = expanded;
 	expanded = ft_strjoin(expanded, exit_str);
+	printf("DEBUG: handle_exit_status - expanded after: %p (%s)\n", expanded, expanded);
+	printf("DEBUG: handle_exit_status - freeing tmp: %p\n", tmp);
 	free(tmp);
 	return (expanded);
 }
