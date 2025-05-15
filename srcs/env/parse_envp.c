@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_envp.c                                        :+:      :+:    :+:   */
+/*   parse_envp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: muxammad <muxammad@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:25:07 by muxammad          #+#    #+#             */
-/*   Updated: 2025/04/17 11:25:08 by muxammad         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:59:23 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-void append_env_node(t_env **head, t_env **tail, t_env *new_node)
+void	append_env_node(t_env **head, t_env **tail, t_env *new_node)
 {
 	if (!*head)
 	{
@@ -26,10 +26,11 @@ void append_env_node(t_env **head, t_env **tail, t_env *new_node)
 	}
 }
 
-t_env *create_env_node(char *name, char *value)
+t_env	*create_env_node(char *name, char *value)
 {
-	t_env *node = malloc(sizeof(t_env));
+	t_env	*node;
 
+	node = malloc(sizeof(t_env));
 	if (!node)
 		return (NULL);
 	node->name = name;
@@ -38,7 +39,7 @@ t_env *create_env_node(char *name, char *value)
 	return (node);
 }
 
-t_env *parse_and_create_env_node(const char *env_str)
+t_env	*parse_and_create_env_node(const char *env_str)
 {
 	t_env		*new_node;
 	char		*equal_sign;

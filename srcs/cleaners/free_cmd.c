@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:53:29 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 15:39:55 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:04:46 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,44 +20,52 @@
  * Handles different command types (EXEC, REDIR, PIPE, LIST, BACK).
  **/
 
-void free_cmd(t_cmd *cmd)
+void	free_redir_cmd(t_redircmd *rcmd)
+{
+	if (!rcmd)
+		return ;
+	free_cmd(rcmd->cmd);
+	free(rcmd);
+}
+
+void	free_pipe_cmd(t_pipecmd *pcmd)
+{
+	if (!pcmd)
+		return ;
+	free_cmd(pcmd->left);
+	free_cmd(pcmd->right);
+	free(pcmd);
+}
+
+void	free_list_cmd(t_listcmd *lcmd)
+{
+	if (!lcmd)
+		return ;
+	free_cmd(lcmd->left);
+	free_cmd(lcmd->right);
+	free(lcmd);
+}
+
+void	free_back_cmd(t_backcmd *bcmd)
+{
+	if (!bcmd)
+		return ;
+	free_cmd(bcmd->cmd);
+	free(bcmd);
+}
+
+void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ;
-	// if (cmd->type == EXEC)
-	// {
-	// 	t_execcmd *ecmd = (t_execcmd *)cmd;
-	// 	for (int i = 0; ecmd->argv[i]; i++)
-	// 	{
-	// 		if (ecmd->argv[i])
-	// 			free(ecmd->argv[i]);
-	// 	}
-	// }
 	if (cmd->type == REDIR)
-	{
-		t_redircmd *rcmd = (t_redircmd *)cmd;
-		free_cmd(rcmd->cmd);
-		// if (rcmd->file)
-		// 	free(rcmd->file);
-		// if (rcmd->efile)
-		// 	free(rcmd->efile);
-	}
+		free_redir_cmd((t_redircmd *)cmd);
 	else if (cmd->type == PIPE)
-	{
-		t_pipecmd *pcmd = (t_pipecmd *)cmd;
-		free_cmd(pcmd->left);
-		free_cmd(pcmd->right);
-	}
+		free_pipe_cmd((t_pipecmd *)cmd);
 	else if (cmd->type == LIST)
-	{
-		t_listcmd *lcmd = (t_listcmd *)cmd;
-		free_cmd(lcmd->left);
-		free_cmd(lcmd->right);
-	}
+		free_list_cmd((t_listcmd *)cmd);
 	else if (cmd->type == BACK)
-	{
-		t_backcmd *bcmd = (t_backcmd *)cmd;
-		free_cmd(bcmd->cmd);
-	}
-	free(cmd);
+		free_back_cmd((t_backcmd *)cmd);
+	else
+		free(cmd);
 }

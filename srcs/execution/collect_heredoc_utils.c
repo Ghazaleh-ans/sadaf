@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_heredoc_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:28:13 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/12 14:14:05 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:50:08 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	process_heredoc_in_redircmd(t_redircmd *rcmd, t_shell *shell)
 	heredoc_fd = handle_heredoc(delimiter, shell);
 	free(delimiter);
 	if (heredoc_fd < 0)
-		return -1;
+		return (-1);
 	rcmd->heredoc = false;
 	rcmd->fd = heredoc_fd;
 	rcmd->file = NULL;
@@ -65,7 +65,7 @@ int	collect_heredocs_in_list(t_cmd *cmd, t_shell *shell)
 
 int	collect_heredocs_in_back(t_cmd *cmd, t_shell *shell)
 {
-	t_backcmd *bcmd;
+	t_backcmd	*bcmd;
 
 	bcmd = (t_backcmd *)cmd;
 	return (collect_all_heredocs(bcmd->cmd, shell));

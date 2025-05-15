@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:23:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 13:47:32 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 15:57:50 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static void	print_error(char *file)
 /*
  * handle_file_redirection - Implements file redirection for shell commands
  *
- * This function handles the actual redirection mechanism for standard input/output
+ * This function handles the actual redirection mechanism for standard 
+ * input/output
  * to files. It's responsible for implementing the behavior of shell operators
  * like < (input redirection) and > (output redirection).
  *

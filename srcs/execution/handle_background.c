@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_background.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:34:44 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 15:05:54 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:51:56 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /**
  * handle_background - Executes a command in the background
  *
- * This function implements background command execution (commands ending with '&').
+ * This function implements background command execution 
+ * (commands ending with '&').
  * It creates a child process using protected_fork() to execute the command.
  * The parent process continues immediately without waiting for the child,
  * allowing the background command to run independently.
@@ -29,7 +30,7 @@
  * @param bcmd   Pointer to the background command structure
  * @param shell  Pointer to the shell structure with environment and state
  */
-void handle_background(t_backcmd *bcmd, t_shell *shell)
+void	handle_background(t_backcmd *bcmd, t_shell *shell)
 {
 	int	pid;
 

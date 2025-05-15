@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:22:03 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 14:40:22 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:51:18 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
 /**
- * handle_builtin - Executes a shell built-in command and exits the process
+ * handle_builtin - Executes a shell built-in command and 
+ * exits the process
  *
  * This function handles the execution of shell built-in commands such as
  * cd, echo, pwd, export, unset, env, and exit. It calls the appropriate
@@ -24,11 +25,13 @@
  * with the appropriate status, allowing the parent process to determine
  * if the built-in command succeeded or failed.
  *
- * @param ecmd   Pointer to the exec command structure containing command and args
+ * @param ecmd   Pointer to the exec command structure 
+ * containing command and args
  * @param shell  Pointer to the shell structure with environment and state
  *
  * Note: This function does not return - it always exits the process.
  */
+
 static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 {
 	int	exit_code;

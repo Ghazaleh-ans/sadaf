@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 18:23:32 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:43:36 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,21 @@ static int	is_only_whitespace(const char *str)
 
 int	handle_cd(char *buf)
 {
+	char	*path;
 
 	if (!buf)
-		return 0;
-
+		return (0);
 	buf[strcspn(buf, "\n")] = 0;
 	if (strncmp(buf, "cd ", 3) == 0 || strcmp(buf, "cd") == 0)
 	{
-		char *path = buf + 2;
+		path = buf + 2;
 		while (*path == ' ')
 			path++;
 		if (*path == 0)
 		{
 			path = getenv("HOME");
-			if (!path) path = "/";
+			if (!path)
+				path = "/";
 		}
 		if (chdir(path) < 0)
 			fprintf(stderr, "cannot cd to '%s'\n", path);
@@ -51,36 +52,36 @@ int	handle_cd(char *buf)
 
 void	shell_loop(t_shell *shell)
 {
-	char *buf;
+	char	*buf;
 
 	while (1)
 	{
 		buf = getcmd();
 		if (!buf)
-			break;
+			break ;
 		if (is_only_whitespace(buf))
 		{
 			free(buf);
-			continue;
+			continue ;
 		}
 		if (buf[0] == '\n' || buf[0] == '\0')
 		{
 			free(buf);
-			continue;
+			continue ;
 		}
 		if (handle_cd(buf))
 		{
 			free(buf);
-			continue;
+			continue ;
 		}
 		execution(buf, shell);
 		free(buf);
 	}
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	t_shell *shell;
+	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;

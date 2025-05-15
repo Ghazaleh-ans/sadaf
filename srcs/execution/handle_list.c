@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_list.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:22:41 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 15:51:49 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:52:16 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@
  * the parser creates a nested structure where each pair is treated
  * as a list command, and this function is called recursively.
  *
- * @param lcmd   Pointer to list command structure containing left and right commands
- * @param shell  Pointer to shell structure with environment and state information
+ * @param lcmd   Pointer to list command structure containing left 
+ * and right commands
+ * @param shell  Pointer to shell structure with environment and state 
+ * information
  */
 void	handle_list(t_listcmd *lcmd, t_shell *shell)
 {

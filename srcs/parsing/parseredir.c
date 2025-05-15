@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:57:14 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 18:14:04 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:18 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_cmd	*create_redirection(
  * It creates new redirection commands and links them to the original command.
  */
 
-t_cmd	*parseredirs(t_cmd *cmd, ParserState *ps)
+t_cmd	*parseredirs(t_cmd *cmd, t_parserState *ps)
 {
 	t_token	op_tok;
 	t_token	file_tok;

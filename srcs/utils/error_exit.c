@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:45:39 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/04/22 17:58:46 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:53:38 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_exit(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-int fork1(void)
+int	fork1(void)
 {
 	int	pid;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipe_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:35:21 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 14:11:18 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:06:39 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,15 @@
  * fd[1] can be read from fd[0]. This allows output from one process to become
  * input for another process, which is the core mechanism behind shell pipelines.
  *
- * If pipe creation fails (which might happen in resource-constrained environments),
+ * If pipe creation fails (which might happen in resource-constrained 
+ * environments),
  * the function reports the error through ft_perror and returns -1, allowing
  * the caller to handle the error condition appropriately.
  *
  * @param fd  Array to store pipe file descriptors [read_end, write_end]
  * @return    0 on success, -1 on error
  */
-int		create_pipe(int *fd)
+int	create_pipe(int *fd)
 {
 	if (pipe(fd) < 0)
 	{
@@ -52,15 +53,23 @@ int		create_pipe(int *fd)
  * 2. If a valid PID is provided (pid1 > 0), it terminates that process and
  *    waits for it to exit to avoid creating zombie processes
  *
- * The function is specifically designed for error recovery scenarios in the
- * pipe handling process. For example, if creating the right command process fails,
- * this function is called to clean up the pipe resources and terminate the already
- * running left command process. This ensures that all resources are properly
- * released and no orphaned processes remain in the system, even when errors occur.
+ * The function is specifically designed for error recovery scenarios in 
+ * the
+ * pipe handling process. For example, if creating the right command 
+ * process fails,
+ * this function is called to clean up the pipe resources and terminate 
+ * the already
+ * running left command process. This ensures that all resources are 
+ * properly
+ * released and no orphaned processes remain in the system, even when 
+ * errors occur.
  *
- * @param fd    Array containing pipe file descriptors [read_end, write_end]
- * @param pid1  PID of the left command process to kill on error, or -1 if not applicable
+ * @param fd    Array containing pipe file descriptors 
+ * [read_end, write_end]
+ * @param pid1  PID of the left command process to kill on error, 
+ * or -1 if not applicable
  */
+
 void	cleanup_pipe(int *fd, int pid1)
 {
 	safe_close(fd[0]);
@@ -88,6 +97,7 @@ void	cleanup_pipe(int *fd, int pid1)
  *
  * @param fd  File descriptor to close
  */
+
 void	safe_close(int fd)
 {
 	if (close(fd) < 0)
@@ -98,15 +108,33 @@ void	safe_close(int fd)
  * close_and_report - Closes a file descriptor and reports errors
  *
  * This function wraps the close() system call with error handling.
- * When a file descriptor needs to be closed, this function attempts the operation
- * and properly reports any errors using the ft_perror utility function. It is used
- * throughout the pipe handling code to ensure consistent error handling and to
+ * When a file descriptor needs to be closed, this function 
+ * attempts the operation
+ * and properly reports any errors using the ft_perror utility 
+ * function. It is used
+	return (0);
+**/
+
+/**
+ * wait_for_children - Waits for child processes and captures
+ *  exit status
+ *
+ * This function waits for both child processes created 
+ * during pipe execution
+ * to complete and captures the exit status of the 
+ * right-side command. It performs
+ * these operations:
+ * 1. Waits for the left command process (pid1) to 
+ * throughout the pipe handling code to ensure 
+ * consistent error
+ *  handling and to
  * avoid code duplication.
  *
  * @param fd  File descriptor to close
  * @return    0 on success, -1 on error (sets errno)
  */
-int		close_and_report(int fd)
+
+int	close_and_report(int fd)
 {
 	if (close(fd) < 0)
 	{
@@ -129,7 +157,7 @@ int		close_and_report(int fd)
  * @param fd  File descriptor to duplicate
  * @return    0 on success, -1 on error (sets errno)
  */
-int		dup_and_report(int fd)
+int	dup_and_report(int fd)
 {
 	if (dup(fd) < 0)
 	{

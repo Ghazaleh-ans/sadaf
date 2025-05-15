@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:36:24 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:36:27 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:25:29 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
  * @brief Implements the pwd (print working directory) built-in command
  *
  * This function is responsible for printing the current working directory
- * to the standard output. It's a shell built-in equivalent of the Unix pwd command.
+ * to the standard output. It's a shell built-in equivalent of the Unix pwd
+ * command.
  *
- * @param ecmd     Pointer to the execution command structure containing parsed arguments
+ * @param ecmd     Pointer to the execution command structure containing
+ * parsed arguments
  * @param shell    Pointer to the shell structure (not used in this function)
  *
  * @return int     Returns 0 on success, 1 on error
@@ -29,7 +31,8 @@
  * 3. Handles error cases when directory can't be obtained
  * 4. Writes the path and a newline to standard output
  *
- * Note: The function ignores the ecmd and shell parameters as they're not needed
+ * Note: The function ignores the ecmd and shell parameters as they're
+ * not needed
  * for this simple command implementation.
  */
 int	builtin_pwd(t_execcmd *ecmd, t_shell *shell)
