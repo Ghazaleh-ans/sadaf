@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 18:56:10 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:56:25 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell)
 	shell->exit_status = status;
 }
 
-/* Update the execute_forked function in exec_utils.c */
-
 static void	execute_forked(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
@@ -50,35 +48,23 @@ static void	execute_forked(t_cmd *cmd, t_shell *shell)
 	pid = protected_fork();
 	if (pid == 0)
 	{
-		setup_signals(1);  // Child gets default signal handlers
+		setup_signals(1);
 		runcmd(cmd, shell);
 		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
 	}
-	
-	// Parent process
-	setup_signals(2);  // Parent uses special mode while waiting
-	
-	// Wait for child and handle interruption
+	setup_signals(2);
 	waitpid(pid, &status, 0);
-	
 	if (WIFEXITED(status))
-	{
 		shell->exit_status = WEXITSTATUS(status);
-	}
 	else if (WIFSIGNALED(status))
 	{
 		shell->exit_status = 128 + WTERMSIG(status);
-		
-		// Print "Quit" message if terminated by SIGQUIT, similar to bash
 		if (WTERMSIG(status) == SIGQUIT)
-		{
 			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
-		}
 	}
-	
-	setup_signals(0);  // Restore interactive signal handling
-	g_signal_received = 0;  // Reset signal flag
+	setup_signals(0);
+	g_signal_received = 0;
 }
 
 void	execution(char *buf, t_shell *shell)
