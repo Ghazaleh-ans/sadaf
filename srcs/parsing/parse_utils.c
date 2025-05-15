@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:48:08 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 16:27:06 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:18 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	assign_token(t_token *tok, char **s)
 	tok->type = TOK_WORD;
 }
 
-t_token	gettoken(ParserState *ps)
+t_token	gettoken(t_parserState *ps)
 {
 	char	*s;
 	t_token	tok;

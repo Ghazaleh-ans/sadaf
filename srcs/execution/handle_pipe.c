@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_pipe.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:35:21 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/09 13:56:19 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:54:33 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	setup_pipe_input(int *fd)
  * @param fd  Array containing pipe file descriptors [read_end, write_end]
  * @return    0 on success, -1 on error
  */
+
 int	setup_pipe_output(int *fd)
 {
 	if (close_and_report(1) < 0)
@@ -95,7 +96,8 @@ int	setup_pipe_output(int *fd)
  * wait_for_children - Waits for child processes and captures exit status
  *
  * This function waits for both child processes created during pipe execution
- * to complete and captures the exit status of the right-side command. It performs
+ * to complete and captures the exit status of the right-side command. 
+ * It performs
  * these operations:
  * 1. Waits for the left command process (pid1) to exit, discarding its status
  * 2. Waits for the right command process (pid2) to exit, capturing its status
@@ -105,8 +107,10 @@ int	setup_pipe_output(int *fd)
  *
  * This follows the shell convention where the exit status of a pipeline is
  * the exit status of the last command in the pipeline. The function ensures
- * both processes are properly waited for to prevent zombie processes, even though
- * only the right command's exit status is used. The exit status is stored in the
+ * both processes are properly waited for to prevent zombie processes, 
+ * even though
+ * only the right command's exit status is used. The exit status is stored 
+ * in the
  * shell structure for later use by the shell (e.g., for the $? variable).
  *
  * @param pid1   PID of the left command process
@@ -147,7 +151,8 @@ static void	wait_for_children(int pid1, int pid2, t_shell *shell)
  * pipe commands, where the right command of one pipe can itself be another
  * pipe command. This allows the shell to support pipelines of arbitrary length.
  *
- * @param pcmd   Pointer to pipe command structure containing left and right commands
+ * @param pcmd   Pointer to pipe command structure containing left 
+ * and right commands
  * @param shell  Pointer to shell structure with environment variables and state
  */
 void	handle_pipe(t_pipecmd *pcmd, t_shell *shell)

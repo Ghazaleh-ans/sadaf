@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/12 15:40:33 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/13 18:56:10 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-static int is_builtin_no_fork(const char *cmd)
+static int	is_builtin_no_fork(const char *cmd)
 {
-	return (strcmp(cmd, "cd") == 0 ||
-		strcmp(cmd, "exit") == 0 ||
-		strcmp(cmd, "export") == 0 ||
-		strcmp(cmd, "unset") == 0);
+	return (strcmp(cmd, "cd") == 0
+		|| strcmp(cmd, "exit") == 0
+		|| strcmp(cmd, "export") == 0
+		|| strcmp(cmd, "unset") == 0);
 }
 
 static int	should_fork(t_cmd *cmd)
@@ -30,16 +30,19 @@ static int	should_fork(t_cmd *cmd)
 	return (!is_builtin_no_fork(ecmd->argv[0]));
 }
 
-static void execute_builtin(t_cmd *cmd, t_shell *shell)
+static void	execute_builtin(t_cmd *cmd, t_shell *shell)
 {
-	t_execcmd *ecmd = (t_execcmd *)cmd;
-	int status = exec_builtin(ecmd, shell);
+	t_execcmd	*ecmd;
+	int			status;
+
+	ecmd = (t_execcmd *)cmd;
+	status = exec_builtin(ecmd, shell);
 	shell->exit_status = status;
 }
 
-static void execute_forked(t_cmd *cmd, t_shell *shell)
+static void	execute_forked(t_cmd *cmd, t_shell *shell)
 {
-	int status;
+	int	status;
 
 	if (protected_fork() == 0)
 	{
@@ -60,7 +63,7 @@ void	execution(char *buf, t_shell *shell)
 	if (collect_all_heredocs(cmd, shell) < 0)
 	{
 		free_cmd(cmd);
-		return;
+		return ;
 	}
 	if (!should_fork(cmd))
 	{

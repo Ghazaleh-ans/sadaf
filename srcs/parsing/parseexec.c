@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:41:05 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 18:07:59 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:18 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static bool	is_stop_token(t_token tok)
  * setting up redirection and handling errors.
  */
 
-static t_cmd	*init_exec_cmd(ParserState *ps, t_execcmd **cmd)
+static t_cmd	*init_exec_cmd(t_parserState *ps, t_execcmd **cmd)
 {
 	t_cmd	*ret;
 
@@ -116,7 +116,7 @@ static int	handle_token_and_redir(t_token tok, t_parsectx *ctx)
  * including redirections and special tokens.
  */
 
-static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
+static int	parse_arguments(t_execcmd *cmd, t_parserState *ps, t_cmd **ret)
 {
 	t_token		tok;
 	int			argc;
@@ -153,7 +153,7 @@ static int	parse_arguments(t_execcmd *cmd, ParserState *ps, t_cmd **ret)
  * including arguments and redirections.
  */
 
-t_cmd	*parseexec(ParserState *ps)
+t_cmd	*parseexec(t_parserState *ps)
 {
 	t_token		tok;
 	t_cmd		*ret;

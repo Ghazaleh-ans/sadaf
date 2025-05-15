@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 17:49:40 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:24:44 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ char	*remove_quotes(char *str)
 	if (!str)
 		return (NULL);
 	len = ft_strlen(str);
-	if (len >= 2 &&
-		((str[0] == '\'' && str[len-1] == '\'') ||
-			(str[0] == '"' && str[len-1] == '"')))
+	if (len >= 2
+		&& ((str[0] == '\'' && str[len - 1] == '\'')
+			|| (str[0] == '"' && str[len - 1] == '"')))
 	{
 		result = ft_substr(str, 1, len - 2);
 		return (result);
@@ -86,9 +86,11 @@ static void	parse_export_arg(char *arg, char **name, char **value)
 
 static void	process_arg(t_execcmd *ecmd, t_shell *shell, int i, int *ret)
 {
-	char *name = NULL;
-	char *value = NULL;
+	char	*name;
+	char	*value;
 
+	name = NULL;
+	value = NULL;
 	parse_export_arg(ecmd->argv[i], &name, &value);
 	if (!name || !value)
 		*ret = 1;
@@ -115,9 +117,11 @@ static void	process_arg(t_execcmd *ecmd, t_shell *shell, int i, int *ret)
  */
 int	builtin_export(t_execcmd *ecmd, t_shell *shell)
 {
-	int i = 1;
-	int ret = 0;
+	int	i;
+	int	ret;
 
+	i = 1;
+	ret = 0;
 	if (!ecmd->argv[1])
 	{
 		print_env_vars(shell->env_list);

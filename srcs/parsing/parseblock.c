@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:00:46 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 16:32:04 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:59:18 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
  * Returns: Command structure ready for execution
  */
 
-t_cmd	*parseblock(ParserState *ps)
+t_cmd	*parseblock(t_parserState *ps)
 {
 	t_cmd	*cmd;
 	t_token	tok;

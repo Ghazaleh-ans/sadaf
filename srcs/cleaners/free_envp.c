@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:21:11 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/04/22 17:56:05 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:16:22 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 
 void	free_env_list(t_env *env_list)
 {
-	t_env *temp;
+	t_env	*temp;
 
 	while (env_list)
 	{

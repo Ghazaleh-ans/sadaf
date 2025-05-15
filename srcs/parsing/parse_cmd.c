@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:17:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 16:17:49 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:03:19 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
  * Returns: Command structure with pipe connections
  */
 
-t_cmd	*parsepipe(ParserState *ps)
+t_cmd	*parsepipe(t_parserState *ps)
 {
 	t_cmd	*cmd;
 	t_token	tok;
@@ -64,7 +64,7 @@ t_cmd	*parsepipe(ParserState *ps)
  * Returns: Command structure with sequencing/background info
  */
 
-static t_cmd	*handle_remaining_tokens(ParserState *ps, t_cmd *cmd)
+static t_cmd	*handle_remaining_tokens(t_parserState *ps, t_cmd *cmd)
 {
 	t_token	tok;
 
@@ -92,7 +92,7 @@ static t_cmd	*handle_remaining_tokens(ParserState *ps, t_cmd *cmd)
 	return (cmd);
 }
 
-t_cmd	*parseline(ParserState *ps)
+t_cmd	*parseline(t_parserState *ps)
 {
 	t_cmd	*cmd;
 
@@ -121,9 +121,9 @@ t_cmd	*parseline(ParserState *ps)
 
 t_cmd	*parsecmd(char *buf)
 {
-	ParserState	ps;
-	t_cmd		*cmd;
-	t_token		tok;
+	t_parserState	ps;
+	t_cmd			*cmd;
+	t_token			tok;
 
 	ps.s = buf;
 	ps.end = buf + ft_strlen(buf);
@@ -135,6 +135,5 @@ t_cmd	*parsecmd(char *buf)
 		ft_exit("syntax error: unexpected token\n");
 	}
 	nulterminate(cmd);
-	print_cmd(cmd);
 	return (cmd);
 }
