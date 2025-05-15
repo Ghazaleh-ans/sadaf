@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:42:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 13:42:53 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:54:23 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	handle_sigint_exec(int sig)
 
 /**
 * Signal handler for SIGQUIT
-* 
+*
 * This handler allows the shell to ignore SIGQUIT for itself but lets
 * the signal pass to child processes.
 *
@@ -62,8 +62,6 @@ void	handle_sigint_exec(int sig)
 void	handle_sigquit_parent(int sig)
 {
 	(void)sig;
-	// Do nothing - this handler exists just to catch the signal
-	// in the parent process while allowing it to reach children
 }
 
 /**
@@ -90,18 +88,16 @@ void	setup_signals(int mode)
 	if (mode == 0)
 	{
 		signal(SIGINT, handle_sigint);
-		signal(SIGQUIT, SIG_IGN);  // Interactive mode ignores Ctrl+
+		signal(SIGQUIT, SIG_IGN);
 	}
 	else if (mode == 1)
 	{
-		// Child process mode - default signal handling
 		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);  // Allow Ctrl+\ to generate core dump
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else if (mode == 2)
 	{
-		// Parent waiting for child mode
-		signal(SIGINT, handle_sigint_exec);  // Custom handler without prompt
-		signal(SIGQUIT, handle_sigquit_parent);  // Special handler for SIGQUIT
+		signal(SIGINT, handle_sigint_exec);
+		signal(SIGQUIT, handle_sigquit_parent);
 	}
 }
