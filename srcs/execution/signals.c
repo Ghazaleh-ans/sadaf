@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:42:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/07 13:42:53 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:12:54 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ void	handle_sigint(int sig)
 	(void)sig;
 	g_signal_received = 1;
 	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (isatty(STDIN_FILENO))
+	{
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
 }
 
 // void handle_sigquit(int sig)
