@@ -56,6 +56,8 @@ void	shell_loop(t_shell *shell)
 
 	while (1)
 	{
+		setup_signals(0);
+		g_signal_received = 0;
 		buf = getcmd();
 		if (!buf)
 			break ;

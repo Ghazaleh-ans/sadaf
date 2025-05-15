@@ -40,19 +40,45 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell)
 	shell->exit_status = status;
 }
 
+/* Update the execute_forked function in exec_utils.c */
+
 static void	execute_forked(t_cmd *cmd, t_shell *shell)
 {
 	int	status;
+	int	pid;
 
-	if (protected_fork() == 0)
+	pid = protected_fork();
+	if (pid == 0)
 	{
+		setup_signals(1);  // Child gets default signal handlers
 		runcmd(cmd, shell);
 		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
 	}
-	wait(&status);
+	
+	// Parent process
+	setup_signals(2);  // Parent uses special mode while waiting
+	
+	// Wait for child and handle interruption
+	waitpid(pid, &status, 0);
+	
 	if (WIFEXITED(status))
+	{
 		shell->exit_status = WEXITSTATUS(status);
+	}
+	else if (WIFSIGNALED(status))
+	{
+		shell->exit_status = 128 + WTERMSIG(status);
+		
+		// Print "Quit" message if terminated by SIGQUIT, similar to bash
+		if (WTERMSIG(status) == SIGQUIT)
+		{
+			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
+		}
+	}
+	
+	setup_signals(0);  // Restore interactive signal handling
+	g_signal_received = 0;  // Reset signal flag
 }
 
 void	execution(char *buf, t_shell *shell)
