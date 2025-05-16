@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/15 16:24:44 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:29:49 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,24 @@ char	*remove_quotes(char *str)
 {
 	int		len;
 	char	*result;
+	int		i;
 
 	if (!str)
 		return (NULL);
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
 	len = ft_strlen(str);
 	if (len >= 2
-		&& ((str[0] == '\'' && str[len - 1] == '\'')
-			|| (str[0] == '"' && str[len - 1] == '"')))
+		&& (str[i] == '\'' && str[len - 1] == '\''))
 	{
-		result = ft_substr(str, 1, len - 2);
+		result = ft_substr(str, ft_strcspn(str, "\'") + 1, len - 2);
+		return (result);
+	}
+	else if (len >= 2
+			&& (str[i] == '"' && str[len - 1] == '"'))
+	{
+		result = ft_substr(str, ft_strcspn(str, "\"") + 1, len - 2);
 		return (result);
 	}
 	return (ft_strdup(str));
