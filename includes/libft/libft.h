@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 16:51:25 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 16:58:20 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:13:01 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 char	**ft_split(char const *s, char c);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strndup(const char *s, size_t n);
+size_t	ft_strcspn(const char *s, const char *reject);
 
 void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
@@ -125,7 +126,10 @@ void	ft_putchar_snprintf(char c, t_snprintf_data *data);
 void	ft_putstr_snprintf(char *s, t_snprintf_data *data);
 void	ft_putnbr_snprintf(int nb, t_snprintf_data *data);
 void	ft_putunsignednbr_snprintf(unsigned int nb, t_snprintf_data *data);
-void	ft_putnbr_base_snprintf(unsigned int nbr, char *base, t_snprintf_data *data);
-void	ft_putnbr_base_ptr_snprintf(unsigned long nbr, char *base, t_snprintf_data *data);
+void	ft_putnbr_base_snprintf(unsigned int nbr, char *base,
+			t_snprintf_data *data);
+void	ft_putnbr_base_ptr_snprintf(unsigned long nbr, char *base,
+			t_snprintf_data *data);
 void	ft_putptr_snprintf(void *ptr, t_snprintf_data *data);
+
 #endif
