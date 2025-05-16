@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/16 11:35:58 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:51:39 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -246,6 +246,6 @@ int		setup_pipe_input(int *fd);
 void	execution(char *buf, t_shell *shell);
 void	prepare_for_command(void);
 int		should_skip_empty_command(char *buf);
-int		handle_special_command(char *buf, t_shell *shell);
+int		handle_special_command(char *buf);
 
 #endif

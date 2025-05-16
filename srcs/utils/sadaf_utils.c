@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/16 11:36:33 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:51:20 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	should_skip_empty_command(char *buf)
 	return (0);
 }
 
-int handle_special_command(char *buf, t_shell *shell)
+int handle_special_command(char *buf)
 {
 	return (handle_cd(buf));
 }

@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:28:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 11:45:38 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:51:51 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	shell_loop(t_shell *shell)
 			free(buf);
 			continue ;
 		}
-		if (handle_special_command(buf, shell))
+		if (handle_special_command(buf))
 		{
 			free(buf);
 			continue ;
