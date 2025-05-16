@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 14:43:18 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:56:20 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*remove_quotes(char *str)
 	int		len;
 	char	*result;
 	int		i;
+	char	quote_char;
+	int		quote_start, quote_end;
 
 	if (!str)
 		return (NULL);
@@ -24,15 +26,17 @@ char	*remove_quotes(char *str)
 	i = 0;
 	while (i < len && ft_isspace(str[i]))
 		i++;
-	if (i < len && (str[i] == '\'' || str[i] == '"'))
+	if (i >= len)
+		return (ft_strdup(""));
+	if (str[i] == '\'' || str[i] == '"')
 	{
-		char quote_char = str[i];
-		int quote_start = i;
-		int quote_end = len - 1;
+		quote_char = str[i];
+		quote_start = i;
+		quote_end = len - 1;
 		while (quote_end > quote_start && str[quote_end] != quote_char)
 			quote_end--;
 
-		if (quote_end > quote_start)
+		if (quote_end > quote_start && str[quote_end] == quote_char)
 		{
 			result = ft_substr(str, quote_start + 1, quote_end - quote_start - 1);
 			return (result);
