@@ -15,8 +15,9 @@ SRCS = ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c \
        ft_strchr.c ft_strncmp.c ft_strnstr.c ft_strrchr.c \
        ft_substr.c ft_strjoin.c ft_strtrim.c ft_striteri.c \
        ft_strmapi.c ft_split.c ft_error.c ft_perror.c \
-       ft_strcmp.c ft_strndup.c \
-       ft_snprintf.c
+       ft_strcmp.c ft_strndup.c ft_strcspn.c\
+       ft_snprintf.c ft_snprintf_utils.c\
+
 OBJS = ${SRCS:.c=.o}
 NAME = libft.a
 LIBC = ar rcs
