@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:47 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 13:29:49 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:43:18 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,23 @@ char	*remove_quotes(char *str)
 
 	if (!str)
 		return (NULL);
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
 	len = ft_strlen(str);
-	if (len >= 2
-		&& (str[i] == '\'' && str[len - 1] == '\''))
+	i = 0;
+	while (i < len && ft_isspace(str[i]))
+		i++;
+	if (i < len && (str[i] == '\'' || str[i] == '"'))
 	{
-		result = ft_substr(str, ft_strcspn(str, "\'") + 1, len - 2);
-		return (result);
-	}
-	else if (len >= 2
-			&& (str[i] == '"' && str[len - 1] == '"'))
-	{
-		result = ft_substr(str, ft_strcspn(str, "\"") + 1, len - 2);
-		return (result);
+		char quote_char = str[i];
+		int quote_start = i;
+		int quote_end = len - 1;
+		while (quote_end > quote_start && str[quote_end] != quote_char)
+			quote_end--;
+
+		if (quote_end > quote_start)
+		{
+			result = ft_substr(str, quote_start + 1, quote_end - quote_start - 1);
+			return (result);
+		}
 	}
 	return (ft_strdup(str));
 }

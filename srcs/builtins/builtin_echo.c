@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:01 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/13 17:51:03 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 14:38:23 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,36 @@ static int	is_valid_n_flag(char *str)
  *
  * Return: Always 0 (success)
  */
+// int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
+// {
+// 	int	i;
+// 	int	n_flag;
+
+// 	(void)shell;
+// 	n_flag = 0;
+// 	i = 1;
+// 	while (ecmd->argv[i] && is_valid_n_flag(ecmd->argv[i]))
+// 	{
+// 		n_flag = 1;
+// 		i++;
+// 	}
+// 	while (ecmd->argv[i])
+// 	{
+// 		ft_putstr_fd(remove_quotes(ecmd->argv[i]), STDOUT_FILENO);
+// 		if (ecmd->argv[i + 1])
+// 			ft_putstr_fd(" ", STDOUT_FILENO);
+// 		i++;
+// 	}
+// 	if (!n_flag)
+// 		ft_putstr_fd("\n", STDOUT_FILENO);
+// 	return (0);
+// }
+
 int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 {
-	int	i;
-	int	n_flag;
+	int		i;
+	int		n_flag;
+	char	*processed;
 
 	(void)shell;
 	n_flag = 0;
@@ -71,7 +97,15 @@ int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 	}
 	while (ecmd->argv[i])
 	{
-		ft_putstr_fd(remove_quotes(ecmd->argv[i]), STDOUT_FILENO);
+		processed = remove_quotes(ecmd->argv[i]);
+		if (processed)
+		{
+			ft_putstr_fd(processed, STDOUT_FILENO);
+			free(processed);
+		}
+		else
+			ft_putstr_fd(ecmd->argv[i], STDOUT_FILENO);
+
 		if (ecmd->argv[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;
