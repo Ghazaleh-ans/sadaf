@@ -6,13 +6,13 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 11:57:45 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:01:35 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-static int	is_builtin_no_fork(const char *cmd)
+static int	is_builtin_no_fork(char *cmd)
 {
 	return (ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "exit") == 0
