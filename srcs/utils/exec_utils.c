@@ -6,18 +6,18 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 12:01:35 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/16 12:06:27 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-static int	is_builtin_no_fork(char *cmd)
+static int	is_builtin_no_fork(const char *cmd)
 {
-	return (ft_strcmp(cmd, "cd") == 0
-		|| ft_strcmp(cmd, "exit") == 0
-		|| ft_strcmp(cmd, "export") == 0
-		|| ft_strcmp(cmd, "unset") == 0);
+	return (ft_strcmp((char *)cmd, "cd") == 0
+		|| ft_strcmp((char *)cmd, "exit") == 0
+		|| ft_strcmp((char *)cmd, "export") == 0
+		|| ft_strcmp((char *)cmd, "unset") == 0);
 }
 
 static int	should_fork(t_cmd *cmd)
