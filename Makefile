@@ -53,6 +53,17 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/env
 
+# Check memory leaks
+valgrind: $(EXEC)
+	@echo "$(CYAN)🔍  Running Valgrind...$(RESET)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline_suppress.supp ./$(EXEC)
+	@echo "$(GREEN)✅  Valgrind run complete!$(RESET)"
+
+valchild: $(EXEC)
+	@echo "$(CYAN)🔍  Running Valgrind with child tracing...$(RESET)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline_suppress.supp ./$(EXEC)
+	@echo "$(GREEN)✅  Valgrind with child tracing complete!$(RESET)"
+
 # Clean up object files
 clean:
 	@echo "$(RED)🧹  Cleaning object files...$(RESET)"
@@ -72,4 +83,4 @@ re: fclean all
 	@echo "$(CYAN)🔄  Rebuilding everything...$(RESET)"
 
 # Phony targets
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re valgrind valchild

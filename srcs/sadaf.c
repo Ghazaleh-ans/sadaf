@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:28:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 11:51:51 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:31:11 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ int	main(int argc, char **argv, char **envp)
 	setup_signals(0);
 	shell_loop(shell);
 	free_shell(shell);
+	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
