@@ -56,10 +56,12 @@ $(OBJ_DIR):
 # Memory leak check
 valgrind: $(EXEC)
 	@echo "$(CYAN)🔍  Running memory leak check...$(RESET)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./minishell
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./$(EXEC)
+
+# Memory leak check with child processes
 valchild:
 	@echo "$(CYAN)🔍  Running memory leak check for processes...$(RESET)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline.supp ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline.supp ./$(EXEC)
 
 # Clean up object files
 clean:
