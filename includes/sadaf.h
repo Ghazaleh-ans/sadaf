@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/18 21:44:27 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/17 14:37:58 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ int		process_command(char *buf, t_shell *shell);
 // cleaner functions
 void	free_cmd(t_cmd *cmd);
 void	free_env_list(t_env *env_list);
-void	free_exec_cmd(t_execcmd *ecmd);
 void	free_shell(t_shell *shell);
 void	ft_exit(char *msg);
 /* Parsing */
