@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:53:29 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/15 16:04:46 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/18 21:43:23 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,10 @@ void	free_back_cmd(t_backcmd *bcmd)
 void	free_cmd(t_cmd *cmd)
 {
 	if (!cmd)
-		return ;
-	if (cmd->type == REDIR)
+		return;
+	if (cmd->type == EXEC)
+		free_exec_cmd((t_execcmd *)cmd);
+	else if (cmd->type == REDIR)
 		free_redir_cmd((t_redircmd *)cmd);
 	else if (cmd->type == PIPE)
 		free_pipe_cmd((t_pipecmd *)cmd);

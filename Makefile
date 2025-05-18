@@ -53,6 +53,14 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/utils
 	@mkdir -p $(OBJ_DIR)/env
 
+# Memory leak check
+valgrind: $(EXEC)
+	@echo "$(CYAN)🔍  Running memory leak check...$(RESET)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline.supp ./minishell
+valchild:
+	@echo "$(CYAN)🔍  Running memory leak check for processes...$(RESET)"
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline.supp ./$(NAME)
+
 # Clean up object files
 clean:
 	@echo "$(RED)🧹  Cleaning object files...$(RESET)"
