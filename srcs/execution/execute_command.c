@@ -60,40 +60,36 @@ static void	command_not_found(char *cmd)
 	exit(127);
 }
 
-static char **prepare_unquoted_args(char **argv, char *path)
+static char	**prepare_unquoted_args(char **argv, char *path)
 {
-    char **unquoted_argv;
-    int i = 0;
-    
-    // Count arguments
-    while (argv[i])
-        i++;
-    
-    // Create unquoted argv array
-    unquoted_argv = malloc(sizeof(char *) * (i + 1));
-    if (!unquoted_argv)
-    {
-        free(path);
-        ft_perror("malloc");
-        exit(1);
-    }
-    
-    // Fill with unquoted arguments
-    i = 0;
-    while (argv[i])
-    {
-        unquoted_argv[i] = remove_quotes(argv[i]);
-        if (!unquoted_argv[i])
-        {
-            cleanup_tokens(unquoted_argv);
-            free(path);
-            ft_perror("remove_quotes");
-            exit(1);
-        }
-        i++;
-    }
-    unquoted_argv[i] = NULL;
-    return unquoted_argv;
+	char	**unquoted_argv;
+	int		i;
+
+	i = 0;
+	while (argv[i])
+		i++;
+	unquoted_argv = malloc(sizeof(char *) * (i + 1));
+	if (!unquoted_argv)
+	{
+		free(path);
+		ft_perror("malloc");
+		exit(1);
+	}
+	i = 0;
+	while (argv[i])
+	{
+		unquoted_argv[i] = remove_quotes(argv[i]);
+		if (!unquoted_argv[i])
+		{
+			cleanup_tokens(unquoted_argv);
+			free(path);
+			ft_perror("remove_quotes");
+			exit(1);
+		}
+		i++;
+	}
+	unquoted_argv[i] = NULL;
+	return (unquoted_argv);
 }
 
 /**
@@ -116,31 +112,30 @@ static char **prepare_unquoted_args(char **argv, char *path)
  * Note: This function does not return on success - it either replaces
  * the process or exits with error status on failure.
  */
-static void exec_external_command(char *path, char **argv, t_shell *shell)
+static void	exec_external_command(char *path, char **argv, t_shell *shell)
 {
-    char **env_array;
-    char **unquoted_argv;
-    
-    unquoted_argv = prepare_unquoted_args(argv, path);
-    
-    env_array = env_to_array(shell->env_list);
-    if (!env_array)
-    {
-        free(path);
-        cleanup_tokens(unquoted_argv);
-        ft_perror("env_to_array");
-        exit(1);
-    }
-    
-    if (execve(path, unquoted_argv, env_array) < 0)
-    {
-        free(path);
-        cleanup_tokens(unquoted_argv);
-        cleanup_tokens(env_array);
-        ft_perror("execve");
-        exit(1);
-    }
+	char	**env_array;
+	char	**unquoted_argv;
+
+	unquoted_argv = prepare_unquoted_args(argv, path);
+	env_array = env_to_array(shell->env_list);
+	if (!env_array)
+	{
+		free(path);
+		cleanup_tokens(unquoted_argv);
+		ft_perror("env_to_array");
+		exit(1);
+	}
+	if (execve(path, unquoted_argv, env_array) < 0)
+	{
+		free(path);
+		cleanup_tokens(unquoted_argv);
+		cleanup_tokens(env_array);
+		ft_perror("execve");
+		exit(1);
+	}
 }
+
 /**
  * execute_command - Main function for executing a command
  *
@@ -165,10 +160,10 @@ static void exec_external_command(char *path, char **argv, t_shell *shell)
  * - Calls command_not_found() which exits
  * - Calls exec_external_command() which replaces the process or exits
  */
-
 void	execute_command(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*path;
+	char	*cmd_no_quotes;
 
 	if (!ecmd || !shell)
 	{
@@ -178,11 +173,21 @@ void	execute_command(t_execcmd *ecmd, t_shell *shell)
 	if (!ecmd->argv[0])
 		exit(0);
 	expand_variables(ecmd, shell);
-	if (is_builtin(remove_quotes(ecmd->argv[0])))
+	cmd_no_quotes = remove_quotes(ecmd->argv[0]);
+	if (!cmd_no_quotes)
+	{
+		ft_error("remove_quotes failed");
+		exit(1);
+	}
+	if (is_builtin(cmd_no_quotes))
+	{
+		free(cmd_no_quotes);
 		handle_builtin(ecmd, shell);
-	path = find_command_path(remove_quotes(ecmd->argv[0]), shell);
+	}
+	path = find_command_path(cmd_no_quotes, shell);
+	free(cmd_no_quotes);
 	if (!path)
-		command_not_found(remove_quotes(ecmd->argv[0]));
+		command_not_found(ecmd->argv[0]);
 	exec_external_command(path, ecmd->argv, shell);
 	ft_error("execute_command: unreachable code");
 	exit(1);

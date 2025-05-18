@@ -58,8 +58,9 @@ static int	is_valid_n_flag(char *str)
  */
 int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 {
-	int	i;
-	int	n_flag;
+	int		i;
+	int		n_flag;
+	char	*unquoted;
 
 	(void)shell;
 	n_flag = 0;
@@ -71,7 +72,9 @@ int	builtin_echo(t_execcmd *ecmd, t_shell *shell)
 	}
 	while (ecmd->argv[i])
 	{
-		ft_putstr_fd(remove_quotes(ecmd->argv[i]), STDOUT_FILENO);
+		unquoted = remove_quotes(ecmd->argv[i]);
+		ft_putstr_fd(unquoted, STDOUT_FILENO);
+		free(unquoted);
 		if (ecmd->argv[i + 1])
 			ft_putstr_fd(" ", STDOUT_FILENO);
 		i++;

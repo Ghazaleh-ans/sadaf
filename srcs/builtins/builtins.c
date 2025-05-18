@@ -28,23 +28,27 @@ int	is_builtin(char *cmd)
 int	exec_builtin(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*cmd;
+	int		ret;
 
 	cmd = remove_quotes(ecmd->argv[0]);
 	if (!cmd)
 		return (1);
 	if (ft_strcmp(cmd, "echo") == 0)
-		return (builtin_echo(ecmd, shell));
-	if (ft_strcmp(cmd, "cd") == 0)
-		return (builtin_cd(ecmd, shell));
-	if (ft_strcmp(cmd, "pwd") == 0)
-		return (builtin_pwd(ecmd, shell));
-	if (ft_strcmp(cmd, "export") == 0)
-		return (builtin_export(ecmd, shell));
-	if (ft_strcmp(cmd, "unset") == 0)
-		return (builtin_unset(ecmd, shell));
-	if (ft_strcmp(cmd, "env") == 0)
-		return (builtin_env(ecmd, shell));
-	if (ft_strcmp(cmd, "exit") == 0)
-		return (builtin_exit(ecmd, shell));
-	return (1);
+		ret = builtin_echo(ecmd, shell);
+	else if (ft_strcmp(cmd, "cd") == 0)
+		ret = builtin_cd(ecmd, shell);
+	else if (ft_strcmp(cmd, "pwd") == 0)
+		ret = builtin_pwd(ecmd, shell);
+	else if (ft_strcmp(cmd, "export") == 0)
+		ret = builtin_export(ecmd, shell);
+	else if (ft_strcmp(cmd, "unset") == 0)
+		ret = builtin_unset(ecmd, shell);
+	else if (ft_strcmp(cmd, "env") == 0)
+		ret = builtin_env(ecmd, shell);
+	else if (ft_strcmp(cmd, "exit") == 0)
+		ret = builtin_exit(ecmd, shell);
+	else
+		ret = 1;
+	free(cmd);
+	return (ret);
 }
