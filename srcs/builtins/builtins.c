@@ -29,7 +29,7 @@ int	exec_builtin(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*cmd;
 
-	cmd = ecmd->argv[0];
+	cmd = remove_quotes(ecmd->argv[0]);
 	if (!cmd)
 		return (1);
 	if (ft_strcmp(cmd, "echo") == 0)

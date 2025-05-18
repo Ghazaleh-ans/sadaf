@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/13 16:41:49 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:35:31 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*getcmd(void)
 
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 	{
-		es = strrchr(cwd, '/');
+		es = ft_strrchr(cwd, '/');
 		if (es)
-			snprintf(prompt, sizeof(prompt), "-> %s $ ", es + 1);
+			ft_snprintf(prompt, sizeof(prompt), "-> %s $ ", es + 1);
 		else
-			snprintf(prompt, sizeof(prompt), "-> ? $ ");
+			ft_snprintf(prompt, sizeof(prompt), "-> ? $ ");
 	}
 	else
-		snprintf(prompt, sizeof(prompt), "-> ? $ ");
+		ft_snprintf(prompt, sizeof(prompt), "-> ? $ ");
 	cmd = readline(prompt);
 	if (cmd && *cmd)
 		add_history(cmd);

@@ -6,13 +6,13 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:11:20 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/15 18:00:19 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:09:40 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-char *handle_exit_status(char *expanded, t_shell *shell)
+char	*handle_exit_status(char *expanded, t_shell *shell)
 {
 	char	exit_str[12];
 	char	*tmp;
@@ -39,7 +39,10 @@ char	*expand_var(char *expanded, char *arg, int *j, t_shell *shell)
 		var = ft_substr(arg, start, *j - start + 1);
 		value = ft_getenv(var, shell);
 		tmp = expanded;
-		expanded = ft_strjoin(expanded, value ? value : "");
+		if (value)
+			expanded = ft_strjoin(expanded, value);
+		else
+			expanded = ft_strjoin(expanded, "");
 		free(tmp);
 		free(var);
 	}
@@ -65,8 +68,6 @@ char	*process_arg(char *arg, t_shell *shell)
 	char	*expanded;
 
 	expanded = ft_strdup("");
-	if (!expanded)
-		return (NULL);
 	j = 0;
 	while (arg[j])
 	{
@@ -78,10 +79,7 @@ char	*process_arg(char *arg, t_shell *shell)
 				j += 2;
 				continue ;
 			}
-			else if (arg[j + 1] && (ft_isalnum(arg[j + 1]) || arg[j + 1] == '_'))
-				expanded = expand_var(expanded, arg, &j, shell);
-			else
-				expanded = append_char(expanded, arg[j]);
+			expanded = expand_var(expanded, arg, &j, shell);
 		}
 		else
 			expanded = append_char(expanded, arg[j]);
@@ -103,8 +101,7 @@ void	expand_variables(t_execcmd *ecmd, t_shell *shell)
 		if (dollar)
 		{
 			expanded = process_arg(ecmd->argv[i], shell);
-			if (expanded)
-				ecmd->argv[i] = expanded;
+			ecmd->argv[i] = expanded;
 		}
 		i++;
 	}

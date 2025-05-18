@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:48:08 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/15 16:59:18 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/17 14:29:29 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@
  *   - Type: What kind of part it found (pipe, word, etc.)
  *   - Location: Where this part starts and ends in the command
  */
+
+int	is_quote(char c) {
+	return (c == '\'' || c == '\"');
+}
+
+static char *parse_quoted_word(char *s, char quote_char) {
+	s++;
+	while (*s && *s != quote_char) {
+		if (*s == '\\' && quote_char == '\"' && *(s + 1))
+			s += 2;
+		else
+			s++;
+	}
+	if (*s == quote_char)
+		s++;
+	return s;
+}
 
 int	is_pipe_token(t_token *tok, char **s)
 {
@@ -71,10 +88,9 @@ void	assign_token(t_token *tok, char **s)
 
 t_token	gettoken(t_parserState *ps)
 {
-	char	*s;
+	char	*s = ps->s;
 	t_token	tok;
 
-	s = ps->s;
 	while (s < ps->end && isspace(*s))
 		s++;
 	tok.start = s;
@@ -83,17 +99,24 @@ t_token	gettoken(t_parserState *ps)
 		tok.type = TOK_EOF;
 		tok.end = s;
 		ps->s = s;
-		return (tok);
+		return tok;
 	}
 	assign_token(&tok, &s);
 	if (tok.type == TOK_WORD)
 	{
 		while (s < ps->end && !isspace(*s) && !strchr(SYMBOLS, *s))
-			s++;
+		{
+			if (is_quote(*s)) {
+				char quote_char = *s;
+				s = parse_quoted_word(s, quote_char);
+			} else {
+				s++;
+			}
+		}
 	}
 	tok.end = s;
 	ps->s = s;
-	return (tok);
+	return tok;
 }
 
 // NUL-terminate all the counted strings.

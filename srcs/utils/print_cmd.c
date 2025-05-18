@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:27:02 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/15 16:57:03 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/17 13:50:06 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,22 @@ void	print_back(t_backcmd *bcmd)
 	print_cmd(bcmd->cmd);
 }
 
-	//t_execcmd	*ecmd;
-	//int			i;
-	//if (cmd->type == EXEC)
-	//{
-	//	ecmd = (t_execcmd *)cmd;
-	//	printf("EXEC command:\n");
-	//	i = 0;
-	//	while (ecmd->argv[i])
-	//		printf("  argv[%d]: %s\n", i, ecmd->argv[i++]);
-	//}
-
 void	print_cmd(t_cmd *cmd)
 {
 	if (!cmd)
 		return ((void)printf("NULL command\n"));
+
+	if (cmd->type == EXEC)
+	{
+		t_execcmd	*ecmd = (t_execcmd *)cmd;
+		printf("EXEC command:\n");
+		int i = 0;
+		while (ecmd->argv[i])
+		{
+			printf("  argv[%d]: %s\n", i, ecmd->argv[i]);
+			i++;
+		}
+	}
 	else if (cmd->type == REDIR)
 		print_redir((t_redircmd *)cmd, "REDIR");
 	else if (cmd->type == PIPE)
