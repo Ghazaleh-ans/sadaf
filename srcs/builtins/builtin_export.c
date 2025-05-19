@@ -94,6 +94,13 @@ static void	process_arg(t_execcmd *ecmd, t_shell *shell, int i, int *ret)
 	parse_export_arg(ecmd->argv[i], &name, &value);
 	if (!name || !value)
 		*ret = 1;
+	else if (!is_valid_identifier(name))
+	{
+		ft_putstr_fd("sadaf: export: `", STDERR_FILENO);
+		ft_putstr_fd(ecmd->argv[i], STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		*ret = 1;
+	}
 	else if (update_or_add_env(shell, name, value) < 0)
 		*ret = 1;
 	free(name);
