@@ -248,5 +248,6 @@ void	execution(char *buf, t_shell *shell);
 void	prepare_for_command(void);
 int		should_skip_empty_command(char *buf);
 int		handle_special_command(char *buf);
+int		is_valid_identifier(char *name);
 
 #endif
