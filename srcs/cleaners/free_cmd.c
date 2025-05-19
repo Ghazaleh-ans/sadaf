@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:53:29 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/15 16:04:46 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:08:45 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	free_redir_cmd(t_redircmd *rcmd)
 {
 	if (!rcmd)
 		return ;
+		if (rcmd->file == NULL && rcmd->fd > 2)
+			close(rcmd->fd);
 	free_cmd(rcmd->cmd);
 	free(rcmd);
 }
