@@ -163,7 +163,7 @@ void	execute_command(t_execcmd *ecmd, t_shell *shell)
 	{
 		free(cmd_no_quotes);
 		handle_builtin(ecmd, shell);
-		return;
+		return ;
 	}
 	path = find_command_path(cmd_no_quotes, shell);
 	free(cmd_no_quotes);

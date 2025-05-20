@@ -17,7 +17,7 @@ char	*handle_exit_status(char *expanded, t_shell *shell)
 	char	exit_str[12];
 	char	*tmp;
 
-	snprintf(exit_str, sizeof(exit_str), "%d", shell->exit_status);
+	ft_snprintf(exit_str, sizeof(exit_str), "%d", shell->exit_status);
 	tmp = expanded;
 	expanded = ft_strjoin(expanded, exit_str);
 	free(tmp);
@@ -97,7 +97,7 @@ void	expand_variables(t_execcmd *ecmd, t_shell *shell)
 	i = 0;
 	while (ecmd->argv[i])
 	{
-		dollar = strchr(ecmd->argv[i], '$');
+		dollar = ft_strchr(ecmd->argv[i], '$');
 		if (dollar)
 		{
 			expanded = process_arg(ecmd->argv[i], shell);

@@ -12,24 +12,33 @@ LIBFT_DIR = ./includes/libft
 LIBFT    = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes -I$(LIBFT_DIR)
 SRC_DIR  = ./srcs
-SRC      = $(wildcard $(SRC_DIR)/*.c) \
-           $(wildcard $(SRC_DIR)/builtins/*.c) \
-           $(wildcard $(SRC_DIR)/cleaners/*.c) \
-           $(wildcard $(SRC_DIR)/execution/*.c) \
-           $(wildcard $(SRC_DIR)/parsing/*.c) \
-           $(wildcard $(SRC_DIR)/utils/*.c) \
-           $(wildcard $(SRC_DIR)/env/*.c)
+SRC      = $(SRC_DIR)/sadaf.c\
+		$(SRC_DIR)/builtins/builtin_cd.c $(SRC_DIR)/builtins/builtin_echo.c $(SRC_DIR)/builtins/builtin_env.c\
+		$(SRC_DIR)/builtins/builtin_exit.c $(SRC_DIR)/builtins/builtin_export.c $(SRC_DIR)/builtins/builtin_export_utils.c\
+		$(SRC_DIR)/builtins/builtin_pwd.c $(SRC_DIR)/builtins/builtin_unset.c $(SRC_DIR)/builtins/builtins.c\
+		$(SRC_DIR)/cleaners/free_cmd.c $(SRC_DIR)/cleaners/free_envp.c\
+		$(SRC_DIR)/env/parse_envp.c\
+		$(SRC_DIR)/execution/collect_heredoc.c $(SRC_DIR)/execution/collect_heredoc_utils.c $(SRC_DIR)/execution/execute_command.c $(SRC_DIR)/execution/handle_background.c\
+		$(SRC_DIR)/execution/handle_list.c $(SRC_DIR)/execution/handle_pipe.c $(SRC_DIR)/execution/handle_pipe_leftcmd.c\
+		$(SRC_DIR)/execution/handle_pipe_rightcmd.c $(SRC_DIR)/execution/handle_pipe_utils.c $(SRC_DIR)/execution/handle_redirections.c\
+		$(SRC_DIR)/execution/heredoc.c $(SRC_DIR)/execution/path.c $(SRC_DIR)/execution/runcmd.c $(SRC_DIR)/execution/signals.c\
+		$(SRC_DIR)/parsing/constructor.c $(SRC_DIR)/parsing/nullterminate.c $(SRC_DIR)/parsing/parse_cmd.c $(SRC_DIR)/parsing/parse_utils.c\
+		$(SRC_DIR)/parsing/parseredir.c $(SRC_DIR)/parsing/parseblock.c $(SRC_DIR)/parsing/setting_prompt.c\
+		$(SRC_DIR)/parsing/parseexec.c $(SRC_DIR)/parsing/token_utils1.c $(SRC_DIR)/parsing/token_utils2.c\
+		$(SRC_DIR)/utils/env_to_array.c $(SRC_DIR)/utils/execute_command_utils.c $(SRC_DIR)/utils/export_utils.c\
+		$(SRC_DIR)/utils/sadaf_utils.c $(SRC_DIR)/utils/env_utils.c	$(SRC_DIR)/utils/exec_utils.c $(SRC_DIR)/utils/ft_getenv.c\
+		$(SRC_DIR)/utils/utils.c $(SRC_DIR)/utils/error_exit.c $(SRC_DIR)/utils/expand_var.c $(SRC_DIR)/utils/print_cmd.c $(SRC_DIR)/utils/utils2.c
 OBJ_DIR  = ./obj
 OBJ      = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
-EXEC     = sadaf
+NAME     = minishell
 
 # Default rule
-all: $(LIBFT) $(EXEC)
+all: $(LIBFT) $(NAME)
 
 # Compile the program
-$(EXEC): $(OBJ)
-	@echo "$(CYAN)🔨  Compiling $(EXEC)...$(RESET)"
-	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(EXEC) -lreadline
+$(NAME): $(OBJ)
+	@echo "$(CYAN)🔨  Compiling $(NAME)...$(RESET)"
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME) -lreadline
 	@echo "$(GREEN)✅  Compilation successful!$(RESET)"
 
 # Compile object files
@@ -54,14 +63,14 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)/env
 
 # Check memory leaks
-valgrind: $(EXEC)
+valgrind: $(NAME)
 	@echo "$(CYAN)🔍  Running Valgrind...$(RESET)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline_suppress.supp ./$(EXEC)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=readline_suppress.supp ./$(NAME)
 	@echo "$(GREEN)✅  Valgrind run complete!$(RESET)"
 
-valchild: $(EXEC)
+valchild: $(NAME)
 	@echo "$(CYAN)🔍  Running Valgrind with child tracing...$(RESET)"
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline_suppress.supp ./$(EXEC)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --suppressions=readline_suppress.supp ./$(NAME)
 	@echo "$(GREEN)✅  Valgrind with child tracing complete!$(RESET)"
 
 # Clean up object files
@@ -74,7 +83,7 @@ clean:
 # Clean up all generated files
 fclean: clean
 	@echo "$(RED)🗑️   Deleting executable and libft library...$(RESET)"
-	@rm -f $(EXEC)
+	@rm -f $(NAME)
 	@$(MAKE) -s -C $(LIBFT_DIR) fclean
 	@echo "$(GREEN)✅  Executable and library deleted!$(RESET)"
 

@@ -130,7 +130,7 @@ char	*build_path(char *dir, char *cmd)
 
 	if (!dir || !cmd)
 		return (NULL);
-	if (dir[strlen(dir) - 1] == '/')
+	if (dir[ft_strlen(dir) - 1] == '/')
 		path = ft_strjoin(dir, cmd);
 	else
 	{

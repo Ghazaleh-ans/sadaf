@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_snprintf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:20:40 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 11:20:58 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:29:43 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,40 +89,3 @@ int	ft_snprintf(char *str, size_t size, const char *format, ...)
 	ft_null_terminate(&data);
 	return (data.written);
 }
-/*
-#include <stdio.h>
-#include <string.h>
-
-int main(void)
-{
-    char buffer1[50];
-    char buffer2[50];
-    int result1, result2;
-
-    // Test basic string formatting
-    result1 = ft_snprintf(buffer1, sizeof(buffer1), "Hello, %s!", "world");
-    result2 = snprintf(buffer2, sizeof(buffer2), "Hello, %s!", "world");
-    printf("ft_snprintf: [%s] (return: %d)\n", buffer1, result1);
-    printf("snprintf:    [%s] (return: %d)\n", buffer2, result2);
-
-    // Test with numbers
-    result1 = ft_snprintf(buffer1, sizeof(buffer1), "Value: %d, Hex: %x", 42, 42);
-    result2 = snprintf(buffer2, sizeof(buffer2), "Value: %d, Hex: %x", 42, 42);
-    printf("ft_snprintf: [%s] (return: %d)\n", buffer1, result1);
-    printf("snprintf:    [%s] (return: %d)\n", buffer2, result2);
-
-    // Test truncation (buffer too small)
-    result1 = ft_snprintf(buffer1, 10, "This string is too long to fit");
-    result2 = snprintf(buffer2, 10, "This string is too long to fit");
-    printf("ft_snprintf: [%s] (return: %d)\n", buffer1, result1);
-    printf("snprintf:    [%s] (return: %d)\n", buffer2, result2);
-
-    // Test with size of 0 (should just return the length that would have been written)
-    result1 = ft_snprintf(NULL, 0, "Test string %d", 123);
-    result2 = snprintf(NULL, 0, "Test string %d", 123);
-    printf("ft_snprintf with size 0: (return: %d)\n", result1);
-    printf("snprintf with size 0:    (return: %d)\n", result2);
-
-    return 0;
-}
-*/
