@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:22:03 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/17 16:51:45 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:26:55 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,22 @@ static void	command_not_found(char *cmd)
 	exit(127);
 }
 
-static char **prepare_unquoted_args(char **argv, char *path)
+static char	**prepare_unquoted_args(char **argv, char *path)
 {
-    char **unquoted_argv;
-    int i;
+	char	**unquoted_argv;
+	int		i;
 
-    unquoted_argv = allocate_unquoted_array(argv, path);
-    i = 0;
-    while (argv[i])
-    {
-        unquoted_argv[i] = remove_quotes(argv[i]);
-        if (!unquoted_argv[i])
-            handle_unquote_error(unquoted_argv, path);
-        i++;
-    }
-    unquoted_argv[i] = NULL;
-    return (unquoted_argv);
+	unquoted_argv = allocate_unquoted_array(argv, path);
+	i = 0;
+	while (argv[i])
+	{
+		unquoted_argv[i] = remove_quotes(argv[i]);
+		if (!unquoted_argv[i])
+			handle_unquote_error(unquoted_argv, path);
+		i++;
+	}
+	unquoted_argv[i] = NULL;
+	return (unquoted_argv);
 }
 
 /**
@@ -146,30 +146,30 @@ static void	exec_external_command(char *path, char **argv, t_shell *shell)
  * - Calls command_not_found() which exits
  * - Calls exec_external_command() which replaces the process or exits
  */
-void execute_command(t_execcmd *ecmd, t_shell *shell)
+void	execute_command(t_execcmd *ecmd, t_shell *shell)
 {
-    char *path;
-    char *cmd_no_quotes;
-    
-    check_cmd_args(ecmd, shell);
-    expand_variables(ecmd, shell);
-    cmd_no_quotes = remove_quotes(ecmd->argv[0]);
-    if (!cmd_no_quotes)
-    {
-        ft_error("remove_quotes failed");
-        exit(1);
-    }
-    if (is_builtin(cmd_no_quotes))
-    {
-        free(cmd_no_quotes);
-        handle_builtin(ecmd, shell);
-        return;
-    }
-    path = find_command_path(cmd_no_quotes, shell);
-    free(cmd_no_quotes);
-    if (!path)
-        command_not_found(ecmd->argv[0]);
-    exec_external_command(path, ecmd->argv, shell);
-    ft_error("execute_command: unreachable code");
-    exit(1);
+	char	*path;
+	char	*cmd_no_quotes;
+
+	check_cmd_args(ecmd, shell);
+	expand_variables(ecmd, shell);
+	cmd_no_quotes = remove_quotes(ecmd->argv[0]);
+	if (!cmd_no_quotes)
+	{
+		ft_error("remove_quotes failed");
+		exit(1);
+	}
+	if (is_builtin(cmd_no_quotes))
+	{
+		free(cmd_no_quotes);
+		handle_builtin(ecmd, shell);
+		return;
+	}
+	path = find_command_path(cmd_no_quotes, shell);
+	free(cmd_no_quotes);
+	if (!path)
+		command_not_found(ecmd->argv[0]);
+	exec_external_command(path, ecmd->argv, shell);
+	ft_error("execute_command: unreachable code");
+	exit(1);
 }
