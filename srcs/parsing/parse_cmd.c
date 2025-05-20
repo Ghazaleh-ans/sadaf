@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:17:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/17 13:47:24 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/20 16:44:13 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,5 @@ t_cmd	*parsecmd(char *buf)
 		ft_exit("syntax error: unexpected token\n");
 	}
 	nulterminate(cmd);
-	print_cmd(cmd);
 	return (cmd);
 }

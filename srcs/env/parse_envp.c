@@ -46,7 +46,7 @@ t_env	*parse_and_create_env_node(const char *env_str)
 	char		*name;
 	char		*value;
 
-	equal_sign = strchr(env_str, '=');
+	equal_sign = ft_strchr(env_str, '=');
 	if (!equal_sign || equal_sign == env_str)
 		return (NULL);
 	name = ft_substr(env_str, 0, equal_sign - env_str);

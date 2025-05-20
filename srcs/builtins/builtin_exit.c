@@ -66,7 +66,7 @@ static int	handle_exit_args(t_execcmd *ecmd)
 	exit_code = validate_exit_arg(ecmd->argv[1]);
 	if (exit_code != -1)
 		return (exit_code);
-	exit_code = atoi(ecmd->argv[1]);
+	exit_code = ft_atoi(ecmd->argv[1]);
 	if (ecmd->argv[2])
 	{
 		ft_putstr_fd("sadaf: exit: too many arguments\n", STDERR_FILENO);

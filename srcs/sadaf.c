@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:28:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/18 22:31:11 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/20 16:43:48 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/sadaf.h"
+
+static bool	should_skip_command(char *buf)
+{
+	return (if_only_token(buf)
+		|| should_skip_empty_command(buf)
+		|| handle_special_command(buf)
+		|| if_contains_lparen(buf));
+}
 
 void	shell_loop(t_shell *shell)
 {
@@ -22,12 +30,7 @@ void	shell_loop(t_shell *shell)
 		buf = getcmd();
 		if (!buf)
 			break ;
-		if (should_skip_empty_command(buf))
-		{
-			free(buf);
-			continue ;
-		}
-		if (handle_special_command(buf))
+		if (should_skip_command(buf))
 		{
 			free(buf);
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 12:53:29 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/19 15:10:40 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:22:32 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
  * Frees the command structure and its components recursively.
  * Handles different command types (EXEC, REDIR, PIPE, LIST, BACK).
  **/
-
 void	free_redir_cmd(t_redircmd *rcmd)
 {
 	if (!rcmd)

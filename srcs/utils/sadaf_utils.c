@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:38:55 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/16 11:51:20 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:30:31 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	should_skip_empty_command(char *buf)
 	return (0);
 }
 
-int handle_special_command(char *buf)
+int	handle_special_command(char *buf)
 {
 	return (handle_cd(buf));
 }

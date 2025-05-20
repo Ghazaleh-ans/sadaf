@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:22:03 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/17 16:51:45 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:26:55 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,13 @@ static char	**prepare_unquoted_args(char **argv, char *path)
 	char	**unquoted_argv;
 	int		i;
 
-	i = 0;
-	while (argv[i])
-		i++;
-	unquoted_argv = malloc(sizeof(char *) * (i + 1));
-	if (!unquoted_argv)
-	{
-		free(path);
-		ft_perror("malloc");
-		exit(1);
-	}
+	unquoted_argv = allocate_unquoted_array(argv, path);
 	i = 0;
 	while (argv[i])
 	{
 		unquoted_argv[i] = remove_quotes(argv[i]);
 		if (!unquoted_argv[i])
-		{
-			cleanup_tokens(unquoted_argv);
-			free(path);
-			ft_perror("remove_quotes");
-			exit(1);
-		}
+			handle_unquote_error(unquoted_argv, path);
 		i++;
 	}
 	unquoted_argv[i] = NULL;
@@ -165,13 +151,7 @@ void	execute_command(t_execcmd *ecmd, t_shell *shell)
 	char	*path;
 	char	*cmd_no_quotes;
 
-	if (!ecmd || !shell)
-	{
-		ft_error("execute_command: NULL pointer");
-		exit(1);
-	}
-	if (!ecmd->argv[0])
-		exit(0);
+	check_cmd_args(ecmd, shell);
 	expand_variables(ecmd, shell);
 	cmd_no_quotes = remove_quotes(ecmd->argv[0]);
 	if (!cmd_no_quotes)
@@ -183,6 +163,7 @@ void	execute_command(t_execcmd *ecmd, t_shell *shell)
 	{
 		free(cmd_no_quotes);
 		handle_builtin(ecmd, shell);
+		return ;
 	}
 	path = find_command_path(cmd_no_quotes, shell);
 	free(cmd_no_quotes);
