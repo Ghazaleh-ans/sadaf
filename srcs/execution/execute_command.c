@@ -31,7 +31,6 @@
  *
  * Note: This function does not return - it always exits the process.
  */
-
 static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 {
 	int	exit_code;
