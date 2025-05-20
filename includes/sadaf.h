@@ -249,5 +249,8 @@ void	prepare_for_command(void);
 int		should_skip_empty_command(char *buf);
 int		handle_special_command(char *buf);
 int		is_valid_identifier(char *name);
+char	**allocate_unquoted_array(char **argv, char *path);
+void	handle_unquote_error(char **unquoted_argv, char *path);
+void	check_cmd_args(t_execcmd *ecmd, t_shell *shell);
 
 #endif
