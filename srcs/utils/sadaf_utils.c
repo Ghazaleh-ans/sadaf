@@ -44,7 +44,7 @@ static int	handle_cd(char *buf)
 				path = "/";
 		}
 		if (chdir(path) < 0)
-			fprintf(stderr, "cannot cd to '%s'\n", path);
+			ft_fprintf(2, "cannot cd to '%s'\n", path);
 		return (1);
 	}
 	return (0);

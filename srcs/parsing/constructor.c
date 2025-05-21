@@ -29,7 +29,7 @@ t_cmd	*execcmd(void)
 
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
-		return (fprintf(stderr, "execcmd: ft_calloc failed"), NULL);
+		return (ft_fprintf(2, "execcmd: ft_calloc failed"), NULL);
 	cmd->type = EXEC;
 	return ((t_cmd *)cmd);
 }
@@ -57,7 +57,7 @@ t_cmd	*redircmd(t_cmd *subcmd, t_redirinfo info)
 	cmd = ft_calloc(1, sizeof(*cmd));
 	if (!cmd)
 	{
-		fprintf(stderr, "redircmd: ft_calloc failed");
+		ft_fprintf(2, "redircmd: ft_calloc failed");
 		return (free_cmd(subcmd), NULL);
 	}
 	if (info.heredoc)
@@ -91,7 +91,7 @@ t_cmd	*pipecmd(t_cmd *left, t_cmd *right)
 	{
 		free_cmd(left);
 		free_cmd(right);
-		return (fprintf(stderr, "pipecmd: ft_calloc failed"), NULL);
+		return (ft_fprintf(2, "pipecmd: ft_calloc failed"), NULL);
 	}
 	cmd->type = PIPE;
 	cmd->left = left;
@@ -119,7 +119,7 @@ t_cmd	*listcmd(t_cmd *left, t_cmd *right)
 	{
 		free_cmd(left);
 		free_cmd(right);
-		return (fprintf(stderr, "listcmd: ft_calloc failed"), NULL);
+		return (ft_fprintf(2, "listcmd: ft_calloc failed"), NULL);
 	}
 	cmd->type = LIST;
 	cmd->left = left;
@@ -145,7 +145,7 @@ t_cmd	*backcmd(t_cmd *subcmd)
 	if (!cmd)
 	{
 		free_cmd(subcmd);
-		return (fprintf(stderr, "backcmd: ft_calloc failed"), NULL);
+		return (ft_fprintf(2, "backcmd: ft_calloc failed"), NULL);
 	}
 	cmd->type = BACK;
 	cmd->cmd = subcmd;

@@ -36,8 +36,16 @@
 int	builtin_env(t_execcmd *ecmd, t_shell *shell)
 {
 	t_env	*current;
+	int		i;
 
-	(void)ecmd;
+	i = 0;
+	while (ecmd->argv[i])
+		i++;
+	if (i > 1)
+	{
+		fprintf(stderr, "env: %s: No such file or directory\n", ecmd->argv[1]);
+		return(126);
+	}
 	current = shell->env_list;
 	while (current)
 	{

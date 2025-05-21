@@ -22,12 +22,12 @@ int	if_contains_lparen(const char *str)
 	{
 		if (*str == '(')
 		{
-			fprintf(stderr, "sadaf: syntax error near unexpected token '('\n");
+			ft_fprintf(2, "sadaf: syntax error near unexpected token '('\n");
 			return (1);
 		}
 		if (*str == ')')
 		{
-			fprintf(stderr, "sadaf: syntax error near unexpected token ')'\n");
+			ft_fprintf(2, "sadaf: syntax error near unexpected token ')'\n");
 			return (1);
 		}
 		str++;

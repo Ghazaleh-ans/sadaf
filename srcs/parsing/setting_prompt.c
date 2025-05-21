@@ -37,7 +37,7 @@ void	print_prompt(void)
 		while (*es != '/')
 			es--;
 		es++;
-		fprintf(stderr, "-> %s $ ", es);
+		ft_fprintf(2, "-> %s $ ", es);
 	}
 }
 
