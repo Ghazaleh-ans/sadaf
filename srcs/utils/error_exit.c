@@ -24,6 +24,6 @@ int	fork1(void)
 
 	pid = fork();
 	if (pid < 0)
-		fprintf(stderr, "Process error\n");
+		ft_fprintf(2, "Process error\n");
 	return (pid);
 }
