@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:28:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/21 16:40:39 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/22 23:44:34 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	shell_loop(t_shell *shell)
 	while (1)
 	{
 		prepare_for_command(shell);
-		process_signal(shell);
 		buf = getcmd();
+		process_signal(shell);
 		if (!buf)
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
