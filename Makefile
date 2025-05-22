@@ -13,7 +13,7 @@ LIBFT    = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes -I$(LIBFT_DIR)
 SRC_DIR  = ./srcs
 SRC      = $(SRC_DIR)/sadaf.c\
-		$(SRC_DIR)/builtins/builtin_cd.c $(SRC_DIR)/builtins/builtin_echo.c $(SRC_DIR)/builtins/builtin_env.c\
+		$(SRC_DIR)/builtins/builtin_cd.c $(SRC_DIR)/builtins/builtin_echo.c $(SRC_DIR)/builtins/builtin_echo_utils.c $(SRC_DIR)/builtins/builtin_env.c\
 		$(SRC_DIR)/builtins/builtin_exit.c $(SRC_DIR)/builtins/builtin_export.c $(SRC_DIR)/builtins/builtin_export_utils.c\
 		$(SRC_DIR)/builtins/builtin_pwd.c $(SRC_DIR)/builtins/builtin_unset.c $(SRC_DIR)/builtins/builtins.c\
 		$(SRC_DIR)/cleaners/free_cmd.c $(SRC_DIR)/cleaners/free_envp.c\

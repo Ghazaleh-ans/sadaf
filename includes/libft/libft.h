@@ -51,6 +51,14 @@ typedef struct s_snprintf_data
 	size_t	pos;
 }	t_snprintf_data;
 
+typedef struct s_printf
+{
+	int		fd;
+	int		width;
+	int		precision;
+	int		flags;
+}	t_printf;
+
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
@@ -131,5 +139,18 @@ void	ft_putnbr_base_snprintf(unsigned int nbr, char *base,
 void	ft_putnbr_base_ptr_snprintf(unsigned long nbr, char *base,
 			t_snprintf_data *data);
 void	ft_putptr_snprintf(void *ptr, t_snprintf_data *data);
+
+int		ft_fprintf(int fd, const char *format, ...);
+int		write_char_fd(char c, int fd);
+int		write_str_fd(char *s, int fd);
+int		write_nbr_fd(int n, int fd);
+int		print_char(t_printf *data, int c);
+int		print_string(t_printf *data, char *str);
+int		print_number(t_printf *data, int num);
+int		write_ptr_fd(void *ptr, int fd);
+int		print_pointer(t_printf *data, void *ptr);
+int		print_hex(t_printf *data, unsigned int num, int uppercase);
+int		write_hex_fd(unsigned long n, int uppercase, int fd);
+int		write_hex_digit(int digit, int uppercase, int fd);
 
 #endif

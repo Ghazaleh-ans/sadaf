@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 16:45:39 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/13 18:53:38 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:59:51 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ int	fork1(void)
 
 	pid = fork();
 	if (pid < 0)
-		fprintf(stderr, "Process error\n");
+		ft_fprintf(2, "\x1b[31mProcess error\n");
 	return (pid);
 }

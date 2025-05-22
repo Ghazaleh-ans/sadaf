@@ -48,12 +48,12 @@ static void	execute_forked(t_cmd *cmd, t_shell *shell)
 	pid = protected_fork();
 	if (pid == 0)
 	{
-		setup_signals(1);
+		setup_signals(1, shell);
 		runcmd(cmd, shell);
 		free_cmd(cmd);
 		exit(EXIT_SUCCESS);
 	}
-	setup_signals(2);
+	setup_signals(2, shell);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
 		shell->exit_status = WEXITSTATUS(status);
@@ -63,8 +63,7 @@ static void	execute_forked(t_cmd *cmd, t_shell *shell)
 		if (WTERMSIG(status) == SIGQUIT)
 			write(STDERR_FILENO, "Quit (core dumped)\n", 19);
 	}
-	setup_signals(0);
-	g_signal_received = 0;
+	setup_signals(0, shell);
 }
 
 void	execution(char *buf, t_shell *shell)
