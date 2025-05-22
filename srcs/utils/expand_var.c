@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 15:11:20 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/22 17:42:32 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:15:29 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,15 @@ char	*expand_var(char *expanded, char *arg, int *j, t_shell *shell)
 	char	*tmp;
 
 	start = *j + 1;
-	// Check if there's a valid variable name after $
 	if (!arg[start] || (!ft_isalnum(arg[start]) && arg[start] != '_'))
 	{
-		// No valid variable name, just append the $ literally
 		tmp = expanded;
 		expanded = ft_strjoin(expanded, "$");
 		free(tmp);
 		return (expanded);
 	}
-	
 	while (arg[*j + 1] && (ft_isalnum(arg[*j + 1]) || arg[*j + 1] == '_'))
 		(*j)++;
-	
 	if (start <= *j)
 	{
 		var = ft_substr(arg, start, *j - start + 1);

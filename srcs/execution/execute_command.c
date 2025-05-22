@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 14:22:03 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/20 14:26:55 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:21:56 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,25 @@ static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
 }
 
 /**
+ * check_if_directory - Checks if the path is a directory
+ *
+ * Uses stat() to check if the given path exists and is a directory.
+ * This helps provide the correct error message when trying to execute
+ * a directory path.
+ *
+ * @param path  The path to check
+ * @return      1 if it's a directory, 0 otherwise
+ */
+static int	check_if_directory(char *path)
+{
+	struct stat	path_stat;
+
+	if (stat(path, &path_stat) == 0)
+		return (S_ISDIR(path_stat.st_mode));
+	return (0);
+}
+
+/**
  * command_not_found - Handles the case where a command doesn't exist
  *
  * This function displays an error message when a command can't be found in PATH
@@ -54,10 +73,29 @@ static void	handle_builtin(t_execcmd *ecmd, t_shell *shell)
  */
 static void	command_not_found(char *cmd)
 {
-	ft_putstr_fd("sadaf: command not found: ", 2);
+	ft_putstr_fd("sadaf: ", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2);
+	ft_putstr_fd(": command not found\n", 2);
 	exit(127);
+}
+
+/**
+ * handle_directory_error - Handles when trying to execute a directory
+ *
+ * This function provides the correct error message when a user tries
+ * to execute a directory (like $HOME). It prints "Is a directory" error
+ * and exits with code 126.
+ *
+ * @param cmd  The directory path that was attempted to execute
+ *
+ * Note: This function does not return - it always exits the process.
+ */
+static void	handle_directory_error(char *cmd)
+{
+	ft_putstr_fd("sadaf: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": Is a directory\n", 2);
+	exit(126);
 }
 
 static char	**prepare_unquoted_args(char **argv, char *path)
@@ -123,6 +161,69 @@ static void	exec_external_command(char *path, char **argv, t_shell *shell)
 }
 
 /**
+ * try_execute_as_command - Attempts to execute expanded variable as command
+ *
+ * When a variable expands to something like "ls -l", this function
+ * tries to parse and execute it as a shell command.
+ *
+ * @param expanded_cmd  The expanded command string
+ * @param shell         Shell structure
+ */
+static void	try_execute_as_command(char *expanded_cmd, t_shell *shell)
+{
+	char	**tokens;
+	char	*path;
+	int		i;
+
+	// Split the expanded command into tokens
+	tokens = ft_split(expanded_cmd, ' ');
+	if (!tokens || !tokens[0])
+	{
+		if (tokens)
+			cleanup_tokens(tokens);
+		command_not_found(expanded_cmd);
+		return;
+	}
+
+	// Check if first token is a builtin
+	if (is_builtin(tokens[0]))
+	{
+		t_execcmd	cmd;
+		int			status;
+
+		ft_memset(&cmd, 0, sizeof(cmd));
+		cmd.type = EXEC;
+		i = 0;
+		while (tokens[i] && i < MAXARGS - 1)
+		{
+			cmd.argv[i] = tokens[i];
+			i++;
+		}
+		cmd.argv[i] = NULL;
+		status = exec_builtin(&cmd, shell);
+		cleanup_tokens(tokens);
+		exit(status);
+	}
+
+	// Try to find the command in PATH
+	path = find_command_path(tokens[0], shell);
+	if (!path)
+	{
+		// Check if it's a directory
+		if (check_if_directory(tokens[0]))
+		{
+			cleanup_tokens(tokens);
+			handle_directory_error(tokens[0]);
+		}
+		cleanup_tokens(tokens);
+		command_not_found(tokens[0]);
+	}
+
+	// Execute the external command
+	exec_external_command(path, tokens, shell);
+}
+
+/**
  * execute_command - Main function for executing a command
  *
  * This is the primary function that handles command execution. It:
@@ -159,12 +260,30 @@ void	execute_command(t_execcmd *ecmd, t_shell *shell)
 		ft_error("remove_quotes failed");
 		exit(1);
 	}
+
+	// Check if the expanded command contains spaces (indicating it might be a command with args)
+	if (ft_strchr(cmd_no_quotes, ' '))
+	{
+		try_execute_as_command(cmd_no_quotes, shell);
+		free(cmd_no_quotes);
+		return;
+	}
+
 	if (is_builtin(cmd_no_quotes))
 	{
 		free(cmd_no_quotes);
 		handle_builtin(ecmd, shell);
 		return ;
 	}
+
+	// Check if it's a directory before trying to find path
+	if (check_if_directory(cmd_no_quotes))
+	{
+		handle_directory_error(cmd_no_quotes);
+		free(cmd_no_quotes);
+		return;
+	}
+
 	path = find_command_path(cmd_no_quotes, shell);
 	free(cmd_no_quotes);
 	if (!path)

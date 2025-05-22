@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setting_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/21 14:44:21 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/22 21:28:22 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	build_prompt(char *prompt, size_t size)
 
 	if (getcwd(cwd, sizeof(cwd)))
 	{
-		es = strrchr(cwd, '/');
+		es = ft_strrchr(cwd, '/');
 		ft_snprintf(prompt, size,
 			GREEN "Sadaf" RESET " " MAGENTA "🐚" RESET " -> "
 			CYAN "%s" RESET " " YELLOW "$" RESET " ", es + 1);
