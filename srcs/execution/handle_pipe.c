@@ -163,7 +163,7 @@ void	handle_pipe(t_pipecmd *pcmd, t_shell *shell)
 
 	if (create_pipe(fd) < 0)
 		exit(EXIT_FAILURE);
-	setup_signals(1);
+	setup_signals(1, shell);
 	pid1 = execute_left_cmd(pcmd, shell, fd);
 	if (pid1 < 0)
 	{
@@ -179,5 +179,5 @@ void	handle_pipe(t_pipecmd *pcmd, t_shell *shell)
 	safe_close(fd[0]);
 	safe_close(fd[1]);
 	wait_for_children(pid1, pid2, shell);
-	setup_signals(0);
+	setup_signals(0, shell);
 }

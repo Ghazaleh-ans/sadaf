@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/20 16:40:42 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:57:30 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@
 
 # define MAXARGS 100
 # define SYMBOLS "<|&;()<>"
+# define CHECKER "|&;)"
+# define GREEN   "\x1b[32m"
+# define MAGENTA "\x1b[35m"
+# define CYAN    "\x1b[36m"
+# define YELLOW  "\x1b[33m"
+# define RESET   "\x1b[0m"
 
 extern int	g_signal_received;
 
@@ -202,6 +208,11 @@ int		builtin_unset(t_execcmd *ecmd, t_shell *shell);
 int		builtin_env(t_execcmd *ecmd, t_shell *shell);
 int		builtin_exit(t_execcmd *ecmd, t_shell *shell);
 char	*remove_quotes(char *str);
+int		are_quotes_balanced(char *str);
+char	*get_continuation_input(char *initial_input);
+char	*combine_arguments(char **argv, int start_idx);
+int		is_quote_char(char c, int *quote_state);
+char	*process_quotes(char *input);
 
 /* Heredoc handling */
 int		handle_heredoc(char *delimiter, t_shell *shell);
@@ -219,7 +230,7 @@ char	**parse_path(t_env *env_list);
 char	*build_path(char *dir, char *cmd);
 
 /* Signals */
-void	setup_signals(int mode);
+void	setup_signals(int mode, t_shell *shell);
 void	handle_sigint(int sig);
 void	handle_sigquit(int sig);
 
@@ -251,7 +262,7 @@ t_cmd	*nulterminate(t_cmd *cmd);
 int		setup_pipe_output(int *fd);
 int		setup_pipe_input(int *fd);
 void	execution(char *buf, t_shell *shell);
-void	prepare_for_command(void);
+void	prepare_for_command(t_shell *shell);
 int		should_skip_empty_command(char *buf);
 int		handle_special_command(char *buf);
 int		if_only_token(const char *str);

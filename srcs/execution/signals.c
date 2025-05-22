@@ -83,12 +83,17 @@ void	handle_sigquit_parent(int sig)
 *
 * @param mode The current operational mode (0, 1, or 2)
 */
-void	setup_signals(int mode)
+void	setup_signals(int mode, t_shell *shell)
 {
 	if (mode == 0)
 	{
 		signal(SIGINT, handle_sigint);
 		signal(SIGQUIT, SIG_IGN);
+		if (g_signal_received)
+		{
+			shell->exit_status = 130;
+			g_signal_received = 0;
+		}
 	}
 	else if (mode == 1)
 	{

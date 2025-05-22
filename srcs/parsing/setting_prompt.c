@@ -6,7 +6,7 @@
 /*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 13:22:03 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/15 17:35:31 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/21 14:44:21 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,6 @@
  * prompt "-> ? $ " is displayed.
  */
 
-void	print_prompt(void)
-{
-	char	cwd[PATH_MAX];
-	char	*es;
-
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		es = cwd + ft_strlen(cwd);
-		while (*es != '/')
-			es--;
-		es++;
-		ft_fprintf(2, "-> %s $ ", es);
-	}
-}
-
 /**
  * getcmd - Reads a command from the user
  *
@@ -51,23 +36,30 @@ void	print_prompt(void)
  *          or NULL if an error occurs.
  */
 
-char	*getcmd(void)
+void	build_prompt(char *prompt, size_t size)
 {
 	char	cwd[PATH_MAX];
-	char	prompt[PATH_MAX];
-	char	*cmd;
 	char	*es;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
+	if (getcwd(cwd, sizeof(cwd)))
 	{
-		es = ft_strrchr(cwd, '/');
-		if (es)
-			ft_snprintf(prompt, sizeof(prompt), "-> %s $ ", es + 1);
-		else
-			ft_snprintf(prompt, sizeof(prompt), "-> ? $ ");
+		es = strrchr(cwd, '/');
+		ft_snprintf(prompt, size,
+			GREEN "Sadaf" RESET " " MAGENTA "🐚" RESET " -> "
+			CYAN "%s" RESET " " YELLOW "$" RESET " ", es + 1);
 	}
 	else
-		ft_snprintf(prompt, sizeof(prompt), "-> ? $ ");
+		ft_snprintf(prompt, size,
+			GREEN "Sadaf" RESET " " MAGENTA "-> ?" RESET " "
+			YELLOW "$" RESET " ");
+}
+
+char	*getcmd(void)
+{
+	char	prompt[PATH_MAX * 2];
+	char	*cmd;
+
+	build_prompt(prompt, sizeof(prompt));
 	cmd = readline(prompt);
 	if (cmd && *cmd)
 		add_history(cmd);

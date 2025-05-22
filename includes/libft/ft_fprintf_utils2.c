@@ -39,7 +39,12 @@ int	write_hex_digit(int digit, int uppercase, int fd)
 	if (digit < 10)
 		c = '0' + digit;
 	else
-		c = (uppercase ? 'A' : 'a') + (digit - 10);
+	{
+		if (uppercase)
+			c = 'A' + (digit - 10);
+		else
+			c = 'a' + (digit - 10);
+	}
 	ft_putchar_fd(c, fd);
 	return (1);
 }

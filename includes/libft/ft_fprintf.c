@@ -15,20 +15,20 @@
 static int	handle_conversion(t_printf *data, char specifier, va_list args)
 {
 	if (specifier == 'c')
-		return print_char(data, va_arg(args, int));
+		return (print_char(data, va_arg(args, int)));
 	else if (specifier == 's')
-		return print_string(data, va_arg(args, char *));
+		return (print_string(data, va_arg(args, char *)));
 	else if (specifier == 'd' || specifier == 'i')
-		return print_number(data, va_arg(args, int));
+		return (print_number(data, va_arg(args, int)));
 	else if (specifier == 'p')
-		return print_pointer(data, va_arg(args, void *));
+		return (print_pointer(data, va_arg(args, void *)));
 	else if (specifier == 'x')
-		return print_hex(data, va_arg(args, unsigned int), 0);
+		return (print_hex(data, va_arg(args, unsigned int), 0));
 	else if (specifier == 'X')
-		return print_hex(data, va_arg(args, unsigned int), 1);
+		return (print_hex(data, va_arg(args, unsigned int), 1));
 	else if (specifier == '%')
-		return write_char_fd('%', data->fd);
-	return 0;
+		return (write_char_fd('%', data->fd));
+	return (0);
 }
 
 int	parse_format(t_printf *data, const char *format, va_list args)
@@ -51,6 +51,7 @@ int	parse_format(t_printf *data, const char *format, va_list args)
 	}
 	return (count);
 }
+
 int	ft_fprintf(int fd, const char *format, ...)
 {
 	va_list		args;
