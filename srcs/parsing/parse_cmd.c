@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:17:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/22 13:44:29 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/23 14:23:36 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,5 @@ t_cmd	*parsecmd(char *buf)
 		ft_exit("syntax error: unexpected token\n");
 	}
 	nulterminate(cmd);
-	print_cmd(cmd);
 	return (cmd);
 }
