@@ -48,3 +48,23 @@ void	check_cmd_args(t_execcmd *ecmd, t_shell *shell)
 	if (!ecmd->argv[0])
 		exit(0);
 }
+
+void	command_not_found(char *cmd)
+{
+	if (!cmd)
+		cmd = "(null)";
+	ft_putstr_fd("\x1b[31msadaf: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	exit(127);
+}
+
+void	handle_directory_error(char *cmd)
+{
+	if (!cmd)
+		cmd = "(null)";
+	ft_putstr_fd("\x1b[31msadaf: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": Is a directory\n", 2);
+	exit(126);
+}

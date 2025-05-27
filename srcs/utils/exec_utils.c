@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/16 12:06:27 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:36:28 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static void	execute_builtin(t_cmd *cmd, t_shell *shell)
 	int			status;
 
 	ecmd = (t_execcmd *)cmd;
+	expand_variables(ecmd, shell);
 	status = exec_builtin(ecmd, shell);
 	shell->exit_status = status;
 }
