@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collect_heredoc_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 12:28:13 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/15 15:50:08 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:31:00 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

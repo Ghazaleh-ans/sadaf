@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 07:27:25 by codespace         #+#    #+#             */
-/*   Updated: 2025/05/21 16:24:13 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:01:45 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ int	if_only_token(const char *str)
 
 void	ft_error(char *msg)
 {
-	ft_putstr_fd("sadaf: ", STDERR_FILENO);
+	ft_putstr_fd("\x1b[31msadaf: ", STDERR_FILENO);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 void	ft_perror(char *msg)
 {
-	ft_putstr_fd("sadaf: ", STDERR_FILENO);
+	ft_putstr_fd("\x1b[31msadaf: ", STDERR_FILENO);
 	ft_putstr_fd(msg, STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);

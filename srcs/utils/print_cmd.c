@@ -3,35 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   print_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:27:02 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/05/23 14:22:43 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:33:22 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-// void	print_redir(t_redircmd *rcmd, const char *type_label)
-// {
-// 	printf("%s command:\n", type_label);
-// 	printf("  file: %s\n", rcmd->file);
-// 	if (type_label[0] != 'H')
-// 	{
-// 		printf("  mode: %d\n", rcmd->mode);
-// 		printf("  fd: %d\n", rcmd->fd);
-// 	}
-// 	print_cmd(rcmd->cmd);
-// }
+//void	print_redir(t_redircmd *rcmd, const char *type_label)
+//{
+//	printf("%s command:\n", type_label);
+//	printf("  file: %s\n", rcmd->file);
+//	if (type_label[0] != 'H')
+//	{
+//		printf("  mode: %d\n", rcmd->mode);
+//		printf("  fd: %d\n", rcmd->fd);
+//	}
+//	print_cmd(rcmd->cmd);
+//}
 
-// void	print_pipe(t_pipecmd *pcmd)
-// {
-// 	printf("PIPE command:\n");
-// 	printf("  left:\n");
-// 	print_cmd(pcmd->left);
-// 	printf("  right:\n");
-// 	print_cmd(pcmd->right);
-// }
+//void	print_pipe(t_pipecmd *pcmd)
+//{
+//	printf("PIPE command:\n");
+//	printf("  left:\n");
+//	print_cmd(pcmd->left);
+//	printf("  right:\n");
+//	print_cmd(pcmd->right);
+//}
 
 // void	print_list(t_listcmd *lcmd)
 // {

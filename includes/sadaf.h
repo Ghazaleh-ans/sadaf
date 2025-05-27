@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/22 21:22:19 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:07:05 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@
 # define RESET   "\x1b[0m"
 
 extern int	g_signal_received;
+
+typedef struct s_util {
+	char	*expanded;
+	char	*arg;
+}	t_util; 
 
 enum e_tokenType {
 	TOK_EOF,
@@ -143,7 +148,8 @@ typedef struct s_parsectx {
 	t_parserState	*ps;
 }	t_parsectx;
 
-/* Main functions */
+/* Main function./test_f
+s */
 t_shell	*init_shell(char **envp);
 char	*getcmd(void);
 int		process_command(char *buf, t_shell *shell);
@@ -153,6 +159,7 @@ void	free_cmd(t_cmd *cmd);
 void	free_env_list(t_env *env_list);
 void	free_shell(t_shell *shell);
 void	ft_exit(char *msg);
+
 /* Parsing */
 t_cmd	*parsecmd(char *buf);
 t_cmd	*parseline(t_parserState *ps);
@@ -162,6 +169,13 @@ t_cmd	*parseredirs(t_cmd *cmd, t_parserState *ps);
 t_cmd	*parseblock(t_parserState *ps);
 t_token	gettoken(t_parserState *ps);
 t_cmd	*nulterminate(t_cmd *cmd);
+void	fill_redirinfo(
+			t_redirinfo *info, t_token op_tok, bool *heredoc_flag);
+t_cmd	*create_redirection(
+			t_cmd *cmd, t_token op_tok, t_token file_tok, bool *heredoc_flag);
+int		should_override_redirection(int new_fd, t_cmd *existing_cmd);
+t_cmd	*override_input_redirection(t_cmd *cmd, t_cmd *new_redir);
+bool	is_redirection_token(int token_type);
 
 /* token parts */
 int		is_seq_token(t_token *tok, char **s);
@@ -239,6 +253,20 @@ void	handle_sigquit(int sig);
 void	runcmd(t_cmd *cmd, t_shell *shell);
 void	execute_command(t_execcmd *ecmd, t_shell *shell);
 void	handle_redirections(t_redircmd *rcmd, t_shell *shell);
+int		setup_file_redirection(int fd, int target_fd, char *file);
+int		collect_all_redirections(t_redircmd *rcmd,
+			t_redircmd **redirections, int *count);
+char	*extract_filename(t_redircmd *redir);
+int		open_file_with_mode(char *clean_filename, int mode);
+int		validate_single_redirection(t_redircmd *redir);
+int		validate_redirections_left_to_right(t_redircmd **redirections,
+			int count);
+int		validate_all_redirections(t_redircmd *rcmd);
+int		extract_and_clean_filename(t_redircmd *rcmd, char **filename,
+			char **clean_filename);
+void	cleanup_filenames(char *filename, char *clean_filename);
+int		handle_file_redirection(t_redircmd *rcmd);
+int		open_file(char *file, int mode);
 void	handle_pipe(t_pipecmd *pcmd, t_shell *shell);
 int		execute_left_cmd(t_pipecmd *pcmd, t_shell *shell, int *fd);
 int		execute_right_cmd(t_pipecmd *pcmd, t_shell *shell, int *fd);
@@ -249,6 +277,20 @@ int		dup_and_report(int fd);
 int		close_and_report(int fd);
 void	handle_list(t_listcmd *lcmd, t_shell *shell);
 void	handle_background(t_backcmd *bcmd, t_shell *shell);
+void	command_not_found(char *cmd);
+void	handle_directory_error(char *cmd);
+int		check_if_directory(char *path);
+char	**prepare_unquoted_args(char **argv, char *path);
+void	exec_external_command(char *path, char **argv, t_shell *shell);
+void	setup_builtin_cmd(t_execcmd *cmd, char **tokens);
+void	handle_builtin_tokens(char **tokens, t_shell *shell);
+int		is_empty_or_whitespace(char *str);
+int		is_complex_command(char *cmd_no_quotes);
+void	handle_command_execution(char *cmd_no_quotes,
+			t_execcmd *ecmd, t_shell *shell);
+void	handle_builtin(t_execcmd *ecmd, t_shell *shell);
+void	handle_external_tokens(char **tokens, t_shell *shell);
+void	try_execute_as_command(char *expanded_cmd, t_shell *shell);
 
 /* Utils */
 void	ft_error(char *msg);
@@ -272,5 +314,12 @@ char	**allocate_unquoted_array(char **argv, char *path);
 void	handle_unquote_error(char **unquoted_argv, char *path);
 void	check_cmd_args(t_execcmd *ecmd, t_shell *shell);
 int		if_contains_lparen(const char *str);
+int		is_inside_single_quotes(char *arg, int pos);
+int		is_inside_double_quotes(char *arg, int pos);
+int		is_inside_single_quotes_up_to(char *arg, int pos);
+char	*expand_env_vars(char *str);
+char	*handle_exit_status(char *expanded, t_shell *shell);
+char	*expand_var(char *expanded, char *arg, int *j, t_shell *shell);
+char	*handle_invalid_var(char *expanded);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:28:38 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:28:41 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/26 12:10:46 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,39 @@
  * get_cd_path - Determines the target directory for the cd command
  *
  * This function decides where the cd command should go:
- * - If no argument is provided, uses the HOME environment variable
- * - If an argument is provided, uses that as the target path
+ * - If no argument is provided, uses the HOME environment variable  
+ * - If more than one argument is provided, shows "too many arguments" error
+ * - If one argument contains spaces, shows "too many arguments" error
  *
  * @param ecmd The execution command structure containing arguments
  * @param shell The shell state containing environment variables
- * @return The target path as a string, or NULL if HOME is not set and needed
+ * @return The target path as a string, or NULL if error
  */
 static char	*get_cd_path(t_execcmd *ecmd, t_shell *shell)
 {
 	char	*path;
 
 	if (!ecmd->argv[1])
-		path = ft_getenv("HOME", shell);
-	else
-		path = ecmd->argv[1];
-	if (!path)
 	{
-		ft_putstr_fd("sadaf: cd: HOME not set\n", STDERR_FILENO);
+		path = ft_getenv("HOME", shell);
+		if (!path)
+		{
+			ft_putstr_fd("\x1b[31msadaf: cd: HOME not set\n", STDERR_FILENO);
+			return (NULL);
+		}
+		return (path);
+	}
+	if (ecmd->argv[2])
+	{
+		ft_putstr_fd("\x1b[31msadaf: cd: too many arguments\n", STDERR_FILENO);
 		return (NULL);
 	}
-	return (path);
+	if (ft_strchr(ecmd->argv[1], ' '))
+	{
+		ft_putstr_fd("\x1b[31msadaf: cd: too many arguments\n", STDERR_FILENO);
+		return (NULL);
+	}
+	return (ecmd->argv[1]);
 }
 
 /**
@@ -52,7 +64,7 @@ static int	change_directory(char *path)
 {
 	if (chdir(path) != 0)
 	{
-		ft_putstr_fd("sadaf: cd: ", STDERR_FILENO);
+		ft_putstr_fd("\x1b[31msadaf: cd: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_perror("");
@@ -78,7 +90,7 @@ static int	get_pwd(char *buf, size_t size)
 	pwd = getcwd(buf, size);
 	if (!pwd)
 	{
-		ft_perror("cd");
+		ft_perror("\x1b[31mcd");
 		return (1);
 	}
 	return (0);
@@ -125,9 +137,10 @@ static void	update_env_variables(t_shell *shell, char *current_pwd,
  * This is the main function that implements the cd command behavior.
  * The process follows these steps:
  * 1. Determine target directory (from argument or HOME)
- * 2. Save current directory as OLDPWD
- * 3. Change to the new directory
- * 4. Update environment variables (PWD, OLDPWD)
+ * 2. Check for too many arguments (including expanded variables with spaces)
+ * 3. Save current directory as OLDPWD
+ * 4. Change to the new directory
+ * 5. Update environment variables (PWD, OLDPWD)
  *
  * @param ecmd The execution command structure
  * @param shell The shell state
