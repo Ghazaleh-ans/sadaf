@@ -30,7 +30,7 @@ SRC      = $(SRC_DIR)/sadaf.c\
 		$(SRC_DIR)/utils/env_to_array.c $(SRC_DIR)/utils/execute_command_utils.c $(SRC_DIR)/utils/execute_command_utils2.c $(SRC_DIR)/utils/execute_command_utils3.c $(SRC_DIR)/utils/export_utils.c\
 		$(SRC_DIR)/utils/sadaf_utils.c $(SRC_DIR)/utils/env_utils.c	$(SRC_DIR)/utils/exec_utils.c $(SRC_DIR)/utils/ft_getenv.c\
 		$(SRC_DIR)/utils/utils.c $(SRC_DIR)/utils/error_exit.c $(SRC_DIR)/utils/expand_var.c $(SRC_DIR)/utils/expand_var1.c $(SRC_DIR)/utils/expand_var2.c $(SRC_DIR)/utils/expand_var3.c\
-		$(SRC_DIR)/utils/expand_var4.c $(SRC_DIR)/utils/handle_exit.c $(SRC_DIR)/utils/print_cmd.c $(SRC_DIR)/utils/utils2.c
+		$(SRC_DIR)/utils/expand_var4.c $(SRC_DIR)/utils/execute_shell_script.c $(SRC_DIR)/utils/execute_external_command.c $(SRC_DIR)/utils/handle_exit.c $(SRC_DIR)/utils/print_cmd.c $(SRC_DIR)/utils/utils2.c
 OBJ_DIR  = ./obj
 OBJ      = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 NAME     = minishell

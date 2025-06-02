@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 19:48:31 by muxammad          #+#    #+#             */
-/*   Updated: 2025/06/02 12:07:00 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/02 15:34:09 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,5 +332,6 @@ char	*handle_exit_status(char *expanded, t_shell *shell);
 char	*expand_var(char *expanded, char *arg, int *j, t_shell *shell);
 char	*handle_invalid_var(char *expanded);
 int		handle_exit_command(t_execcmd *ecmd, t_shell *shell, t_cmd *cmd);
+void	try_execute_as_shell_script(char *path, char **argv, t_shell *shell);
 
 #endif
