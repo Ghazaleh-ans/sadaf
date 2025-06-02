@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:25 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:35:27 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/01 01:29:06 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,6 @@ static int	validate_exit_arg(char *arg)
 	}
 	return (-1);
 }
-
-/**
- * Processes command line arguments for the exit command.
- *
- * This function handles all argument validation and error cases for exit:
- * 1. Validates that the first argument is numeric (if provided)
- * 2. Converts valid numeric argument to integer
- * 3. Checks for too many arguments (only 0 or 1 argument allowed)
- *
- * Return values:
- * -2: Too many arguments error (shell should not exit)
- * 2: Invalid numeric argument (shell should exit with code 2)
- * Valid integer: The exit code to use
- *
- * @param ecmd The command structure containing arguments
- * @return Exit code to use or error code
- */
 
 static char	*remove_all_quotes(char *str)
 {
@@ -120,8 +103,30 @@ static int	handle_exit_args(t_execcmd *ecmd)
 }
 
 /**
+ * cleanup_before_exit - Performs comprehensive cleanup before shell exit
+ * @shell: Shell structure to clean up
+ * 
+ * This function ensures all allocated memory is freed before exit:
+ * - Clears readline history
+ * - Frees environment list
+ * - Frees shell structure
+ */
+static void	cleanup_before_exit(t_shell *shell)
+{
+	if (shell)
+	{
+		rl_clear_history();
+		free_shell(shell);
+	}
+	else
+		rl_clear_history();
+}
+
+/**
  * Implements the exit builtin command for the shell.
  *
+ * UPDATED: Now properly cleans up all memory before exiting
+ * 
  * The exit command terminates the shell with a specific exit status:
  * - No arguments: Use the last command's exit status
  * - One numeric argument: Use that value as exit status
@@ -153,5 +158,6 @@ int	builtin_exit(t_execcmd *ecmd, t_shell *shell)
 		if (exit_code == -2)
 			return (1);
 	}
+	cleanup_before_exit(shell);
 	exit(exit_code & 0xFF);
 }

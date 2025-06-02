@@ -13,7 +13,8 @@ LIBFT    = $(LIBFT_DIR)/libft.a
 INCLUDES = -I./includes -I$(LIBFT_DIR)
 SRC_DIR  = ./srcs
 SRC      = $(SRC_DIR)/sadaf.c\
-		$(SRC_DIR)/builtins/builtin_cd.c $(SRC_DIR)/builtins/builtin_echo.c $(SRC_DIR)/builtins/builtin_echo_utils.c $(SRC_DIR)/builtins/builtin_env.c\
+		$(SRC_DIR)/builtins/builtin_cd.c $(SRC_DIR)/builtins/builtin_echo.c $(SRC_DIR)/builtins/builtin_echo_utils.c $(SRC_DIR)/builtins/builtin_echo_utils2.c\
+		$(SRC_DIR)/builtins/builtin_env.c\
 		$(SRC_DIR)/builtins/builtin_exit.c $(SRC_DIR)/builtins/builtin_export.c $(SRC_DIR)/builtins/builtin_export_utils.c\
 		$(SRC_DIR)/builtins/builtin_pwd.c $(SRC_DIR)/builtins/builtin_unset.c $(SRC_DIR)/builtins/builtins.c\
 		$(SRC_DIR)/cleaners/free_cmd.c $(SRC_DIR)/cleaners/free_envp.c\
@@ -28,7 +29,8 @@ SRC      = $(SRC_DIR)/sadaf.c\
 		$(SRC_DIR)/parsing/parseexec.c $(SRC_DIR)/parsing/token_utils1.c $(SRC_DIR)/parsing/token_utils2.c\
 		$(SRC_DIR)/utils/env_to_array.c $(SRC_DIR)/utils/execute_command_utils.c $(SRC_DIR)/utils/execute_command_utils2.c $(SRC_DIR)/utils/execute_command_utils3.c $(SRC_DIR)/utils/export_utils.c\
 		$(SRC_DIR)/utils/sadaf_utils.c $(SRC_DIR)/utils/env_utils.c	$(SRC_DIR)/utils/exec_utils.c $(SRC_DIR)/utils/ft_getenv.c\
-		$(SRC_DIR)/utils/utils.c $(SRC_DIR)/utils/error_exit.c $(SRC_DIR)/utils/expand_var.c $(SRC_DIR)/utils/expand_var1.c $(SRC_DIR)/utils/expand_var2.c $(SRC_DIR)/utils/print_cmd.c $(SRC_DIR)/utils/utils2.c
+		$(SRC_DIR)/utils/utils.c $(SRC_DIR)/utils/error_exit.c $(SRC_DIR)/utils/expand_var.c $(SRC_DIR)/utils/expand_var1.c $(SRC_DIR)/utils/expand_var2.c $(SRC_DIR)/utils/expand_var3.c\
+		$(SRC_DIR)/utils/print_cmd.c $(SRC_DIR)/utils/utils2.c
 OBJ_DIR  = ./obj
 OBJ      = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC))
 NAME     = minishell
