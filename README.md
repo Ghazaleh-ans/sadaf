@@ -174,10 +174,10 @@ make clean ; make ; ./program
 
 ### Key Design Patterns
 
-- **Command Pattern** - Unified command structure for different types
-- **Visitor Pattern** - AST traversal for execution
-- **Factory Pattern** - Command object creation
-- **RAII Pattern** - Automatic resource cleanup
+- **Command Pattern** - Unified t_cmd structure for different command types (EXEC, PIPE, REDIR, etc.)
+- **Factory Pattern** - Constructor functions (execcmd(), pipecmd(), redircmd()) for command object creation
+- **Recursive Descent** - AST traversal through runcmd() recursive execution
+- **Resource Management** - Explicit cleanup with dedicated free functions (free_cmd(), free_shell())
 
 ---
 
