@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 13:01:39 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/22 13:06:29 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:00:32 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,19 @@ char	*get_continuation_input(char *initial_input)
 {
 	char	*line;
 	char	*result;
-	char	*temp;
 
 	result = ft_strdup(initial_input);
 	while (1)
 	{
+		setup_signals(3, NULL);
 		line = readline("> ");
-		if (!line)
-			break ;
-		temp = result;
-		result = ft_strjoin(result, "\n");
-		free(temp);
-		temp = result;
-		result = ft_strjoin(result, line);
-		free(temp);
+		process_input_line(result, line);
+		result = append_line_to_result(result, line);
 		free(line);
 		if (are_quotes_balanced(result))
 			break ;
 	}
+	setup_signals(0, NULL);
 	return (result);
 }
 

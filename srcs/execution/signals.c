@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:42:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/15 20:54:23 by gansari          ###   ########.fr       */
+/*   Updated: 2025/05/28 16:26:55 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,12 @@ void	handle_sigquit_parent(int sig)
 *   - SIGINT: Custom handler that doesn't redisplay prompt
 *   - SIGQUIT: Custom handler that lets signal pass to child but protects parent
 *
-* @param mode The current operational mode (0, 1, or 2)
+* Mode 3 (Continuation input - waiting for additional input like unbalanced quotes):
+*   - SIGINT (Ctrl+C): Custom handler to exit continuation with status 130
+*   - SIGQUIT (Ctrl+\): Ignored to maintain continuation state (bash behavior)
+*
+* @param mode The current operational mode (0, 1, 2, or 3)
+* @param shell The shell structure for accessing/updating exit status
 */
 void	setup_signals(int mode, t_shell *shell)
 {
@@ -104,5 +109,10 @@ void	setup_signals(int mode, t_shell *shell)
 	{
 		signal(SIGINT, handle_sigint_exec);
 		signal(SIGQUIT, handle_sigquit_parent);
+	}
+	else if (mode == 3)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 	}
 }
