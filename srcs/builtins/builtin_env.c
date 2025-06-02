@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:32:16 by gansari           #+#    #+#             */
-/*   Updated: 2025/04/17 12:32:23 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:18:39 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,48 +57,3 @@ int	builtin_env(t_execcmd *ecmd, t_shell *shell)
 	}
 	return (0);
 }
-/*
- * DATA STRUCTURES USED:
- *
- * t_execcmd: Structure containing command execution data
- *   - type: Command type (EXEC in this case)
- *   - argv: Array of argument strings
- *   - eargv: Array of argument end pointers (used in parsing)
- *
- * t_shell: Structure containing shell state
- *   - env_list: Linked list of environment variables
- *   - exit_status: Last command exit status
- *   - in_heredoc: Flag indicating if in here document mode
- *
- * t_env: Structure for environment variable nodes
- *   - name: Environment variable name
- *   - value: Environment variable value
- *   - next: Pointer to next environment variable in list
- */
-
-/*
- * EXAMPLE USAGE:
- *
- * Shell Input: "env"
- * Output:
- *   HOME=/home/user
- *   PATH=/usr/bin:/bin
- *   SHELL=/bin/sadaf
- *   ...
- *
- * Shell Input: "env extra args"
- * Output: (same as above, arguments are ignored)
- *   HOME=/home/user
- *   PATH=/usr/bin:/bin
- *   ...
- */
-
-/*
- * ERROR HANDLING:
- *
- * This implementation has robust error handling:
- * - If shell->env_list is NULL, function safely handles empty list
- * - ft_putstr_fd handles NULL pointers safely
- * - No dynamic memory allocation, so no memory leaks
- * - Returns 0 always, as 'env' rarely fails
- */
