@@ -174,12 +174,12 @@ make clean ; make ; ./program
 
 ### Key Design Patterns
 
-- **Command Pattern** - Polymorphic t_cmd base type with specialized command structures (t_execcmd, t_pipecmd, t_redircmd) executed through unified runcmd() interface
-- **Abstract Factory** - Command creation functions (execcmd(), pipecmd(), redircmd()) that encapsulate object instantiation and initialization
-- **Recursive Descent Parser** - Top-down parsing with grammar production rules: parsecmd() → parseline() → parsepipe() → parseexec()
-- **Interpreter Pattern** - AST execution where each command node (runcmd()) recursively interprets and executes its subtree
-- **Strategy Pattern** - Built-in command dispatch through exec_builtin() function pointer mechanism
-- **RAII-style Resource Management** - Deterministic cleanup with paired allocation/deallocation functions (init_shell()/free_shell(), parsecmd()/free_cmd())
+- **Command Pattern** - Polymorphic `t_cmd` base type with specialized command structures (`t_execcmd`, `t_pipecmd`, `t_redircmd`) executed through unified `runcmd()` interface
+- **Abstract Factory** - Command creation functions (`execcmd()`, `pipecmd()`, `redircmd()`) that encapsulate object instantiation and initialization
+- **Recursive Descent Parser** - Top-down parsing with grammar production rules: `parsecmd()` → `parseline()` → `parsepipe()` → `parseexec()`
+- **Interpreter Pattern** - AST execution where each command node (`runcmd()`) recursively interprets and executes its subtree
+- **Strategy Pattern** - Built-in command dispatch through `exec_builtin()` function pointer mechanism
+- **RAII-style Resource Management** - Deterministic cleanup with paired allocation/deallocation functions (`init_shell()`/`free_shell()`, `parsecmd()`/`free_cmd()`)
 
 ---
 
