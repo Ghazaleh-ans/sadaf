@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 13:42:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/28 16:26:55 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:01:11 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ void	handle_sigquit_parent(int sig)
 /**
 * Configure signal handling based on shell's operational mode
 *
-* Dynamically adjusts signal behavior to provide appropriate handling for
+* Dynamically adjusts signal behavior to provide appropriate
+* handling for
 * different states of shell operation:
 *
 * Mode 0 (Interactive mode - waiting for user input):
@@ -79,11 +80,15 @@ void	handle_sigquit_parent(int sig)
 *
 * Mode 2 (Parent waiting for child):
 *   - SIGINT: Custom handler that doesn't redisplay prompt
-*   - SIGQUIT: Custom handler that lets signal pass to child but protects parent
+*   - SIGQUIT: Custom handler that lets signal pass to child but protects
+* parent
 *
-* Mode 3 (Continuation input - waiting for additional input like unbalanced quotes):
-*   - SIGINT (Ctrl+C): Custom handler to exit continuation with status 130
-*   - SIGQUIT (Ctrl+\): Ignored to maintain continuation state (bash behavior)
+* Mode 3 (Continuation input - waiting for additional input like
+* unbalanced quotes):
+*   - SIGINT (Ctrl+C): Custom handler to exit continuation with status
+* 130
+*   - SIGQUIT (Ctrl+\): Ignored to maintain continuation state
+* (bash behavior)
 *
 * @param mode The current operational mode (0, 1, 2, or 3)
 * @param shell The shell structure for accessing/updating exit status

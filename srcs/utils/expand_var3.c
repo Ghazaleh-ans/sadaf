@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:06:33 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/02 11:18:10 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:03:48 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ int	process_expanded_arg(t_execcmd *ecmd, char *expanded, int i)
 		return (0);
 	}
 }
-

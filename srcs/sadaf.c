@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sadaf.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:28:51 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/26 11:34:13 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:01:47 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ static int	should_skip_command(char *buf)
 	if (token_check)
 		return (token_check);
 	token_check = if_contains_lparen(buf);
+	if (token_check)
+		return (token_check);
+	token_check = if_contains_doubleandorpipe(buf);
 	if (token_check)
 		return (token_check);
 	return (0);

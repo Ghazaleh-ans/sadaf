@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var4.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:18:29 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/02 11:18:42 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:04:03 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
 
-static int	handle_no_dollar_expansion(t_execcmd *ecmd, char *tilde_expanded, int i)
+static int	handle_no_dollar_expansion(t_execcmd *ecmd,
+		char *tilde_expanded, int i)
 {
 	if (ft_strcmp(tilde_expanded, ecmd->argv[i]) == 0)
 	{

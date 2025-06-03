@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_exit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:06:00 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/02 12:06:26 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:05:01 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/sadaf.h"
-
-static int	validate_numeric_argument(char *clean_arg)
-{
-	int	i;
-	int	valid;
-
-	i = 0;
-	valid = 1;
-	if (!clean_arg[i])
-		valid = 0;
-	while (clean_arg[i] && valid)
-	{
-		if (!ft_isdigit(clean_arg[i]))
-			valid = 0;
-		i++;
-	}
-	return (valid);
-}
 
 static char	*process_sign_and_quotes(char *clean_arg, int *minus_sign)
 {
