@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:35:25 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/01 01:29:06 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:59:30 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,26 +103,6 @@ static int	handle_exit_args(t_execcmd *ecmd)
 }
 
 /**
- * cleanup_before_exit - Performs comprehensive cleanup before shell exit
- * @shell: Shell structure to clean up
- * 
- * This function ensures all allocated memory is freed before exit:
- * - Clears readline history
- * - Frees environment list
- * - Frees shell structure
- */
-static void	cleanup_before_exit(t_shell *shell)
-{
-	if (shell)
-	{
-		rl_clear_history();
-		free_shell(shell);
-	}
-	else
-		rl_clear_history();
-}
-
-/**
  * Implements the exit builtin command for the shell.
  *
  * UPDATED: Now properly cleans up all memory before exiting
@@ -143,6 +123,7 @@ static void	cleanup_before_exit(t_shell *shell)
  * Note: This function prints "exit\n" to STDOUT as a user feedback
  * indicating the shell is terminating.
  */
+
 int	builtin_exit(t_execcmd *ecmd, t_shell *shell)
 {
 	int	exit_code;

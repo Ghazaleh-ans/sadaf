@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
+/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 12:28:38 by gansari           #+#    #+#             */
-/*   Updated: 2025/05/26 12:10:46 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/03 18:52:37 by mukibrok         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,6 @@ static char	*get_cd_path(t_execcmd *ecmd, t_shell *shell)
 		ft_putstr_fd("\x1b[31msadaf: cd: too many arguments\n", STDERR_FILENO);
 		return (NULL);
 	}
-	if (ft_strchr(ecmd->argv[1], ' '))
-	{
-		ft_putstr_fd("\x1b[31msadaf: cd: too many arguments\n", STDERR_FILENO);
-		return (NULL);
-	}
 	return (ecmd->argv[1]);
 }
 
@@ -62,15 +57,18 @@ static char	*get_cd_path(t_execcmd *ecmd, t_shell *shell)
  */
 static int	change_directory(char *path)
 {
-	if (chdir(path) != 0)
+	char	*cd_to_change;
+
+	cd_to_change = remove_quotes(path);
+	if (chdir(cd_to_change) != 0)
 	{
 		ft_putstr_fd("\x1b[31msadaf: cd: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 		ft_perror("");
-		return (1);
+		return (free(cd_to_change), 1);
 	}
-	return (0);
+	return (free(cd_to_change), 0);
 }
 
 /**
