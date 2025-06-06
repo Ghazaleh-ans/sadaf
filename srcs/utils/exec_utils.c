@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/06 17:16:04 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/06 17:27:18 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static void	execute_forked(t_cmd *cmd, t_shell *shell)
 	setup_signals(0, shell);
 }
 
+/* Updated exec_utils.c - execution function */
+
 void	execution(char *buf, t_shell *shell)
 {
 	t_cmd	*cmd;
@@ -63,16 +65,27 @@ void	execution(char *buf, t_shell *shell)
 	cmd = parsecmd(buf);
 	if (!cmd)
 	{
-		// Parsing failed, set error status and return
-		shell->exit_status = 2;  // Syntax error
+		shell->exit_status = 2;
 		return;
 	}
 	
+	// FIXED: Collect heredocs with proper signal handling
 	if (collect_all_heredocs(cmd, shell) < 0)
 	{
 		free_cmd(cmd);
-		return ;
+		
+		// Check if it was interrupted by a signal
+		if (g_signal_received)
+		{
+			shell->exit_status = 130;  // Standard exit code for Ctrl+C
+			g_signal_received = 0;     // Reset the signal flag
+			
+			// Make sure we're back to normal signal handling
+			setup_signals(0, shell);
+		}
+		return;
 	}
+	
 	if (!should_fork(cmd))
 	{
 		if (cmd->type == EXEC)
