@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 10:57:14 by muxammad          #+#    #+#             */
-/*   Updated: 2025/05/26 19:29:07 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/06 17:14:45 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,26 @@
  * @cmd: Command structure to fill
  * @ps: Parser state to track position
  *
- * Returns: Command structure with redirections attached
+ * Returns: Command structure with redirections attached, or NULL on error
  *
  */
-void	validate_filename_token(t_token file_tok)
+int	validate_filename_token(t_token file_tok, t_token op_tok)
 {
 	if (file_tok.type != TOK_WORD)
-		ft_exit("\x1b[31mSyntax error: Expected filename after \
-			redirection\n");
+	{
+		// Provide specific error message for heredocs
+		if (op_tok.type == TOK_DLT)
+		{
+			ft_putstr_fd("\x1b[31msadaf: syntax error: expected delimiter after '<<'\n", STDERR_FILENO);
+			return (-1);
+		}
+		else
+		{
+			ft_putstr_fd("\x1b[31msadaf: syntax error: expected filename after redirection\n", STDERR_FILENO);
+			return (-1);
+		}
+	}
+	return (0);
 }
 
 t_cmd	*create_and_validate_redirection(t_cmd *cmd, t_token op_tok,
@@ -34,7 +46,10 @@ t_cmd	*create_and_validate_redirection(t_cmd *cmd, t_token op_tok,
 
 	new_redir = create_redirection(cmd, op_tok, file_tok, heredoc);
 	if (!new_redir)
-		ft_exit("Error: Failed to create redirection command\n");
+	{
+		ft_putstr_fd("\x1b[31msadaf: error: failed to create redirection command\n", STDERR_FILENO);
+		return (NULL);
+	}
 	return (new_redir);
 }
 
@@ -56,8 +71,19 @@ t_cmd	*process_single_redirection(t_cmd *cmd, t_parserState *ps,
 	t_cmd	*new_redir;
 
 	file_tok = gettoken(ps);
-	validate_filename_token(file_tok);
+	if (validate_filename_token(file_tok, op_tok) < 0)
+	{
+		free_cmd(cmd);
+		return (NULL);
+	}
+	
 	new_redir = create_and_validate_redirection(cmd, op_tok, file_tok, heredoc);
+	if (!new_redir)
+	{
+		free_cmd(cmd);
+		return (NULL);
+	}
+	
 	return (handle_redirection_override(cmd, new_redir));
 }
 
@@ -76,6 +102,8 @@ t_cmd	*parseredirs(t_cmd *cmd, t_parserState *ps)
 			break ;
 		}
 		cmd = process_single_redirection(cmd, ps, op_tok, &heredoc);
+		if (!cmd)
+			return (NULL);  // Error occurred, return NULL
 	}
 	return (cmd);
 }
