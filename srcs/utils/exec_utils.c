@@ -6,7 +6,7 @@
 /*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:35:27 by gansari           #+#    #+#             */
-/*   Updated: 2025/06/03 21:24:36 by gansari          ###   ########.fr       */
+/*   Updated: 2025/06/06 17:16:04 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	execution(char *buf, t_shell *shell)
 	t_cmd	*cmd;
 
 	cmd = parsecmd(buf);
+	if (!cmd)
+	{
+		// Parsing failed, set error status and return
+		shell->exit_status = 2;  // Syntax error
+		return;
+	}
+	
 	if (collect_all_heredocs(cmd, shell) < 0)
 	{
 		free_cmd(cmd);

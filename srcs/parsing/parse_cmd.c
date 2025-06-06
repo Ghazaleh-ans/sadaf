@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mukibrok <mukibrok@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gansari <gansari@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:17:52 by mukibrok          #+#    #+#             */
-/*   Updated: 2025/06/03 14:19:55 by mukibrok         ###   ########.fr       */
+/*   Updated: 2025/06/06 17:15:12 by gansari          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * - Pipe symbol appears without commands
  * - Memory allocation fails
  * 
- * Returns: Command structure with pipe connections
+ * Returns: Command structure with pipe connections, or NULL on error
  */
 
 t_cmd	*parsepipe(t_parserState *ps)
@@ -35,12 +35,24 @@ t_cmd	*parsepipe(t_parserState *ps)
 	t_token	tok;
 
 	cmd = parseexec(ps);
+	if (!cmd)
+		return (NULL);
+		
 	tok = gettoken(ps);
 	if (tok.type == TOK_PIPE)
 	{
-		cmd = pipecmd(cmd, parsepipe(ps));
+		t_cmd *right = parsepipe(ps);
+		if (!right)
+		{
+			free_cmd(cmd);
+			return (NULL);
+		}
+		cmd = pipecmd(cmd, right);
 		if (!cmd)
-			ft_exit("Pipecmd failed\n");
+		{
+			ft_putstr_fd("\x1b[31msadaf: error: failed to create pipe command\n", STDERR_FILENO);
+			return (NULL);
+		}
 	}
 	else
 		ps->s = tok.start;
@@ -57,11 +69,7 @@ t_cmd	*parsepipe(t_parserState *ps)
  * - Recursive processing of multiple separators
  * - Example: "ls &; ps ; top"
  * 
- * Throws errors if:
- * - Invalid separator placement
- * - Memory allocation fails
- * 
- * Returns: Command structure with sequencing/background info
+ * Returns: Command structure with sequencing/background info, or NULL on error
  */
 
 static t_cmd	*handle_remaining_tokens(t_parserState *ps, t_cmd *cmd)
@@ -75,13 +83,25 @@ static t_cmd	*handle_remaining_tokens(t_parserState *ps, t_cmd *cmd)
 		{
 			cmd = backcmd(cmd);
 			if (!cmd)
-				ft_exit("Backcmd failed\n");
+			{
+				ft_putstr_fd("\x1b[31msadaf: error: failed to create background command\n", STDERR_FILENO);
+				return (NULL);
+			}
 		}
 		else if (tok.type == TOK_SEQ)
 		{
-			cmd = listcmd(cmd, parseline(ps));
+			t_cmd *right = parseline(ps);
+			if (!right)
+			{
+				free_cmd(cmd);
+				return (NULL);
+			}
+			cmd = listcmd(cmd, right);
 			if (!cmd)
-				ft_exit("Listcmd failed\n");
+			{
+				ft_putstr_fd("\x1b[31msadaf: error: failed to create list command\n", STDERR_FILENO);
+				return (NULL);
+			}
 		}
 		else
 		{
@@ -97,6 +117,9 @@ t_cmd	*parseline(t_parserState *ps)
 	t_cmd	*cmd;
 
 	cmd = parsepipe(ps);
+	if (!cmd)
+		return (NULL);
+		
 	cmd = handle_remaining_tokens(ps, cmd);
 	return (cmd);
 }
@@ -111,12 +134,7 @@ t_cmd	*parseline(t_parserState *ps)
  * - Checks for leftover unprocessed text
  * - Handles final syntax validation
  * 
- * Throws errors if:
- * - Extra text remains after command
- * - Invalid command structure
- * - Memory allocation fails
- * 
- * Returns: Ready-to-execute command structure
+ * Returns: Ready-to-execute command structure, or NULL on error
  */
 
 t_cmd	*parsecmd(char *buf)
@@ -128,11 +146,15 @@ t_cmd	*parsecmd(char *buf)
 	ps.s = buf;
 	ps.end = buf + ft_strlen(buf);
 	cmd = parseline(&ps);
+	if (!cmd)
+		return (NULL);  // Parsing error occurred
+		
 	tok = gettoken(&ps);
 	if (tok.type != TOK_EOF)
 	{
 		free_cmd(cmd);
-		ft_exit("syntax error: unexpected token\n");
+		ft_putstr_fd("\x1b[31msadaf: syntax error: unexpected token\n", STDERR_FILENO);
+		return (NULL);
 	}
 	nulterminate(cmd);
 	return (cmd);
